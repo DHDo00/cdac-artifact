@@ -1,0 +1,18 @@
+claim_id,claim,status,evidence,restriction
+C1,same-artifact CDAC-inactive baseline,ELIGIBLE,02_boot_1/SCIENTIFIC_ROWS.csv;03_boot_2/SCIENTIFIC_ROWS.csv,never call native or unmodified Android
+C2,incremental latency of entering the active CDAC path,FILLABLE,04_analysis/PRIMARY_ESTIMATES_SUMMARY.csv,same retained instrumented S10 route only
+C3,incremental latency of one registered nonmatching lookup,FILLABLE,04_analysis/PRIMARY_ESTIMATES_SUMMARY.csv,same retained instrumented S10 route only
+C4,absolute denial-response latency,FILLABLE,04_analysis/DENIAL_LATENCY_STATISTICS.csv,not overhead and not kernel-only cost
+P1,native Android overhead,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P2,unmodified Android baseline,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P3,negligible overhead,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P4,zero overhead,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P5,speedup,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P6,denial overhead,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P7,kernel-only lookup cost,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P8,Android-wide performance,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P9,DP performance,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P10,old Batch4B number,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P11,approximately 35 microseconds at N=4096,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P12,Pixel 8/AOSP15,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted
+P13,performance generalization beyond the retained route/artifact,PROHIBITED,05_final/FINAL_DO_NOT_CLAIM.md,must not be asserted

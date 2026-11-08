@@ -1,0 +1,3 @@
+rep=1 policy_readback=10120|primary:espafd_tree/X.bin
+rep=2 policy_readback=10120|primary:espafd_tree/X.bin
+rep=3 policy_readback=10120|primary:espafd_tree/X.bin

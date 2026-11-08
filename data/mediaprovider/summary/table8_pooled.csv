@@ -1,0 +1,10 @@
+condition,planned,attempted,usable,cdac_denied,other_failure,unresolved,formal_denominator
+no_rule_r,60,60,60,0,0,0,60
+no_rule_w,60,60,60,0,0,0,60
+lw_r,60,60,60,0,0,0,60
+lw_w,60,60,0,60,0,0,60
+lr_r,60,60,0,60,0,0,60
+lr_w,60,60,60,0,0,0,60
+revoke_r,60,60,60,0,0,0,60
+revoke_w,60,60,60,0,0,0,60
+TOTAL,480,480,360,120,0,0,480

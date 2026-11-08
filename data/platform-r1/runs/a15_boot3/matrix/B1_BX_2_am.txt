@@ -1,0 +1,6 @@
+Starting: Intent { cmp=com.demo.espafdtestb/.MainActivity (has extras) }
+Status: ok
+LaunchState: UNKNOWN (0)
+Activity: com.demo.espafdtestb/.MainActivity
+WaitTime: 111
+Complete

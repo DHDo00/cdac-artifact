@@ -1,0 +1,3 @@
+session	quiet_mode_readback_confirmed	kernel_verbose_audit	framework_per_attempt_audit	counter_schema_version
+A	yes	N	disabled	2
+B	yes	N	disabled	2

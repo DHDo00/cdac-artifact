@@ -1,0 +1,175 @@
+diff --git a/src/com/android/providers/telephony/MmsProvider.java b/src/com/android/providers/telephony/MmsProvider.java
+index 35942d7e..6ddf360a 100644
+--- a/src/com/android/providers/telephony/MmsProvider.java
++++ b/src/com/android/providers/telephony/MmsProvider.java
+@@ -62,10 +62,16 @@ import com.google.android.mms.pdu.PduHeaders;
+ import com.google.android.mms.util.DownloadDrmHelper;
+ 
+ import java.io.File;
++import java.io.FileOutputStream;
+ import java.io.FileNotFoundException;
+ import java.io.IOException;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.concurrent.atomic.AtomicLong;
+ 
+ /**
+  * The class to provide base facility to access MMS related content,
+@@ -87,6 +93,139 @@ public class MmsProvider extends ContentProvider {
+ 
+     private final List<UserHandle> mUsersRemovedBeforeUnlockList = new ArrayList<>();
+ 
++    /*
++     * CDAC provider-side caller publication for MmsProvider.openFile().
++     *
++     * The MMS part file is opened synchronously by ParcelFileDescriptor.open() on the
++     * provider Binder thread. The hook publishes the Binder caller and S11 route id
++     * for the same-thread VFS join, then pops it in a finally block. It does not
++     * inspect URI/path/object fields and does not make an allow/deny decision.
++     */
++    private static final String CDAC_IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int CDAC_IGUARD_MAGIC = 0x49475544;
++    private static final int CDAC_IGUARD_VERSION = 1;
++    private static final int CDAC_IGUARD_MSG_PUSH = 5;
++    private static final int CDAC_IGUARD_MSG_POP = 6;
++    private static final int CDAC_IGUARD_MSG_LEN = 136;
++    private static final int CDAC_IGUARD_FIELD_LEN = 32;
++    private static final int CDAC_SERVICE_MMS_PROVIDER = 9;
++    private static final int CDAC_OP_MMS_OPEN_FILE = 801;
++    private static final String CDAC_SERVICE_NAME = "mms_provider";
++    private static final String CDAC_OP_OPEN_FILE = "openFile";
++    private static final long CDAC_MMS_ENDPOINT_ID = 0x5110_0000_0000_0001L;
++    private static final int CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH = 2;
++    private static final AtomicLong sCdacMmsSequence = new AtomicLong(1);
++    private static final ThreadLocal<ArrayDeque<CdacMmsFrame>> sCdacMmsFrames =
++            ThreadLocal.withInitial(ArrayDeque::new);
++
++    private static void putCdacFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean cdacWriteProviderContext(int msgType, CdacMmsFrame frame) {
++        final ByteBuffer buf = ByteBuffer.allocate(CDAC_IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++        buf.putInt(CDAC_IGUARD_MAGIC);
++        buf.putInt(CDAC_IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(CDAC_IGUARD_MSG_LEN);
++        buf.putInt(frame.callingUid);
++        buf.putInt(frame.callingPid);
++        buf.putInt(CDAC_SERVICE_MMS_PROVIDER);
++        buf.putInt(CDAC_OP_MMS_OPEN_FILE);
++        buf.putInt(frame.serverTid);
++        buf.putInt(0); // transactionCode: provider-local route, not Binder metadata.
++        buf.putInt(0); // transactionFlags
++        buf.putInt(frame.nestingDepth);
++        buf.putLong(frame.sequenceId);
++        buf.putLong(CDAC_MMS_ENDPOINT_ID);
++        buf.putLong(0L); // descriptor hash unavailable for provider-local hook.
++        putCdacFixedString(buf, CDAC_SERVICE_NAME, CDAC_IGUARD_FIELD_LEN);
++        putCdacFixedString(buf, frame.operationName, CDAC_IGUARD_FIELD_LEN);
++
++        try (FileOutputStream out = new FileOutputStream(CDAC_IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++            Log.i(TAG, "CdacMmsProvider write ok"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service_id=" + CDAC_SERVICE_MMS_PROVIDER
++                    + " op_id=" + CDAC_OP_MMS_OPEN_FILE
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName);
++            return true;
++        } catch (Throwable t) {
++            Log.w(TAG, "CdacMmsProvider write failed"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName, t);
++            return false;
++        }
++    }
++
++    private static CdacMmsFrame cdacReportCaller(String operationName) {
++        final ArrayDeque<CdacMmsFrame> stack = sCdacMmsFrames.get();
++        final CdacMmsFrame frame = new CdacMmsFrame(sCdacMmsSequence.getAndIncrement(),
++                Binder.getCallingUid(), Binder.getCallingPid(), android.os.Process.myTid(),
++                CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH + stack.size(), operationName);
++        if (!cdacWriteProviderContext(CDAC_IGUARD_MSG_PUSH, frame)) {
++            return null;
++        }
++        stack.push(frame);
++        return frame;
++    }
++
++    private static void cdacInvalidateCaller(CdacMmsFrame frame) {
++        if (frame == null) {
++            return;
++        }
++        final ArrayDeque<CdacMmsFrame> stack = sCdacMmsFrames.get();
++        final CdacMmsFrame top = stack.peek();
++        if (top != frame) {
++            Log.w(TAG, "CdacMmsProvider stack mismatch"
++                    + " seq=" + frame.sequenceId
++                    + " topSeq=" + (top != null ? top.sequenceId : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++        cdacWriteProviderContext(CDAC_IGUARD_MSG_POP, frame);
++    }
++
++    private static final class CdacMmsFrame {
++        final long sequenceId;
++        final int callingUid;
++        final int callingPid;
++        final int serverTid;
++        final int nestingDepth;
++        final String operationName;
++
++        CdacMmsFrame(long sequenceId, int callingUid, int callingPid, int serverTid,
++                int nestingDepth, String operationName) {
++            this.sequenceId = sequenceId;
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.serverTid = serverTid;
++            this.nestingDepth = nestingDepth;
++            this.operationName = operationName;
++        }
++    }
++
+     @VisibleForTesting
+     public void setProviderUtilWrapper(ProviderUtilWrapper providerUtilWrapper) {
+         this.providerUtilWrapper = providerUtilWrapper;
+@@ -1095,7 +1234,12 @@ public class MmsProvider extends ContentProvider {
+             return null;
+         }
+ 
+-        return safeOpenFileHelper(uri, mode);
++        final CdacMmsFrame cdacFrame = cdacReportCaller(CDAC_OP_OPEN_FILE);
++        try {
++            return safeOpenFileHelper(uri, mode);
++        } finally {
++            cdacInvalidateCaller(cdacFrame);
++        }
+     }
+ 
+     @NonNull

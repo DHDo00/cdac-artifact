@@ -1,0 +1,11 @@
+{
+ "stdout": "policy_clear ok",
+ "rc": 0,
+ "count_after": 0,
+ "dump": "runtime_policy_count=0\n",
+ "parsed": {
+  "count": 0,
+  "slots": [],
+  "n_slots": 0
+ }
+}

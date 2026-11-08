@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-08-07T19:13:50.458378+08:00",
+  "host_monotonic_end_ns": 1837552313345424,
+  "host_monotonic_start_ns": 1837552123534368,
+  "line_count": 1501,
+  "max_audit_seq": 1606920,
+  "max_kernel_ts_ns": 2283260051370,
+  "returncode": 0,
+  "sha256": "f7830181409e96d8c2cf8502d24c5c4cf5519934e3947de1157d07ad348e525b",
+  "workload_marker_count": 0
+}

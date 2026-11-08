@@ -1,0 +1,9 @@
+# SHA256SUMS_EXCLUSIONS.txt — 本轮 SHA256SUMS.txt 排除项说明
+# 排除=由已哈希验证的冻结源制品在本轮 runtime 目录内的派生副本（reflink/repack/稀疏 userdata），
+# 其源哈希见 05_artifacts/REUSED_ARTIFACT_SHA256.txt（对 19 轮 ARTIFACT_HASHES.txt 实测 sha256sum -c 全 OK）。
+06_runtime/boot1/images/*           : C19_media 的 reflink 副本（源=19 轮 artifacts/C19_media）
+06_runtime/boot1/instance/**        : launch_cvd 对 super.img 的 repack 与 8GiB 稀疏 userdata 等派生数据
+06_runtime/boot1/early_tmp/**       : launch_cvd 临时装配数据
+06_runtime/boot1/instance_runtime   : 符号链接（实例运行时元数据视图，指向 /tmp/cf_avd_1000/cvd-35）
+06_runtime/boot1/instance.35        : 符号链接
+# 其余全部文件（文档、脚本、夹具、哈希清单、原始日志、ledger、策略读回、计数器、对象状态）均计入 SHA256SUMS.txt。

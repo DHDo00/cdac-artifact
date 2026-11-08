@@ -1,0 +1,454 @@
+--- aosp16/cdac_dp_single_attempt_workload/AndroidManifest.xml	2026-06-27 01:39:27.142192186 +0800
++++ aosp16/cdac_dp_app_visible_timing_harness/AndroidManifest.xml	2026-06-28 01:46:42.938799558 +0800
+@@ -1,10 +1,12 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="com.example.cdacdpsmoke">
++    package="com.example.cdacdpsmoke"
++    android:versionCode="2026062801"
++    android:versionName="h4-app-visible-timing-20260628">
+     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="35" />
+     <uses-permission android:name="android.permission.INTERNET" />
+     <application
+         android:theme="@android:style/Theme.Material.Light.NoActionBar"
+-        android:label="CDAC DP Smoke"
++        android:label="CDAC DP Timing"
+         android:allowBackup="false"
+         android:supportsRtl="true">
+         <activity
+--- aosp16/cdac_dp_single_attempt_workload/src/com/example/cdacdpsmoke/MainActivity.java	2026-06-27 01:40:27.240883071 +0800
++++ aosp16/cdac_dp_app_visible_timing_harness/src/com/example/cdacdpsmoke/MainActivity.java	2026-06-28 02:40:02.965809399 +0800
+@@ -10,6 +10,7 @@
+ import android.os.Bundle;
+ import android.os.Environment;
+ import android.os.ParcelFileDescriptor;
++import android.os.SystemClock;
+ import android.util.Log;
+ 
+ import java.io.ByteArrayOutputStream;
+@@ -18,11 +19,18 @@
+ import java.io.FileOutputStream;
+ import java.nio.charset.StandardCharsets;
+ import java.security.MessageDigest;
++import java.util.Arrays;
+ 
+ public class MainActivity extends Activity {
+-    private static final String TAG = "CDACDP5";
++    private static final String TAG = "CDACDPTiming";
+     private static final String RUN_ID = "20260623_000000";
+     private static final Uri DOWNLOADS = Uri.parse("content://downloads/my_downloads");
++    private static final int RESULT_OPEN_SUCCESS = 1;
++    private static final int RESULT_EXPECTED_DENY = 2;
++    private static final int RESULT_UNEXPECTED_EXCEPTION = 3;
++    private static final int RESULT_UNEXPECTED_PFD = 4;
++    private static final int RESULT_UNEXPECTED_SUCCESS = 5;
++    private static final int RESULT_INVALID_TIMESTAMP = 6;
+ 
+     static final class ObjectInfo {
+         final String role;
+@@ -41,16 +49,19 @@
+     @Override
+     protected void onCreate(Bundle state) {
+         super.onCreate(state);
+-        new Thread(() -> {
+-            try {
+-                runScenario();
+-            } catch (Throwable t) {
+-                Log.e(TAG, "CDACDP5_FATAL error=" + t.getClass().getName()
+-                        + " message=" + String.valueOf(t.getMessage()), t);
+-            } finally {
+-                finish();
++        new Thread(new Runnable() {
++            @Override
++            public void run() {
++                try {
++                    runScenario();
++                } catch (Throwable t) {
++                    Log.e(TAG, "CDACDPTIMING_FATAL error=" + t.getClass().getName()
++                            + " message=" + String.valueOf(t.getMessage()), t);
++                } finally {
++                    finish();
++                }
+             }
+-        }, "CDACDP5-Worker").start();
++        }, "CDACDPTiming-Worker").start();
+     }
+ 
+     private void runScenario() throws Exception {
+@@ -82,6 +93,11 @@
+             runOne("target", "write", trial);
+         } else if ("nontarget_write_once".equals(scenario)) {
+             runOne("nontarget", "write", trial);
++        } else if ("timer_calibration".equals(scenario)) {
++            int pairs = intent.getIntExtra("pairs", 100000);
++            runTimerCalibration(intent, pairs);
++        } else if ("perf_block".equals(scenario)) {
++            runPerfBlock(intent);
+         } else {
+             throw new IllegalArgumentException("unknown scenario " + scenario);
+         }
+@@ -90,35 +106,160 @@
+     private void setupObjects() throws Exception {
+         createObject("target");
+         createObject("nontarget");
+-        Log.i(TAG, "CDACDP5_SETUP_DONE run_id=" + RUN_ID);
++        writeStatus("setup", "CDACDPTIMING_SETUP_DONE run_id=" + RUN_ID + "\n");
++        Log.i(TAG, "CDACDPTIMING_BLOCK_DONE scenario=setup run_id=" + RUN_ID);
+     }
+ 
+     private void baselineObject(String role) throws Exception {
+         ObjectInfo obj = ensureObject(role);
+-        boolean readSuccess = readAndVerify("baseline_" + role + "_read", obj, currentExpected(role));
+-        String payload = writePayload(role, 0);
+-        boolean writeSuccess = writeAndVerify("baseline_" + role + "_write", obj, payload);
+-        Log.i(TAG, "CDACDP5_BASELINE role=" + role + " uri=" + obj.uri + " row_id=" + obj.id
+-                + " read_success=" + readSuccess + " write_success=" + writeSuccess
+-                + " expected_sha256=" + sha256(payload.getBytes(StandardCharsets.UTF_8)));
++        readAndVerify(obj, currentExpected(role));
++        writeAndVerify(obj, writePayload(role, 0), true);
++        Log.i(TAG, "CDACDPTIMING_BLOCK_DONE scenario=baseline role=" + role);
+     }
+ 
+     private void runAttempts(String role, String op, int count) throws Exception {
+         for (int i = 1; i <= count; i++) {
+             runOne(role, op, i);
+         }
++        Log.i(TAG, "CDACDPTIMING_BLOCK_DONE scenario=" + role + "_" + op + " count=" + count);
+     }
+ 
+     private void runOne(String role, String op, int trial) throws Exception {
+         ObjectInfo obj = ensureObject(role);
+-        String attempt = role + "_" + op + "_" + trial;
+         if ("read".equals(op)) {
+-            readAndVerify(attempt, obj, currentExpected(role));
++            readAndVerify(obj, currentExpected(role));
+         } else {
+-            writeAndVerify(attempt, obj, writePayload(role, trial));
++            writeAndVerify(obj, writePayload(role, trial), true);
+         }
+     }
+ 
++    private void runTimerCalibration(Intent intent, int pairs) throws Exception {
++        String session = extra(intent, "session_id", "calibration");
++        long[] deltas = new long[pairs];
++        for (int i = 0; i < pairs; i++) {
++            long start = SystemClock.elapsedRealtimeNanos();
++            long end = SystemClock.elapsedRealtimeNanos();
++            deltas[i] = end - start;
++        }
++        Arrays.sort(deltas);
++        File out = resultFile("timer_calibration_" + clean(session) + ".tsv");
++        try (FileOutputStream fos = new FileOutputStream(out, false)) {
++            String text = "timer_api\tpair_count\tmedian_ns\tp95_ns\tp99_ns\n"
++                    + "SystemClock.elapsedRealtimeNanos\t" + pairs + "\t"
++                    + percentileSorted(deltas, 50) + "\t"
++                    + percentileSorted(deltas, 95) + "\t"
++                    + percentileSorted(deltas, 99) + "\n";
++            fos.write(text.getBytes(StandardCharsets.UTF_8));
++        }
++        writeStatus(session, "status=done scenario=timer_calibration path="
++                + out.getAbsolutePath() + "\n");
++        Log.i(TAG, "CDACDPTIMING_BLOCK_DONE scenario=timer_calibration pairs=" + pairs
++                + " path=" + out.getAbsolutePath());
++    }
++
++    private void runPerfBlock(Intent intent) throws Exception {
++        String session = extra(intent, "session_id", "session");
++        String bootId = extra(intent, "boot_id", "unknown_boot");
++        String mode = extra(intent, "mode", "P0");
++        int blockId = intent.getIntExtra("block_id", 0);
++        int blockPosition = intent.getIntExtra("block_position", 0);
++        int count = intent.getIntExtra("count", 100);
++        boolean measured = intent.getBooleanExtra("measured", true);
++        boolean expectDeny = "P2".equals(mode) || "E2".equals(mode);
++        String role = ("P2".equals(mode) || "E0".equals(mode) || "E1".equals(mode)
++                || "E2".equals(mode)) ? "target" : "nontarget";
++        String openMode = "E1".equals(mode) ? "r" : "rw";
++        ObjectInfo obj = ensureObject(role);
++
++        long[] latency = new long[count];
++        int[] result = new int[count];
++        boolean[] pfdReturned = new boolean[count];
++        boolean[] functional = new boolean[count];
++        int validCount = 0;
++        int pfdCount = 0;
++        int successCount = 0;
++        int expectedDenyCount = 0;
++
++        for (int i = 0; i < count; i++) {
++            ParcelFileDescriptor pfd = null;
++            long start = 0L;
++            long end = 0L;
++            int terminal = 0;
++            try {
++                start = SystemClock.elapsedRealtimeNanos();
++                pfd = getContentResolver().openFileDescriptor(obj.uri, openMode);
++                end = SystemClock.elapsedRealtimeNanos();
++                if (pfd != null) {
++                    pfdReturned[i] = true;
++                    terminal = expectDeny ? RESULT_UNEXPECTED_PFD : RESULT_OPEN_SUCCESS;
++                } else {
++                    terminal = expectDeny ? RESULT_EXPECTED_DENY : RESULT_UNEXPECTED_EXCEPTION;
++                }
++            } catch (SecurityException se) {
++                end = SystemClock.elapsedRealtimeNanos();
++                terminal = expectDeny ? RESULT_EXPECTED_DENY : RESULT_UNEXPECTED_EXCEPTION;
++            } catch (Throwable t) {
++                end = SystemClock.elapsedRealtimeNanos();
++                terminal = expectDeny ? RESULT_EXPECTED_DENY : RESULT_UNEXPECTED_EXCEPTION;
++            }
++            latency[i] = end - start;
++            if (start == 0L || end <= start) {
++                terminal = RESULT_INVALID_TIMESTAMP;
++            }
++            result[i] = terminal;
++
++            if (terminal == RESULT_OPEN_SUCCESS && pfd != null) {
++                pfdCount++;
++                if ("r".equals(openMode)) {
++                    functional[i] = readPfdAndVerify(pfd, currentExpected(role));
++                } else {
++                    String payload = blockPayload(role, session, mode, blockId, i);
++                    functional[i] = writePfdAndVerify(obj, pfd, payload);
++                }
++                if (functional[i]) {
++                    successCount++;
++                }
++                pfd = null;
++            } else if (terminal == RESULT_EXPECTED_DENY) {
++                functional[i] = true;
++                expectedDenyCount++;
++            } else if (pfd != null) {
++                closeQuietly(pfd);
++                pfd = null;
++            }
++            if (functional[i] && terminal != RESULT_INVALID_TIMESTAMP) {
++                validCount++;
++            }
++        }
++
++        File out = resultFile((measured ? "measured" : "warmup") + "_"
++                + clean(session) + "_" + clean(mode) + "_block_"
++                + String.format("%03d", blockId) + ".csv");
++        try (FileOutputStream fos = new FileOutputStream(out, false)) {
++            StringBuilder sb = new StringBuilder(256 + count * 96);
++            sb.append("session_id,boot_id,block_id,block_position,mode,sample_index,latency_ns,terminal_result_code,pfd_returned,functional_valid\n");
++            for (int i = 0; i < count; i++) {
++                sb.append(csv(session)).append(',').append(csv(bootId)).append(',')
++                        .append(blockId).append(',').append(blockPosition).append(',')
++                        .append(mode).append(',').append(i).append(',')
++                        .append(latency[i]).append(',').append(result[i]).append(',')
++                        .append(pfdReturned[i] ? "true" : "false").append(',')
++                        .append(functional[i] ? "true" : "false").append('\n');
++            }
++            fos.write(sb.toString().getBytes(StandardCharsets.UTF_8));
++        }
++        writeStatus(session + "_" + mode + "_" + blockId,
++                "status=done scenario=perf_block session_id=" + session
++                        + " mode=" + mode + " block_id=" + blockId
++                        + " measured=" + measured + " samples=" + count
++                        + " valid=" + validCount + " success=" + successCount
++                        + " pfd=" + pfdCount + " expected_deny=" + expectedDenyCount
++                        + " path=" + out.getAbsolutePath() + "\n");
++        Log.i(TAG, "CDACDPTIMING_BLOCK_DONE scenario=perf_block session_id=" + session
++                + " mode=" + mode + " block_id=" + blockId + " measured=" + measured
++                + " samples=" + count + " path=" + out.getAbsolutePath());
++    }
++
+     private ObjectInfo ensureObject(String role) throws Exception {
+         SharedPreferences prefs = getPreferences(0);
+         long id = prefs.getLong(role + "_id", -1);
+@@ -162,9 +303,6 @@
+                 .commit()) {
+             throw new IllegalStateException("failed to persist " + role + " id");
+         }
+-        Log.i(TAG, "CDACDP5_OBJECT role=" + role + " row_id=" + id + " uri=" + uri
+-                + " file=" + file.getAbsolutePath()
+-                + " initial_sha256=" + sha256(payload.getBytes(StandardCharsets.UTF_8)));
+         return new ObjectInfo(role, id, uri, file);
+     }
+ 
+@@ -185,62 +323,71 @@
+         if (!getPreferences(0).edit().putString(role + "_expected", payload).commit()) {
+             throw new IllegalStateException("failed to persist reset expected for " + role);
+         }
+-        Log.i(TAG, "CDACDP5_RESET role=" + role + " row_id=" + obj.id + " uri=" + obj.uri
+-                + " file=" + obj.file.getAbsolutePath() + " bytes=" + expected.length
+-                + " expected_sha256=" + sha256(expected) + " actual_sha256=" + sha256(actual));
++        Log.i(TAG, "CDACDPTIMING_BLOCK_DONE scenario=reset role=" + role
++                + " bytes=" + expected.length + " expected_sha256=" + sha256(expected)
++                + " actual_sha256=" + sha256(actual));
+     }
+ 
+-    private boolean readAndVerify(String attempt, ObjectInfo obj, String expected) throws Exception {
++    private boolean readAndVerify(ObjectInfo obj, String expected) throws Exception {
+         byte[] actual = new byte[0];
+-        boolean success = false;
+-        String exception = "";
+         try (ParcelFileDescriptor pfd =
+                 getContentResolver().openFileDescriptor(obj.uri, "r")) {
++            if (pfd == null) {
++                return false;
++            }
+             actual = readAll(pfd);
+-            success = expected.equals(new String(actual, StandardCharsets.UTF_8));
+         } catch (Throwable t) {
+-            exception = t.getClass().getName();
++            return false;
+         }
+-        logResult(attempt, obj, "read", success, expected.getBytes(StandardCharsets.UTF_8),
+-                actual, exception);
+-        return success;
++        return expected.equals(new String(actual, StandardCharsets.UTF_8));
+     }
+ 
+-    private boolean writeAndVerify(String attempt, ObjectInfo obj, String payload) throws Exception {
+-        byte[] expected = payload.getBytes(StandardCharsets.UTF_8);
+-        byte[] actual = new byte[0];
+-        boolean success = false;
+-        String exception = "";
+-        try (ParcelFileDescriptor pfd =
+-                getContentResolver().openFileDescriptor(obj.uri, "rw")) {
+-            try (FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor())) {
+-                out.write(expected);
+-                out.flush();
+-            }
+-            try (FileInputStream in = new FileInputStream(obj.file)) {
+-                actual = readAll(in);
++    private boolean writeAndVerify(ObjectInfo obj, String payload, boolean updateExpected)
++            throws Exception {
++        ParcelFileDescriptor pfd = null;
++        try {
++            pfd = getContentResolver().openFileDescriptor(obj.uri, "rw");
++            if (pfd == null) {
++                return false;
+             }
+-            success = payload.equals(new String(actual, StandardCharsets.UTF_8));
+-            if (success && !getPreferences(0).edit()
++            boolean ok = writePfdAndVerify(obj, pfd, payload);
++            pfd = null;
++            if (ok && updateExpected && !getPreferences(0).edit()
+                     .putString(obj.role + "_expected", payload)
+                     .commit()) {
+                 throw new IllegalStateException("failed to persist " + obj.role + " expected");
+             }
++            return ok;
+         } catch (Throwable t) {
+-            exception = t.getClass().getName();
++            return false;
++        } finally {
++            if (pfd != null) {
++                closeQuietly(pfd);
++            }
++        }
++    }
++
++    private boolean writePfdAndVerify(ObjectInfo obj, ParcelFileDescriptor pfd, String payload)
++            throws Exception {
++        byte[] expected = payload.getBytes(StandardCharsets.UTF_8);
++        try (ParcelFileDescriptor owned = pfd;
++             FileOutputStream out = new FileOutputStream(owned.getFileDescriptor())) {
++            out.write(expected);
++            out.flush();
+         }
+-        logResult(attempt, obj, "write", success, expected, actual, exception);
+-        return success;
++        byte[] actual;
++        try (FileInputStream in = new FileInputStream(obj.file)) {
++            actual = readAll(in);
++        }
++        return new String(actual, StandardCharsets.UTF_8).startsWith(payload);
+     }
+ 
+-    private void logResult(String attempt, ObjectInfo obj, String op, boolean success,
+-            byte[] expected, byte[] actual, String exception) throws Exception {
+-        Log.i(TAG, "CDACDP5_RESULT attempt=" + attempt + " role=" + obj.role + " op=" + op
+-                + " row_id=" + obj.id + " uri=" + obj.uri + " success=" + success
+-                + " bytes=" + expected.length
+-                + " expected_sha256=" + sha256(expected)
+-                + " actual_sha256=" + sha256(actual)
+-                + " exception=" + (exception == null ? "" : exception));
++    private boolean readPfdAndVerify(ParcelFileDescriptor pfd, String expected) throws Exception {
++        byte[] actual;
++        try (ParcelFileDescriptor owned = pfd) {
++            actual = readAll(owned);
++        }
++        return expected.equals(new String(actual, StandardCharsets.UTF_8));
+     }
+ 
+     private File targetFile(String role) {
+@@ -248,6 +395,24 @@
+                 "cdac_dp5_" + role + "_" + RUN_ID + ".txt");
+     }
+ 
++    private File resultDir() {
++        File dir = new File(getExternalFilesDir(null), "timing-results");
++        if (!dir.exists() && !dir.mkdirs()) {
++            throw new IllegalStateException("failed to create " + dir);
++        }
++        return dir;
++    }
++
++    private File resultFile(String name) {
++        return new File(resultDir(), name);
++    }
++
++    private void writeStatus(String name, String text) throws Exception {
++        try (FileOutputStream out = new FileOutputStream(resultFile("status_" + clean(name) + ".txt"), false)) {
++            out.write(text.getBytes(StandardCharsets.UTF_8));
++        }
++    }
++
+     private String currentExpected(String role) {
+         return getPreferences(0).getString(role + "_expected", initialPayload(role));
+     }
+@@ -261,6 +426,12 @@
+                 + String.format("%02d", trial) + "_" + RUN_ID + "\n";
+     }
+ 
++    private static String blockPayload(String role, String session, String mode, int block, int sample) {
++        return ("target".equals(role) ? "CDAC_DP_TARGET_BLOCK_" : "CDAC_DP_NONTARGET_BLOCK_")
++                + clean(session) + "_" + clean(mode) + "_"
++                + String.format("%03d_%03d", block, sample) + "_" + RUN_ID + "\n";
++    }
++
+     private static String resetPayload(String role) {
+         return ("target".equals(role) ? "CDAC_DP_TARGET_RESET_" : "CDAC_DP_NONTARGET_RESET_")
+                 + RUN_ID + "\n";
+@@ -290,4 +461,37 @@
+         }
+         return sb.toString();
+     }
++
++    private static long percentileSorted(long[] sorted, int percentile) {
++        if (sorted.length == 0) {
++            return 0L;
++        }
++        int idx = (int) Math.ceil((percentile / 100.0) * sorted.length) - 1;
++        if (idx < 0) {
++            idx = 0;
++        } else if (idx >= sorted.length) {
++            idx = sorted.length - 1;
++        }
++        return sorted[idx];
++    }
++
++    private static String extra(Intent intent, String name, String fallback) {
++        String value = intent.getStringExtra(name);
++        return value == null ? fallback : value;
++    }
++
++    private static String clean(String s) {
++        return s == null ? "" : s.replaceAll("[^A-Za-z0-9_.-]", "_");
++    }
++
++    private static String csv(String s) {
++        return clean(s);
++    }
++
++    private static void closeQuietly(ParcelFileDescriptor pfd) {
++        try {
++            pfd.close();
++        } catch (Throwable ignored) {
++        }
++    }
+ }

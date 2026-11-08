@@ -1,0 +1,3857 @@
+{
+ "label": "boot2_b03_N128",
+ "N_requested": 128,
+ "clear": {
+  "stdout": "policy_clear ok\n",
+  "rc": 0,
+  "count_after": 0,
+  "dump": "runtime_policy_count=0\n"
+ },
+ "adds": [
+  {
+   "kind": "target",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10122 operation=openAssetFile ino=3166 s_dev=266338400 i_mode=00 f_flags_mask=0x3 f_flags_value=0x1 decision=deny reason=rcs21_tgt_A_X",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10122 decision=2 path_tail=- reason=rcs21_tgt_A_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3166 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000001 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_1",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_1 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000001 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000002 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_2",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_2 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000002 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000003 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_3",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_3 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000003 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000004 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_4",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_4 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000004 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000005 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_5",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_5 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000005 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000006 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_6",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_6 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000006 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000007 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_7",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_7 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000007 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000008 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_8",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_8 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000008 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000009 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_9",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_9 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000009 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000010 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_10",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_10 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000010 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000011 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_11",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_11 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000011 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000012 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_12",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_12 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000012 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000013 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_13",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_13 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000013 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000014 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_14",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_14 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000014 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000015 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_15",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_15 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000015 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000016 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_16",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_16 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000016 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000017 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_17",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_17 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000017 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000018 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_18",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_18 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000018 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000019 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_19",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_19 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000019 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000020 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_20",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_20 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000020 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000021 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_21",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_21 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000021 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000022 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_22",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_22 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000022 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000023 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_23",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_23 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000023 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000024 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_24",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_24 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000024 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000025 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_25",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_25 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000025 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000026 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_26",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_26 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000026 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000027 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_27",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_27 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000027 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000028 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_28",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_28 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000028 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000029 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_29",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_29 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000029 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000030 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_30",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_30 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000030 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000031 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_31",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_31 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000031 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000032 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_32",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_32 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000032 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000033 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_33",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_33 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000033 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000034 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_34",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_34 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000034 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000035 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_35",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_35 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000035 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000036 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_36",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_36 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000036 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000037 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_37",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_37 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000037 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000038 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_38",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_38 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000038 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000039 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_39",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_39 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000039 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000040 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_40",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_40 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000040 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000041 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_41",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_41 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000041 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000042 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_42",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_42 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000042 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000043 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_43",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_43 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000043 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000044 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_44",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_44 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000044 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000045 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_45",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_45 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000045 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000046 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_46",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_46 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000046 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000047 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_47",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_47 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000047 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000048 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_48",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_48 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000048 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000049 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_49",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_49 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000049 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000050 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_50",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_50 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000050 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000051 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_51",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_51 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000051 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000052 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_52",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_52 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000052 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000053 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_53",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_53 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000053 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000054 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_54",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_54 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000054 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000055 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_55",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_55 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000055 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000056 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_56",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_56 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000056 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000057 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_57",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_57 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000057 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000058 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_58",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_58 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000058 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000059 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_59",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_59 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000059 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000060 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_60",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_60 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000060 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000061 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_61",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_61 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000061 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000062 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_62",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_62 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000062 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000063 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_63",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_63 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000063 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000064 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_64",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_64 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000064 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000065 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_65",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_65 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000065 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000066 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_66",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_66 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000066 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000067 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_67",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_67 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000067 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000068 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_68",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_68 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000068 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000069 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_69",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_69 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000069 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000070 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_70",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_70 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000070 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000071 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_71",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_71 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000071 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000072 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_72",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_72 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000072 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000073 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_73",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_73 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000073 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000074 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_74",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_74 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000074 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000075 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_75",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_75 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000075 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000076 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_76",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_76 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000076 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000077 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_77",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_77 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000077 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000078 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_78",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_78 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000078 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000079 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_79",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_79 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000079 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000080 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_80",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_80 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000080 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000081 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_81",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_81 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000081 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000082 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_82",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_82 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000082 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000083 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_83",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_83 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000083 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000084 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_84",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_84 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000084 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000085 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_85",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_85 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000085 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000086 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_86",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_86 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000086 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000087 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_87",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_87 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000087 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000088 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_88",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_88 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000088 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000089 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_89",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_89 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000089 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000090 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_90",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_90 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000090 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000091 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_91",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_91 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000091 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000092 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_92",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_92 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000092 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000093 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_93",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_93 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000093 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000094 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_94",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_94 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000094 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000095 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_95",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_95 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000095 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000096 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_96",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_96 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000096 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000097 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_97",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_97 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000097 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000098 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_98",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_98 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000098 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000099 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_99",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_99 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000099 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000100 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_100",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_100 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000100 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000101 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_101",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_101 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000101 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000102 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_102",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_102 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000102 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000103 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_103",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_103 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000103 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000104 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_104",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_104 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000104 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000105 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_105",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_105 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000105 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000106 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_106",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_106 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000106 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000107 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_107",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_107 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000107 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000108 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_108",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_108 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000108 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000109 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_109",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_109 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000109 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000110 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_110",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_110 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000110 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000111 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_111",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_111 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000111 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000112 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_112",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_112 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000112 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000113 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_113",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_113 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000113 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000114 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_114",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_114 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000114 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000115 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_115",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_115 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000115 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000116 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_116",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_116 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000116 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000117 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_117",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_117 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000117 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000118 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_118",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_118 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000118 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000119 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_119",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_119 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000119 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000120 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_120",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_120 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000120 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000121 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_121",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_121 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000121 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000122 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_122",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_122 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000122 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000123 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_123",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_123 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000123 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000124 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_124",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_124 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000124 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000125 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_125",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_125 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000125 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000126 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_126",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_126 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000126 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  },
+  {
+   "kind": "filler",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10121 operation=openAssetFile path_tail=X.bin ino=2000127 s_dev=266338400 i_mode=00 decision=audit reason=rcs21_fill_127",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=1 path_tail=X.bin reason=rcs21_fill_127 f_flags_mask=0x0 f_flags_value=0x0 f_mode_mask=0x0 f_mode_value=0x0 ino=2000127 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  }
+ ],
+ "count_actual": 128,
+ "n_slots_actual": 128,
+ "slots": [
+  [
+   0,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10122",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "-",
+    "ino": "3166",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x3",
+    "f_flags_value": "0x1",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "would-deny",
+    "reason": "rcs21_tgt_A_X",
+    "specificity": "7"
+   }
+  ],
+  [
+   1,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000001",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_1",
+    "specificity": "7"
+   }
+  ],
+  [
+   2,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000002",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_2",
+    "specificity": "7"
+   }
+  ],
+  [
+   3,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000003",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_3",
+    "specificity": "7"
+   }
+  ],
+  [
+   4,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000004",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_4",
+    "specificity": "7"
+   }
+  ],
+  [
+   5,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000005",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_5",
+    "specificity": "7"
+   }
+  ],
+  [
+   6,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000006",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_6",
+    "specificity": "7"
+   }
+  ],
+  [
+   7,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000007",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_7",
+    "specificity": "7"
+   }
+  ],
+  [
+   8,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000008",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_8",
+    "specificity": "7"
+   }
+  ],
+  [
+   9,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000009",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_9",
+    "specificity": "7"
+   }
+  ],
+  [
+   10,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000010",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_10",
+    "specificity": "7"
+   }
+  ],
+  [
+   11,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000011",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_11",
+    "specificity": "7"
+   }
+  ],
+  [
+   12,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000012",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_12",
+    "specificity": "7"
+   }
+  ],
+  [
+   13,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000013",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_13",
+    "specificity": "7"
+   }
+  ],
+  [
+   14,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000014",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_14",
+    "specificity": "7"
+   }
+  ],
+  [
+   15,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000015",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_15",
+    "specificity": "7"
+   }
+  ],
+  [
+   16,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000016",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_16",
+    "specificity": "7"
+   }
+  ],
+  [
+   17,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000017",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_17",
+    "specificity": "7"
+   }
+  ],
+  [
+   18,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000018",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_18",
+    "specificity": "7"
+   }
+  ],
+  [
+   19,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000019",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_19",
+    "specificity": "7"
+   }
+  ],
+  [
+   20,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000020",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_20",
+    "specificity": "7"
+   }
+  ],
+  [
+   21,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000021",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_21",
+    "specificity": "7"
+   }
+  ],
+  [
+   22,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000022",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_22",
+    "specificity": "7"
+   }
+  ],
+  [
+   23,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000023",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_23",
+    "specificity": "7"
+   }
+  ],
+  [
+   24,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000024",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_24",
+    "specificity": "7"
+   }
+  ],
+  [
+   25,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000025",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_25",
+    "specificity": "7"
+   }
+  ],
+  [
+   26,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000026",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_26",
+    "specificity": "7"
+   }
+  ],
+  [
+   27,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000027",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_27",
+    "specificity": "7"
+   }
+  ],
+  [
+   28,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000028",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_28",
+    "specificity": "7"
+   }
+  ],
+  [
+   29,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000029",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_29",
+    "specificity": "7"
+   }
+  ],
+  [
+   30,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000030",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_30",
+    "specificity": "7"
+   }
+  ],
+  [
+   31,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000031",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_31",
+    "specificity": "7"
+   }
+  ],
+  [
+   32,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000032",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_32",
+    "specificity": "7"
+   }
+  ],
+  [
+   33,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000033",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_33",
+    "specificity": "7"
+   }
+  ],
+  [
+   34,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000034",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_34",
+    "specificity": "7"
+   }
+  ],
+  [
+   35,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000035",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_35",
+    "specificity": "7"
+   }
+  ],
+  [
+   36,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000036",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_36",
+    "specificity": "7"
+   }
+  ],
+  [
+   37,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000037",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_37",
+    "specificity": "7"
+   }
+  ],
+  [
+   38,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000038",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_38",
+    "specificity": "7"
+   }
+  ],
+  [
+   39,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000039",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_39",
+    "specificity": "7"
+   }
+  ],
+  [
+   40,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000040",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_40",
+    "specificity": "7"
+   }
+  ],
+  [
+   41,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000041",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_41",
+    "specificity": "7"
+   }
+  ],
+  [
+   42,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000042",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_42",
+    "specificity": "7"
+   }
+  ],
+  [
+   43,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000043",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_43",
+    "specificity": "7"
+   }
+  ],
+  [
+   44,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000044",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_44",
+    "specificity": "7"
+   }
+  ],
+  [
+   45,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000045",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_45",
+    "specificity": "7"
+   }
+  ],
+  [
+   46,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000046",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_46",
+    "specificity": "7"
+   }
+  ],
+  [
+   47,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000047",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_47",
+    "specificity": "7"
+   }
+  ],
+  [
+   48,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000048",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_48",
+    "specificity": "7"
+   }
+  ],
+  [
+   49,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000049",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_49",
+    "specificity": "7"
+   }
+  ],
+  [
+   50,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000050",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_50",
+    "specificity": "7"
+   }
+  ],
+  [
+   51,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000051",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_51",
+    "specificity": "7"
+   }
+  ],
+  [
+   52,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000052",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_52",
+    "specificity": "7"
+   }
+  ],
+  [
+   53,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000053",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_53",
+    "specificity": "7"
+   }
+  ],
+  [
+   54,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000054",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_54",
+    "specificity": "7"
+   }
+  ],
+  [
+   55,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000055",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_55",
+    "specificity": "7"
+   }
+  ],
+  [
+   56,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000056",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_56",
+    "specificity": "7"
+   }
+  ],
+  [
+   57,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000057",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_57",
+    "specificity": "7"
+   }
+  ],
+  [
+   58,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000058",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_58",
+    "specificity": "7"
+   }
+  ],
+  [
+   59,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000059",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_59",
+    "specificity": "7"
+   }
+  ],
+  [
+   60,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000060",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_60",
+    "specificity": "7"
+   }
+  ],
+  [
+   61,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000061",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_61",
+    "specificity": "7"
+   }
+  ],
+  [
+   62,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000062",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_62",
+    "specificity": "7"
+   }
+  ],
+  [
+   63,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000063",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_63",
+    "specificity": "7"
+   }
+  ],
+  [
+   64,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000064",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_64",
+    "specificity": "7"
+   }
+  ],
+  [
+   65,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000065",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_65",
+    "specificity": "7"
+   }
+  ],
+  [
+   66,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000066",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_66",
+    "specificity": "7"
+   }
+  ],
+  [
+   67,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000067",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_67",
+    "specificity": "7"
+   }
+  ],
+  [
+   68,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000068",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_68",
+    "specificity": "7"
+   }
+  ],
+  [
+   69,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000069",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_69",
+    "specificity": "7"
+   }
+  ],
+  [
+   70,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000070",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_70",
+    "specificity": "7"
+   }
+  ],
+  [
+   71,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000071",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_71",
+    "specificity": "7"
+   }
+  ],
+  [
+   72,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000072",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_72",
+    "specificity": "7"
+   }
+  ],
+  [
+   73,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000073",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_73",
+    "specificity": "7"
+   }
+  ],
+  [
+   74,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000074",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_74",
+    "specificity": "7"
+   }
+  ],
+  [
+   75,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000075",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_75",
+    "specificity": "7"
+   }
+  ],
+  [
+   76,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000076",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_76",
+    "specificity": "7"
+   }
+  ],
+  [
+   77,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000077",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_77",
+    "specificity": "7"
+   }
+  ],
+  [
+   78,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000078",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_78",
+    "specificity": "7"
+   }
+  ],
+  [
+   79,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000079",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_79",
+    "specificity": "7"
+   }
+  ],
+  [
+   80,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000080",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_80",
+    "specificity": "7"
+   }
+  ],
+  [
+   81,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000081",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_81",
+    "specificity": "7"
+   }
+  ],
+  [
+   82,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000082",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_82",
+    "specificity": "7"
+   }
+  ],
+  [
+   83,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000083",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_83",
+    "specificity": "7"
+   }
+  ],
+  [
+   84,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000084",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_84",
+    "specificity": "7"
+   }
+  ],
+  [
+   85,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000085",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_85",
+    "specificity": "7"
+   }
+  ],
+  [
+   86,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000086",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_86",
+    "specificity": "7"
+   }
+  ],
+  [
+   87,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000087",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_87",
+    "specificity": "7"
+   }
+  ],
+  [
+   88,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000088",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_88",
+    "specificity": "7"
+   }
+  ],
+  [
+   89,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000089",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_89",
+    "specificity": "7"
+   }
+  ],
+  [
+   90,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000090",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_90",
+    "specificity": "7"
+   }
+  ],
+  [
+   91,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000091",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_91",
+    "specificity": "7"
+   }
+  ],
+  [
+   92,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000092",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_92",
+    "specificity": "7"
+   }
+  ],
+  [
+   93,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000093",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_93",
+    "specificity": "7"
+   }
+  ],
+  [
+   94,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000094",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_94",
+    "specificity": "7"
+   }
+  ],
+  [
+   95,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000095",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_95",
+    "specificity": "7"
+   }
+  ],
+  [
+   96,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000096",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_96",
+    "specificity": "7"
+   }
+  ],
+  [
+   97,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000097",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_97",
+    "specificity": "7"
+   }
+  ],
+  [
+   98,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000098",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_98",
+    "specificity": "7"
+   }
+  ],
+  [
+   99,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000099",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_99",
+    "specificity": "7"
+   }
+  ],
+  [
+   100,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000100",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_100",
+    "specificity": "7"
+   }
+  ],
+  [
+   101,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000101",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_101",
+    "specificity": "7"
+   }
+  ],
+  [
+   102,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000102",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_102",
+    "specificity": "7"
+   }
+  ],
+  [
+   103,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000103",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_103",
+    "specificity": "7"
+   }
+  ],
+  [
+   104,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000104",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_104",
+    "specificity": "7"
+   }
+  ],
+  [
+   105,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000105",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_105",
+    "specificity": "7"
+   }
+  ],
+  [
+   106,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000106",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_106",
+    "specificity": "7"
+   }
+  ],
+  [
+   107,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000107",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_107",
+    "specificity": "7"
+   }
+  ],
+  [
+   108,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000108",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_108",
+    "specificity": "7"
+   }
+  ],
+  [
+   109,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000109",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_109",
+    "specificity": "7"
+   }
+  ],
+  [
+   110,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000110",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_110",
+    "specificity": "7"
+   }
+  ],
+  [
+   111,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000111",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_111",
+    "specificity": "7"
+   }
+  ],
+  [
+   112,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000112",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_112",
+    "specificity": "7"
+   }
+  ],
+  [
+   113,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000113",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_113",
+    "specificity": "7"
+   }
+  ],
+  [
+   114,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000114",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_114",
+    "specificity": "7"
+   }
+  ],
+  [
+   115,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000115",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_115",
+    "specificity": "7"
+   }
+  ],
+  [
+   116,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000116",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_116",
+    "specificity": "7"
+   }
+  ],
+  [
+   117,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000117",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_117",
+    "specificity": "7"
+   }
+  ],
+  [
+   118,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000118",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_118",
+    "specificity": "7"
+   }
+  ],
+  [
+   119,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000119",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_119",
+    "specificity": "7"
+   }
+  ],
+  [
+   120,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000120",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_120",
+    "specificity": "7"
+   }
+  ],
+  [
+   121,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000121",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_121",
+    "specificity": "7"
+   }
+  ],
+  [
+   122,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000122",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_122",
+    "specificity": "7"
+   }
+  ],
+  [
+   123,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000123",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_123",
+    "specificity": "7"
+   }
+  ],
+  [
+   124,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000124",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_124",
+    "specificity": "7"
+   }
+  ],
+  [
+   125,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000125",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_125",
+    "specificity": "7"
+   }
+  ],
+  [
+   126,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000126",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_126",
+    "specificity": "7"
+   }
+  ],
+  [
+   127,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10121",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "X.bin",
+    "ino": "2000127",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x0",
+    "f_flags_value": "0x0",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "audit",
+    "reason": "rcs21_fill_127",
+    "specificity": "7"
+   }
+  ]
+ ],
+ "verified": true
+}

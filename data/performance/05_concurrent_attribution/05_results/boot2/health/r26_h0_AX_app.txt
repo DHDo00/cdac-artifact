@@ -1,0 +1,1 @@
+r26_h0_AX,242899789396,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccx.bin,WRITE_OK,,0,0,-1,false,false,77,3712,33200,16,16,,10121,3972,3972

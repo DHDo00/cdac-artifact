@@ -1,0 +1,3 @@
+session	post_rule_target_write_app_success	post_rule_target_write_frdac_deny
+A	5/5	0/5
+B	5/5	0/5

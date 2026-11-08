@@ -1,0 +1,77 @@
+# Runtime Cost Figure Manifest
+
+## Input archive
+INPUT_ARCHIVE=cdac_rq4_prospective_performance_v2_20260807_101100.tar.zst
+INPUT_ARCHIVE_SHA256=063544d685fce252eac1aae0fd6c83f630af483bf2b80ca0b15040b93057ef44
+INPUT_ARCHIVE_SHA256_EXPECTED=063544d685fce252eac1aae0fd6c83f630af483bf2b80ca0b15040b93057ef44
+ARCHIVE_SHA256_VERIFIED=PASS
+
+## Input row files
+BOOT_1_ROWS=cdac_rq4_prospective_performance_v2_20260807_101100/02_boot_1/SCIENTIFIC_ROWS.csv
+BOOT_1_ROWS_SHA256=9089056fc6d8661aa8eaf0db5659a0cc0fed60ef31fcdd5ff13bece9eefc9067
+BOOT_2_ROWS=cdac_rq4_prospective_performance_v2_20260807_101100/03_boot_2/SCIENTIFIC_ROWS.csv
+BOOT_2_ROWS_SHA256=7a11cebac810a91cd76a75a757d6f65c0cc39ef802bd8beaaa7cec231e88d816
+BLOCK_ESTIMATES=cdac_rq4_prospective_performance_v2_20260807_101100/04_analysis/PRIMARY_BLOCK_ESTIMATES.csv
+BLOCK_ESTIMATES_SHA256=0486d2ee07c89edaabbc0f4dc801389402be0cad251664f4ffb415fdad542526
+PRIMARY_ESTIMATES=cdac_rq4_prospective_performance_v2_20260807_101100/04_analysis/PRIMARY_ESTIMATES_SUMMARY.csv
+PRIMARY_ESTIMATES_SHA256=a7be9f1d1de622a5d2f1c4ed6f1c7dab8a54523dcfd8c2a4ebbbfc1ad74ab0ab
+
+## Recalculation and estimator identity
+RECOMPUTATION_MATCH=yes
+RECOMPUTATION_METHOD=median of five eligible A/B/C rows per paired block; Delta_BA=median(B)-median(A); Delta_CB=median(C)-median(B)
+DELTA_BA_RECOMPUTED_MEDIAN_NS=1924708.5
+DELTA_BA_FROZEN_ESTIMATE_NS=1924708.5
+DELTA_BA_FROZEN_CI_NS=[1396098.0,2707998.0]
+DELTA_CB_RECOMPUTED_MEDIAN_NS=-200872.0
+DELTA_CB_FROZEN_ESTIMATE_NS=-200872.0
+DELTA_CB_FROZEN_CI_NS=[-730023.425,361999.0]
+CI_METHOD=95% percentile stratified block bootstrap; read from frozen estimator output
+
+## Rows plotted and denominator checks
+SCIENTIFIC_ROWS_READ_BOOT_1=1000
+SCIENTIFIC_ROWS_READ_BOOT_2=1000
+ARM_COUNTS_IN_COST_DENOMINATOR=A=500;B=500;C=500;D=500
+SCIENTIFIC_ROWS_IN_DENOMINATOR=2000
+SCIENTIFIC_ROWS_USED_IN_FIGURE=1500
+FIGURE_ARMS=A;B;C
+D_ROWS_PLOTTED=0
+WARMUP_ROWS_PRESENT_IN_PACKAGE=120
+WARMUP_ROWS_READ=0
+WARMUP_ROWS_PLOTTED=0
+PANEL_A_ROWS_PLOTTED=2 pooled estimates with 2 frozen 95% CIs
+PANEL_B_DELTA_BA_ROWS_PLOTTED=100 paired blocks; Boot_1=50; Boot_2=50
+PANEL_B_DELTA_CB_ROWS_PLOTTED=100 paired blocks; Boot_1=50; Boot_2=50
+PANEL_B_DENOMINATOR_CHECK=100 per contrast = 50 Boot_1 + 50 Boot_2
+DELTA_BA_PER_BLOCK_MATCH=100/100
+DELTA_CB_PER_BLOCK_MATCH=100/100
+PER_BLOCK_MATCH_VS_FROZEN=yes
+PER_BLOCK_COMPARISON=exact Decimal parsing of integer recomputation versus frozen PRIMARY_BLOCK_ESTIMATES.csv representation
+PANEL_B_SOURCE=PRIMARY_BLOCK_ESTIMATES.csv (exact-equivalence reference)
+PANEL_B_USES_FROZEN_BLOCK_ESTIMATES=no
+PANEL_B_RECOMPUTATION_FROZEN_EQUIVALENCE=yes
+PANEL_B_SOURCE_NOTE=The current script recomputes paired-block values from scientific rows; all 100 Delta_BA and 100 Delta_CB values exactly match the frozen block estimates, so the PDF was not redrawn.
+
+## Plot settings
+JITTER_SEED=20260809
+JITTER_GENERATOR=numpy.random.default_rng with deterministic per-group offsets
+FONT_FAMILY_USED=Nimbus Roman
+FONT_FILE_USED=/usr/share/fonts/opentype/urw-base35/NimbusRoman-Regular.otf
+MATH_FONTSET=stix
+FIGURE_SIZE_INCHES=3.5 x 3.15; stacked single-column layout; shared axes bounding box
+UNITS=milliseconds; nanoseconds divided by 1,000,000 without input rounding
+
+## Outputs
+OUTPUT_PDF=fig_runtime_cost_20260809_152716/fig_runtime_cost.pdf
+OUTPUT_PDF_SHA256=0b4ccb16c8a14c64551a27fd924b7f131a9d1ab82bc1044b0962dc6b090c6b29
+PLOT_SCRIPT=fig_runtime_cost_20260809_152716/fig_runtime_cost.py
+PLOT_SCRIPT_SHA256=0a9a349a17e4f56a9792142ac51952147698f4590119986f900e994887bb6d4a
+CAPTION_DRAFT=fig_runtime_cost_20260809_152716/CAPTION_DRAFT.tex
+CAPTION_DRAFT_SHA256=e3a5fc179e79d8cefc24e4c3f32d0752ff495460d0c788485b6e119bbdd3dbf5
+FROZEN_INPUT_REFERENCES=fig_runtime_cost_20260809_152716/FROZEN_INPUT_REFERENCES.tsv
+FROZEN_INPUT_REFERENCES_SHA256=924896852f3f228ac6dc6a17905ebae36b4922081e635e2ff0abf00eb1bded8a
+PDF_CHANGED=no
+EXPERIMENTS_RUN=0
+BOOTSTRAP_RERUN=0
+FROZEN_ARTIFACTS_MODIFIED=0
+
+The figure contains only the two registered contrasts and their paired-block distributions; no unregistered denominator is plotted.

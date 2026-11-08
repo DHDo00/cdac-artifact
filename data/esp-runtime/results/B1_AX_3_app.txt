@@ -1,0 +1,2 @@
+--------- beginning of main
+10-28 16:14:30.516  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)

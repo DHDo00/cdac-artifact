@@ -1,0 +1,93 @@
+diff --git a/core/java/android/content/ContentProvider.java b/core/java/android/content/ContentProvider.java
+index 48b351f6e0aa..ddee3ce4dbe9 100644
+--- a/core/java/android/content/ContentProvider.java
++++ b/core/java/android/content/ContentProvider.java
+@@ -2687,6 +2687,8 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+                 mSingleUser = (info.flags & ProviderInfo.FLAG_SINGLE_USER) != 0;
+                 mSystemUserOnly = (info.flags & ProviderInfo.FLAG_SYSTEM_USER_ONLY) != 0;
+                 setAuthorities(info.authority);
++                android.os.CdacEndpointRegistry.registerContentProvider(mTransport.asBinder(),
++                        getClass().getName(), info.authority);
+             }
+             if (Build.IS_DEBUGGABLE) {
+                 setTransportLoggingEnabled(Log.isLoggable(getClass().getSimpleName(),
+diff --git a/core/java/android/os/Binder.java b/core/java/android/os/Binder.java
+index de9f57910c92..406dbaf652db 100644
+--- a/core/java/android/os/Binder.java
++++ b/core/java/android/os/Binder.java
+@@ -45,6 +45,7 @@ import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.io.PrintWriter;
+ import java.lang.reflect.Modifier;
++import java.util.concurrent.atomic.AtomicLong;
+ 
+ /**
+  * Base class for a remotable object, the core part of a lightweight
+@@ -89,6 +90,7 @@ public class Binder implements IBinder {
+     /** @hide */
+     public static final boolean CHECK_PARCEL_SIZE = false;
+     static final String TAG = "Binder";
++    private static final AtomicLong sCdacBinderEntrySeq = new AtomicLong(1);
+ 
+     /** @hide */
+     public static boolean LOG_RUNTIME_EXCEPTION = false; // DO NOT SUBMIT WITH TRUE
+@@ -1333,6 +1335,10 @@ public class Binder implements IBinder {
+ 
+     private boolean execTransactInternal(int code, Parcel data, Parcel reply, int flags,
+             int callingUid) {
++        cdacAuditBinderEntry(code, flags, callingUid);
++        final CdacBinderContext.Frame cdacFrame = CdacBinderContext.enter(
++                this, code, flags, callingUid, Binder.getCallingPid());
++        boolean cdacExceptionalExit = false;
+         // Make sure the observer won't change while processing a transaction.
+         final BinderInternal.Observer observer = sObserver;
+ 
+@@ -1369,6 +1375,7 @@ public class Binder implements IBinder {
+                 res = onTransact(code, data, reply, flags);
+             }
+         } catch (RemoteException|RuntimeException e) {
++            cdacExceptionalExit = true;
+             if (observer != null) {
+                 observer.callThrewException(callSession, e);
+             }
+@@ -1402,6 +1409,7 @@ public class Binder implements IBinder {
+                 observer.callEnded(callSession, data.dataSize(), reply.dataSize(), workSourceUid);
+             }
+ 
++            CdacBinderContext.exit(cdacFrame, cdacExceptionalExit);
+             checkParcel(this, code, reply, "Unreasonably large binder reply buffer");
+         }
+ 
+@@ -1414,6 +1422,32 @@ public class Binder implements IBinder {
+         return res;
+     }
+ 
++    private void cdacAuditBinderEntry(int code, int flags, int callingUid) {
++        final String descriptor = getInterfaceDescriptor();
++        if (!"android.content.IContentProvider".equals(descriptor)) {
++            return;
++        }
++        CdacRuntimeConfig.noteBinderEntry();
++        if (!CdacRuntimeConfig.isPerAttemptTextLoggingEnabled()) {
++            sCdacBinderEntrySeq.getAndIncrement();
++            return;
++        }
++        final String transactionName = getTransactionName(code);
++        Log.i(TAG, "event=CDAC_BINDER_ENTRY"
++                + " binder_tx_id=" + sCdacBinderEntrySeq.getAndIncrement()
++                + " ts_ns=" + SystemClock.elapsedRealtimeNanos()
++                + " server_pid=" + Process.myPid()
++                + " server_tid=" + Process.myTid()
++                + " origin_uid=" + callingUid
++                + " origin_pid=" + Binder.getCallingPid()
++                + " receiver_object_identity=" + System.identityHashCode(this)
++                + " receiver_java_class=" + getClass().getName()
++                + " receiver_interface_descriptor=" + descriptor
++                + " transaction_code=" + code
++                + " transaction_name=" + (transactionName != null ? transactionName : "")
++                + " transaction_flags=0x" + Integer.toHexString(flags));
++    }
++
+     /**
+      * Set the configuration for the heavy hitter watcher.
+      *

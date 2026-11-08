@@ -1,0 +1,6 @@
+txn,client_result,server_enter_present,notes
+0,ok,YES,
+1,ok,YES,
+2,ok,YES,
+3,caught DeadObjectException:null,YES,
+4,caught DeadObjectException:null,NO,DeadObjectException; server process died after ERROR frame popped

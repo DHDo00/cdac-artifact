@@ -1,0 +1,76 @@
+{
+ "install_timing": {
+  "ok": true,
+  "sec": 0.5,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'install', '-r', 'cdac_esp_endpoint_validation_20261022/10_controls_matched_builds_timing_20261023/03_timing_app/build/esp-timing-signed.apk'], returncode=0, stdout='Serving...\\nPerforming Incremental Install\\nSuccess\\nInstall command complete in 442 ms\\n', stderr='All files should be lo"
+ },
+ "install_A": {
+  "ok": true,
+  "sec": 1.4,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'install', '-r', 'cdac_esp_endpoint_validation_20261022/07_side_effect_order/fixtures/app_diag/build/espafdtest-signed.apk'], returncode=0, stdout='Serving...\\nPerforming Incremental Install\\nSuccess\\nInstall command complete in 1362 ms\\n', stderr='All files should be loaded. Notifying t"
+ },
+ "install_B": {
+  "ok": true,
+  "sec": 0.9,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'install', '-r', 'cdac_esp_endpoint_validation_20261022/01_fixtures/app_b/build/espafdtest-signed.apk'], returncode=0, stdout='Serving...\\nPerforming Incremental Install\\nSuccess\\nInstall command complete in 825 ms\\n', stderr='All files should be loaded. Notifying the device.\\n')"
+ },
+ "push_tool": {
+  "ok": true,
+  "sec": 0.1,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'push', 'cdac_esp_afd_wrapper_runtime_validation_20261022/01_device_preflight/iguardctl_test', '/data/local/tmp/iguardctl_test'], returncode=0, stdout='', stderr='cdac_esp_afd_wrapper_runtime_validation_20261022/01_device_preflight/iguardctl_test: 1 file pushed, 0 s"
+ },
+ "chmod_tool": {
+  "ok": true,
+  "sec": 0.1,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'shell', 'chmod 755 /data/local/tmp/iguardctl_test'], returncode=0, stdout='', stderr='')"
+ },
+ "grant_timing_create": {
+  "ok": true,
+  "sec": 21.7,
+  "detail": "run-as: package not debuggable: com.demo.esptiming\n"
+ },
+ "grant_A_existing": {
+  "ok": true,
+  "sec": 32.4,
+  "detail": "grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true\n"
+ },
+ "grant_B_existing": {
+  "ok": true,
+  "sec": 32.3,
+  "detail": "grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true\n"
+ },
+ "grants": {
+  "timing": "",
+  "A": "grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true\n",
+  "B": "grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true\n"
+ },
+ "create_X": {
+  "ok": true,
+  "sec": 0.4,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'shell', 'am', 'start', '-W', '-n', 'com.demo.espafdtest/.MainActivity', '--es', 'action', 'create', '--es', 'tree_uri', 'content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree', '--es', 'name', 'X.bin', '--es', 'content', '0123456789ABCD', '--es', 'label', 'fix_X', '-d', 'content://com.and"
+ },
+ "create_Y": {
+  "ok": true,
+  "sec": 0.1,
+  "detail": "CompletedProcess(args=['adb', '-s', '0.0.0.0:6540', 'shell', 'am', 'start', '-W', '-n', 'com.demo.espafdtest/.MainActivity', '--es', 'action', 'create', '--es', 'tree_uri', 'content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree', '--es', 'name', 'Y.bin', '--es', 'content', '0123456789ABCD', '--es', 'label', 'fix_Y', '-d', 'content://com.and"
+ },
+ "file_state_post_create": {
+  "X": "/data/media/0/espafd_tree/X.bin 14 65120 3166\n990a6b9366452119808cac33086dc57b8ef40b64cf6a424736512686551c7a4b  /data/media/0/espafd_tree/X.bin",
+  "Y": "/data/media/0/espafd_tree/Y.bin 14 65120 3177\n990a6b9366452119808cac33086dc57b8ef40b64cf6a424736512686551c7a4b  /data/media/0/espafd_tree/Y.bin"
+ },
+ "boot_cfg": {
+  "A": 10122,
+  "B": 10123,
+  "T": 10121,
+  "X": 3166,
+  "Y": 3177,
+  "Xdev": 65120,
+  "Xsize": 14,
+  "DEVRAW": 266338400,
+  "fingerprint": "generic/aosp_cf_x86_64_only_phone/vsoc_x86_64_only:Baklava/BP4A.251205.006/cdacmsb20260818:eng/test-keys",
+  "kernel": "6.12.74-android16-6-maybe-dirty",
+  "selinux": "Enforcing",
+  "iguard_ctl": "yes",
+  "ts": "2026-10-26T18:16:46+0800"
+ }
+}

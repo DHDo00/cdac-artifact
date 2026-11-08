@@ -1,0 +1,13 @@
+=== comparison vs frozen 11_perf 05_stats/analysis.txt ===
+S2 delta_mean: frozen_has=True recomputed=yes
+S3 delta_mean: frozen_has=True recomputed=yes
+S2 ratio_mean: frozen_has=True recomputed=yes
+S3 ratio_mean: frozen_has=True recomputed=yes
+pooled S0 median: frozen_has=True recomputed=yes
+pooled S1 median: frozen_has=True recomputed=yes
+pooled S2 median: frozen_has=True recomputed=yes
+pooled S3 median: frozen_has=True recomputed=yes
+pooled S0 p95: frozen_has=True recomputed=yes
+pooled S1 p95: frozen_has=True recomputed=yes
+pooled S2 p95: frozen_has=True recomputed=yes
+pooled S3 p95: frozen_has=True recomputed=yes

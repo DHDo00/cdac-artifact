@@ -1,0 +1,46 @@
+== per-boot per-state (median/P95 = type-7 interpolation; ns) ==
+s0_p1_b1       n=200 invalid=0 median=3326626 p25=2662380 p75=4363392 p95=11016467 min=1457374 max=20799147
+e_p1_b1_S1     n=200 invalid=0 median=6544192 p25=5045801 p75=8820424 p95=13181600 min=3401842 max=21629576
+e_p1_b1_S2     n=200 invalid=0 median=5552576 p25=4650642 p75=6968014 p95=12764026 min=2740761 max=16848316
+e_p1_b1_S3     n=200 invalid=0 median=5212778 p25=4159025 p75=6685459 p95=13677931 min=3067975 max=28918960
+e_p2_b1_S3     n=200 invalid=0 median=5730790 p25=4655496 p75=7860376 p95=17399398 min=3314608 max=22696197
+e_p2_b1_S1     n=200 invalid=0 median=7130491 p25=5415442 p75=9132780 p95=14561725 min=3877474 max=31199979
+e_p2_b1_S2     n=200 invalid=0 median=6668324 p25=4955696 p75=8695510 p95=15447554 min=3330337 max=29454574
+s0_p2_b2       n=200 invalid=0 median=2706512 p25=2268540 p75=3365714 p95=10616230 min=1533817 max=26008791
+s0_p3_b3       n=200 invalid=0 median=3127682 p25=2621280 p75=3971743 p95=11314438 min=1437607 max=15686928
+e_p3_b3_S2     n=200 invalid=0 median=5288816 p25=4422649 p75=7446940 p95=13447636 min=3017811 max=28892150
+e_p3_b3_S3     n=200 invalid=0 median=5552266 p25=4600142 p75=7238694 p95=15206776 min=3011569 max=23634406
+e_p3_b3_S1     n=200 invalid=0 median=5459792 p25=4418872 p75=7166789 p95=13438904 min=3270916 max=27479720
+e_p4_b4_S1     n=200 invalid=0 median=5997060 p25=4844698 p75=7889330 p95=12579000 min=3127868 max=38033879
+e_p4_b4_S3     n=200 invalid=0 median=4748688 p25=4002378 p75=6393937 p95=12888643 min=2825110 max=19787389
+e_p4_b4_S2     n=200 invalid=0 median=5584191 p25=4710201 p75=7056067 p95=14012639 min=3103963 max=17527199
+s0_p4_b4       n=200 invalid=0 median=3033886 p25=2536700 p75=3840422 p95=10330470 min=1641920 max=30136844
+
+== pair-level deltas vs S0 (median absolute ns and ratio) ==
+pair1 S0 median=3326626 (n=200)
+  S1: median=6544192  delta=3217566ns  ratio=1.967  (n=200, invalid=0)
+  S2: median=5552576  delta=2225950ns  ratio=1.669  (n=200, invalid=0)
+  S3: median=5212778  delta=1886152ns  ratio=1.567  (n=200, invalid=0)
+pair2 S0 median=2706512 (n=200)
+  S1: median=7130491  delta=4423978ns  ratio=2.635  (n=200, invalid=0)
+  S2: median=6668324  delta=3961812ns  ratio=2.464  (n=200, invalid=0)
+  S3: median=5730790  delta=3024278ns  ratio=2.117  (n=200, invalid=0)
+pair3 S0 median=3127682 (n=200)
+  S1: median=5459792  delta=2332110ns  ratio=1.746  (n=200, invalid=0)
+  S2: median=5288816  delta=2161134ns  ratio=1.691  (n=200, invalid=0)
+  S3: median=5552266  delta=2424583ns  ratio=1.775  (n=200, invalid=0)
+pair4 S0 median=3033886 (n=200)
+  S1: median=5997060  delta=2963174ns  ratio=1.977  (n=200, invalid=0)
+  S2: median=5584191  delta=2550305ns  ratio=1.841  (n=200, invalid=0)
+  S3: median=4748688  delta=1714802ns  ratio=1.565  (n=200, invalid=0)
+
+== summary across pairs (pair-level deltas) ==
+S1: per-boot medians=['6544192', '7130491', '5459792', '5997060'] delta_mean=3234207ns delta_min=2332110 delta_max=4423978 ratio_mean=2.081
+S2: per-boot medians=['5552576', '6668324', '5288816', '5584191'] delta_mean=2724800ns delta_min=2161134 delta_max=3961812 ratio_mean=1.916
+S3: per-boot medians=['5212778', '5730790', '5552266', '4748688'] delta_mean=2262454ns delta_min=1714802 delta_max=3024278 ratio_mean=1.756
+
+== pooled (all 4 boots merged, labeled separately; NOT a 800-request independence claim) ==
+S0: n=800 median=3045218 p95=10819647
+S1: n=800 median=6237511 p95=13423468
+S2: n=800 median=5735940 p95=14028540
+S3: n=800 median=5385918 p95=14614968

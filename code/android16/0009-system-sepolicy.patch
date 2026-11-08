@@ -1,0 +1,94 @@
+diff --git a/private/file_contexts b/private/file_contexts
+index bc79eebf7..d90191f90 100644
+--- a/private/file_contexts
++++ b/private/file_contexts
+@@ -970,3 +970,4 @@
+ #############################
+ # For overlays
+ /second_stage_resources/overlay_remounter u:object_r:overlay_remounter_exec:s0
++/dev/iguard_ctl    u:object_r:iguard_ctl_device:s0
+diff --git a/private/platform_app.te b/private/platform_app.te
+index a8374cba2..7395b1aa3 100644
+--- a/private/platform_app.te
++++ b/private/platform_app.te
+@@ -148,6 +148,15 @@ virtualizationservice_use(platform_app)
+ # Allow platform apps to read files and directories under /data/system/shutdown-checkpoints/
+ r_dir_file(platform_app, shutdown_checkpoints_system_data_file)
+ 
++#DH
++allow platform_app iguard_demo_service:service_manager find;
++
++# I-Guard experiment: ExternalStorageProvider runs in the platform_app domain
++# on this Cuttlefish build and publishes final-provider entry context here.
++allow platform_app iguard_ctl_device:chr_file { getattr open write };
++
++
++
+ ###
+ ### Neverallow rules
+ ###
+diff --git a/private/priv_app.te b/private/priv_app.te
+index 102fa519b..e1328a399 100644
+--- a/private/priv_app.te
++++ b/private/priv_app.te
+@@ -25,6 +25,11 @@ create_pty(priv_app)
+ # TODO: Tighten (b/112357170)
+ allow priv_app privapp_data_file:file execute;
+ 
++# CDAC S12 CallLogProvider.openFile() provider-local capture. CallLogProvider
++# runs in android.process.acore under priv_app and only publishes caller/route
++# context to the kernel decision point.
++allow priv_app iguard_ctl_device:chr_file { getattr open write };
++
+ # Chrome Crashpad uses the the dynamic linker to load native executables
+ # from an APK (b/112050209, crbug.com/928422)
+ allow priv_app system_linker_exec:file execute_no_trans;
+diff --git a/private/radio.te b/private/radio.te
+index ef384ba6a..a3cec0c16 100644
+--- a/private/radio.te
++++ b/private/radio.te
+@@ -22,6 +22,10 @@ allow radio platform_compat_service:service_manager find;
+ 
+ allow radio uce_service:service_manager find;
+ 
++# CDAC S11 MmsProvider.openFile() provider-local capture. This only permits the
++# radio-hosted TelephonyProvider process to publish caller/route context.
++allow radio iguard_ctl_device:chr_file { getattr open write };
++
+ # Manage /data/misc/emergencynumberdb
+ allow radio emergency_data_file:dir r_dir_perms;
+ allow radio emergency_data_file:file r_file_perms;
+diff --git a/private/service.te b/private/service.te
+index 101a9695a..55faca18f 100644
+--- a/private/service.te
++++ b/private/service.te
+@@ -64,6 +64,9 @@ type dynamic_instrumentation_service,  app_api_service, system_server_service, s
+ type uprobestats_service,              system_server_service, service_manager_type;
+ type advanced_protection_service,      app_api_service, system_server_service, service_manager_type;
+ 
++#DH
++type iguard_demo_service, system_server_service, service_manager_type;
++
+ is_flag_enabled(RELEASE_RANGING_STACK, `
+     type ranging_service, app_api_service, system_server_service, service_manager_type;
+ ')
+diff --git a/private/service_contexts b/private/service_contexts
+index 84304c065..959032b49 100644
+--- a/private/service_contexts
++++ b/private/service_contexts
+@@ -542,4 +542,5 @@ wifirtt                                   u:object_r:rttmanager_service:s0
+ wifi_usd                                  u:object_r:wifi_usd_service:s0
+ wifi_mainline_supplicant                  u:object_r:wifi_mainline_supplicant_service:s0
+ window                                    u:object_r:window_service:s0
++iguard_demo                               u:object_r:iguard_demo_service:s0
+ *                                         u:object_r:default_android_service:s0
+diff --git a/private/system_server.te b/private/system_server.te
+index d85caed61..17b85b1a8 100644
+--- a/private/system_server.te
++++ b/private/system_server.te
+@@ -1821,3 +1821,5 @@ neverallow system_server self:global_capability_class_set sys_module;
+ neverallow { domain -system_server -init } appsearch_data_file:file { open read write };
+ 
+ neverallow system_server *:process ptrace;
++
++allow system_server iguard_ctl_device:chr_file { open read write getattr ioctl };

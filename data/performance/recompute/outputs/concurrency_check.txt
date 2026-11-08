@@ -1,0 +1,8 @@
+boot1: ledger rows=80 verdicts={'DENY_PASS': 20, 'ALLOW_PASS': 60} callers={'10121': 40, '10122': 40}
+boot1: ledger columns=['boot', 'wave', 'label', 'key', 'verdict', 'app_result', 'ex', 'n', 'caller', 'server_tid', 'reporter_tid', 'obj_join', 'decision', 'enforce', 'fw_enter', 'fw_exit', 'k_push', 'k_pop', 'exit_depth', 'pop_depth']
+boot1: has app-visible latency column: False
+boot2: ledger rows=80 verdicts={'DENY_PASS': 20, 'ALLOW_PASS': 60} callers={'10121': 40, '10122': 40}
+boot2: ledger columns=['boot', 'wave', 'label', 'key', 'verdict', 'app_result', 'ex', 'n', 'caller', 'server_tid', 'reporter_tid', 'obj_join', 'decision', 'enforce', 'fw_enter', 'fw_exit', 'k_push', 'k_pop', 'exit_depth', 'pop_depth']
+boot2: has app-visible latency column: False
+TOTAL rows=160 (expect 160) verdicts={'rows': 160, 'DENY_PASS': 40, 'ALLOW_PASS': 120}
+server-side epoch timestamps present (fw_enter/fw_exit/decision/enforce) but no app-side elapsedRealtimeNanos latency: concurrency batch contributes attribution evidence only, not RQ3 per-request latency.

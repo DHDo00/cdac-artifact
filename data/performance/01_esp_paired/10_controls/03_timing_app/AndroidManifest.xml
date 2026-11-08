@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.demo.esptiming"
+    android:versionCode="2026102301"
+    android:versionName="esp-timing-20261023">
+    <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="35" />
+    <application
+        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+        android:label="ESP Timing"
+        android:allowBackup="false">
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

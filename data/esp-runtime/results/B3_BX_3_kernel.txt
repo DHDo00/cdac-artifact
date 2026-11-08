@@ -1,0 +1,80 @@
+[  221.174505] CDAC_FILE_LINEAGE event=fd_install ts_ns=221141233879 audit_seq=243872 pid=4479 tid=4479 local_fd=3 file_cookie=162765 ino=69 s_dev=254:75 i_mode=040755 f_flags=0x200000 f_mode=0x84000
+[  221.174861] CDAC_FILE_LINEAGE event=fd_install ts_ns=221141589135 audit_seq=243873 pid=4479 tid=4479 local_fd=3 file_cookie=162766 ino=585 s_dev=254:1 i_mode=040755 f_flags=0x200000 f_mode=0x84000
+[  221.175947] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19669376 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libcrypto.so join_result=abstain
+[  221.176267] CDAC_FILE_LINEAGE event=fd_install ts_ns=221142995744 audit_seq=243874 pid=4479 tid=4479 local_fd=3 file_cookie=162767 ino=19669376 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.176681] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=15024 s_dev=0:22 i_mode=0100644 f_flags=0x28000 f_mode=0x800d path_tail=enabled join_result=abstain
+[  221.176983] CDAC_FILE_LINEAGE event=fd_install ts_ns=221143710114 audit_seq=243875 pid=4479 tid=4479 local_fd=4 file_cookie=162768 ino=15024 s_dev=0:22 i_mode=0100644 f_flags=0x28000 f_mode=0xa800d
+[  221.177521] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19670518 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=liblog.so join_result=abstain
+[  221.177839] CDAC_FILE_LINEAGE event=fd_install ts_ns=221144566531 audit_seq=243876 pid=4479 tid=4479 local_fd=4 file_cookie=162769 ino=19670518 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.178231] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19671730 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libselinux.so join_result=abstain
+[  221.178566] CDAC_FILE_LINEAGE event=fd_install ts_ns=221145293424 audit_seq=243877 pid=4479 tid=4479 local_fd=5 file_cookie=162770 ino=19671730 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.178962] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19672555 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libz.so join_result=abstain
+[  221.179293] CDAC_FILE_LINEAGE event=fd_install ts_ns=221146019506 audit_seq=243878 pid=4479 tid=4479 local_fd=6 file_cookie=162771 ino=19672555 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.179824] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=65463 s_dev=7:624 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libc.so join_result=abstain
+[  221.180144] CDAC_FILE_LINEAGE event=fd_install ts_ns=221146870032 audit_seq=243879 pid=4479 tid=4479 local_fd=8 file_cookie=162772 ino=65463 s_dev=7:624 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.180644] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=65492 s_dev=7:624 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libm.so join_result=abstain
+[  221.181022] CDAC_FILE_LINEAGE event=fd_install ts_ns=221147748470 audit_seq=243880 pid=4479 tid=4479 local_fd=9 file_cookie=162773 ino=65492 s_dev=7:624 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.181488] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=65485 s_dev=7:624 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libdl.so join_result=abstain
+[  221.181804] CDAC_FILE_LINEAGE event=fd_install ts_ns=221148530878 audit_seq=243881 pid=4479 tid=4479 local_fd=10 file_cookie=162774 ino=65485 s_dev=7:624 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.182196] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19669261 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libc++.so join_result=abstain
+[  221.182530] CDAC_FILE_LINEAGE event=fd_install ts_ns=221149257661 audit_seq=243882 pid=4479 tid=4479 local_fd=11 file_cookie=162775 ino=19669261 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.182928] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19671272 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libpcre2.so join_result=abstain
+[  221.183240] CDAC_FILE_LINEAGE event=fd_install ts_ns=221149967653 audit_seq=243883 pid=4479 tid=4479 local_fd=12 file_cookie=162776 ino=19671272 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.183662] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19671243 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libpackagelistparser.so join_result=abstain
+[  221.183999] CDAC_FILE_LINEAGE event=fd_install ts_ns=221150726537 audit_seq=243884 pid=4479 tid=4479 local_fd=13 file_cookie=162777 ino=19671243 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.184421] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=1277 s_dev=0:22 i_mode=0100644 f_flags=0x28000 f_mode=0x800d path_tail=enabled join_result=abstain
+[  221.184736] CDAC_FILE_LINEAGE event=fd_install ts_ns=221151463529 audit_seq=243885 pid=4479 tid=4479 local_fd=14 file_cookie=162778 ino=1277 s_dev=0:22 i_mode=0100644 f_flags=0x28000 f_mode=0xa800d
+[  221.187762] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=79 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=property_info join_result=abstain
+[  221.188106] CDAC_FILE_LINEAGE event=fd_install ts_ns=221154833822 audit_seq=243886 pid=4479 tid=4479 local_fd=3 file_cookie=162779 ino=79 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.188487] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=462 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=properties_serial join_result=abstain
+[  221.188804] CDAC_FILE_LINEAGE event=fd_install ts_ns=221155531721 audit_seq=243887 pid=4479 tid=4479 local_fd=3 file_cookie=162780 ino=462 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.189133] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=173 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=u:object_r:debug_prop:s0 join_result=abstain
+[  221.189525] CDAC_FILE_LINEAGE event=fd_install ts_ns=221156252092 audit_seq=243888 pid=4479 tid=4479 local_fd=3 file_cookie=162781 ino=173 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.189884] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5922 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=size join_result=abstain
+[  221.190177] CDAC_FILE_LINEAGE event=fd_install ts_ns=221156904005 audit_seq=243889 pid=4479 tid=4479 local_fd=3 file_cookie=162782 ino=5922 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.190718] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5920 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=ways_of_associativity join_result=abstain
+[  221.191045] CDAC_FILE_LINEAGE event=fd_install ts_ns=221157773145 audit_seq=243890 pid=4479 tid=4479 local_fd=3 file_cookie=162783 ino=5920 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.191392] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5919 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=coherency_line_size join_result=abstain
+[  221.191707] CDAC_FILE_LINEAGE event=fd_install ts_ns=221158436049 audit_seq=243891 pid=4479 tid=4479 local_fd=3 file_cookie=162784 ino=5919 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.192035] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5916 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=level join_result=abstain
+[  221.192342] CDAC_FILE_LINEAGE event=fd_install ts_ns=221159070309 audit_seq=243892 pid=4479 tid=4479 local_fd=3 file_cookie=162785 ino=5916 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.192680] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5915 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=type join_result=abstain
+[  221.192993] CDAC_FILE_LINEAGE event=fd_install ts_ns=221159721841 audit_seq=243893 pid=4479 tid=4479 local_fd=3 file_cookie=162786 ino=5915 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.193346] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5934 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=size join_result=abstain
+[  221.193627] CDAC_FILE_LINEAGE event=fd_install ts_ns=221160356181 audit_seq=243894 pid=4479 tid=4479 local_fd=3 file_cookie=162787 ino=5934 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.193944] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5932 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=ways_of_associativity join_result=abstain
+[  221.194243] CDAC_FILE_LINEAGE event=fd_install ts_ns=221160972207 audit_seq=243895 pid=4479 tid=4479 local_fd=3 file_cookie=162788 ino=5932 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.194570] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5931 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=coherency_line_size join_result=abstain
+[  221.194875] CDAC_FILE_LINEAGE event=fd_install ts_ns=221161603481 audit_seq=243896 pid=4479 tid=4479 local_fd=3 file_cookie=162789 ino=5931 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.195182] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5928 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=level join_result=abstain
+[  221.195476] CDAC_FILE_LINEAGE event=fd_install ts_ns=221162205160 audit_seq=243897 pid=4479 tid=4479 local_fd=3 file_cookie=162790 ino=5928 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.195785] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5927 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=type join_result=abstain
+[  221.196126] CDAC_FILE_LINEAGE event=fd_install ts_ns=221162854969 audit_seq=243898 pid=4479 tid=4479 local_fd=3 file_cookie=162791 ino=5927 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.196462] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5946 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=size join_result=abstain
+[  221.196736] CDAC_FILE_LINEAGE event=fd_install ts_ns=221163464592 audit_seq=243899 pid=4479 tid=4479 local_fd=3 file_cookie=162792 ino=5946 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.197088] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5944 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=ways_of_associativity join_result=abstain
+[  221.197481] CDAC_FILE_LINEAGE event=fd_install ts_ns=221164209860 audit_seq=243900 pid=4479 tid=4479 local_fd=3 file_cookie=162793 ino=5944 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.197801] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5943 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=coherency_line_size join_result=abstain
+[  221.198091] CDAC_FILE_LINEAGE event=fd_install ts_ns=221164819915 audit_seq=243901 pid=4479 tid=4479 local_fd=3 file_cookie=162794 ino=5943 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.198400] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5940 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=level join_result=abstain
+[  221.198663] CDAC_FILE_LINEAGE event=fd_install ts_ns=221165392058 audit_seq=243902 pid=4479 tid=4479 local_fd=3 file_cookie=162795 ino=5940 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.198953] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5958 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=size join_result=abstain
+[  221.199219] CDAC_FILE_LINEAGE event=fd_install ts_ns=221165947891 audit_seq=243903 pid=4479 tid=4479 local_fd=3 file_cookie=162796 ino=5958 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.199528] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5956 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=ways_of_associativity join_result=abstain
+[  221.199815] CDAC_FILE_LINEAGE event=fd_install ts_ns=221166543348 audit_seq=243904 pid=4479 tid=4479 local_fd=3 file_cookie=162797 ino=5956 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.200109] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5955 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=coherency_line_size join_result=abstain
+[  221.200416] CDAC_FILE_LINEAGE event=fd_install ts_ns=221167144556 audit_seq=243905 pid=4479 tid=4479 local_fd=3 file_cookie=162798 ino=5955 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.200710] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5952 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0x800d path_tail=level join_result=abstain
+[  221.200972] CDAC_FILE_LINEAGE event=fd_install ts_ns=221167700478 audit_seq=243906 pid=4479 tid=4479 local_fd=3 file_cookie=162799 ino=5952 s_dev=0:22 i_mode=0100444 f_flags=0x8000 f_mode=0xa800d
+[  221.201322] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=243 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=u:object_r:gwp_asan_prop:s0 join_result=abstain
+[  221.201648] CDAC_FILE_LINEAGE event=fd_install ts_ns=221168376517 audit_seq=243907 pid=4479 tid=4479 local_fd=3 file_cookie=162800 ino=243 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.201969] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=273 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=u:object_r:libc_debug_prop:s0 join_result=abstain
+[  221.202295] CDAC_FILE_LINEAGE event=fd_install ts_ns=221169020966 audit_seq=243908 pid=4479 tid=4479 local_fd=3 file_cookie=162801 ino=273 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.202606] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=248 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=u:object_r:heapprofd_prop:s0 join_result=abstain
+[  221.202910] CDAC_FILE_LINEAGE event=fd_install ts_ns=221169637362 audit_seq=243909 pid=4479 tid=4479 local_fd=3 file_cookie=162802 ino=248 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.203228] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=19671180 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0x801d path_tail=libnetd_client.so join_result=abstain
+[  221.203536] CDAC_FILE_LINEAGE event=fd_install ts_ns=221170262996 audit_seq=243910 pid=4479 tid=4479 local_fd=3 file_cookie=162803 ino=19671180 s_dev=254:1 i_mode=0100644 f_flags=0x8000 f_mode=0xa801d
+[  221.204373] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=434 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x40801d path_tail=u:object_r:vendor_socket_hook_prop:s0 join_result=abstain
+[  221.204708] CDAC_FILE_LINEAGE event=fd_install ts_ns=221171432509 audit_seq=243911 pid=4479 tid=4479 local_fd=3 file_cookie=162804 ino=434 s_dev=0:19 i_mode=0100444 f_flags=0x28000 f_mode=0x4a801d
+[  221.205846] CDAC_BINDER_NO_CONTEXT source=VFS_OPEN current_tgid=4479 current_tid=4479 ino=5 s_dev=0:19 i_mode=020622 f_flags=0x8800 f_mode=0x1d path_tail=kmsg join_result=abstain
+[  221.206146] CDAC_FILE_LINEAGE event=fd_install ts_ns=221172872761 audit_seq=243912 pid=4479 tid=4479 local_fd=3 file_cookie=162805 ino=5 s_dev=0:19 i_mode=020622 f_flags=0x8800 f_mode=0xa001d

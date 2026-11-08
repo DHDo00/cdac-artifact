@@ -1,0 +1,1 @@
+policy_add ok: service_id=5 op_id=401 caller_uid=10122 decision=2 path_tail=- reason=perf_A_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3124 s_dev=266338400 i_mode=00 schema=v2

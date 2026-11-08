@@ -1,0 +1,27 @@
+=== round-21 rule-count recomputation vs frozen analysis.json ===
+--- boot1 ---
+N=0: n frozen=100 fresh=100 match=True; median frozen=16643086.5 fresh=16643086.5 match=True; p95 match=True
+N=1: n frozen=100 fresh=100 match=True; median frozen=16425282.5 fresh=16425282.5 match=True; p95 match=True
+N=8: n frozen=100 fresh=100 match=True; median frozen=16927480.0 fresh=16927480.0 match=True; p95 match=True
+N=32: n frozen=100 fresh=100 match=True; median frozen=15599429.0 fresh=15599429.0 match=True; p95 match=True
+N=128: n frozen=100 fresh=100 match=True; median frozen=16206051.0 fresh=16206051.0 match=True; p95 match=True
+N=1: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=0.0979 fresh=0.0979 match=True; bootstrap_mean_CI frozen=[-4715992.1, 2878193.15] fresh=[-4715992.1, 2878193.15] match=True
+N=8: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=0.0585 fresh=0.0585 match=True; bootstrap_mean_CI frozen=[-5204305.85, 2430667.6] fresh=[-5204305.85, 2430667.6] match=True
+N=32: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=-0.4921 fresh=-0.4921 match=True; bootstrap_mean_CI frozen=[-4217112.15, 3521242.2] fresh=[-4217112.15, 3521242.2] match=True
+N=128: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=0.2274 fresh=0.2274 match=True; bootstrap_mean_CI frozen=[-3070850.85, 3680101.0] fresh=[-3070850.85, 3680101.0] match=True
+excluded frozen={'disturbed_blocks': [], 'invalid_configs': []} fresh={'disturbed_blocks': [], 'invalid_configs': []} match=True
+--- boot2 ---
+N=0: n frozen=100 fresh=100 match=True; median frozen=16643792.5 fresh=16643792.5 match=True; p95 match=True
+N=1: n frozen=100 fresh=100 match=True; median frozen=16549480.5 fresh=16549480.5 match=True; p95 match=True
+N=8: n frozen=100 fresh=100 match=True; median frozen=17327480.0 fresh=17327480.0 match=True; p95 match=True
+N=32: n frozen=100 fresh=100 match=True; median frozen=15459801.5 fresh=15459801.5 match=True; p95 match=True
+N=128: n frozen=100 fresh=100 match=True; median frozen=17102318.0 fresh=17102318.0 match=True; p95 match=True
+N=1: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=-0.2640 fresh=-0.2640 match=True; bootstrap_mean_CI frozen=[-3032666.45, 6434916.0] fresh=[-3032666.45, 6434916.0] match=True
+N=8: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=0.5326 fresh=0.5326 match=True; bootstrap_mean_CI frozen=[-1957914.0, 4075905.5] fresh=[-1957914.0, 4075905.5] match=True
+N=32: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=-3.3441 fresh=-3.3441 match=True; bootstrap_mean_CI frozen=[-5611854.95, 804684.15] fresh=[-5611854.95, 804684.15] match=True
+N=128: n_blocks frozen=20 fresh=20 match=True; median_delta_ms frozen=2.2460 fresh=2.2460 match=True; bootstrap_mean_CI frozen=[-2270457.6, 5227349.7] fresh=[-2270457.6, 5227349.7] match=True
+excluded frozen={'disturbed_blocks': [], 'invalid_configs': []} fresh={'disturbed_blocks': [], 'invalid_configs': []} match=True
+
+=== per-boot median of T(N)-T(0) block diffs (ms) ===
+boot1: N=1,8,32,128 -> ['0.0979', '0.0585', '-0.4921', '0.2274'] ms (min=-0.4921 max=0.2274)
+boot2: N=1,8,32,128 -> ['-0.2640', '0.5326', '-3.3441', '2.2460'] ms (min=-3.3441 max=2.2460)

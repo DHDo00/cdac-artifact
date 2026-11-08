@@ -1,0 +1,5 @@
+comparison_boot_index,platform,batch_id,original_ledger_path,original_ledger_sha256,requests,denies,allows,note
+1,A15,A15CLEAN-R1,a15_cleanup_fix_and_porting_audit_closeout_20261030_171705/R1_PER_REQUEST_LEDGER.csv,MEASURED_BELOW,30,6,24,fixed artifact boot cvd-8; re-verified this round
+1,A16,R35 cvd-35 boot1,35_r1_reversal_and_data_provenance_20261028/07_results/PER_REQUEST_LEDGER.csv,MEASURED_BELOW,30,6,24,C19 frozen artifact
+1,A17,A17R1 cvd-73 boot1,a17_r1_port_and_enforcement_20261029_174341/08_results/PER_REQUEST_LEDGER.csv,MEASURED_BELOW,30,6,24,A17 frozen artifact boot1
+2,A17,A17R1-B2 cvd-74 boot2,a17_r1_audit_and_boot2_20261029_221425/05_results/BOOT2_PER_REQUEST_LEDGER.csv,MEASURED_BELOW,30,6,24,A17 frozen artifact boot2

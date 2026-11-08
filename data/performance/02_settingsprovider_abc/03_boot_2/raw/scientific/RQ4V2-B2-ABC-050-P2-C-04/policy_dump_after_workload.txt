@@ -1,0 +1,2 @@
+runtime_policy_count=1
+[0] service_id=8 op_id=701 caller_uid=10122 service=- operation=- path_tail=- ino=3434 s_dev=254:96 i_mode=00 f_flags_mask=0x3 f_flags_value=0x2 f_mode_mask=0x0 f_mode_value=0x0 required_relation_type=0 required_relation_stage=0 decision=would-deny reason=rq4_v2_b2_c_1744 specificity=6

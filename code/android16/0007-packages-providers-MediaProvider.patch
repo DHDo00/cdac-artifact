@@ -1,0 +1,426 @@
+diff --git a/jni/FuseDaemon.cpp b/jni/FuseDaemon.cpp
+index 476a2a513..e3b035e5b 100644
+--- a/jni/FuseDaemon.cpp
++++ b/jni/FuseDaemon.cpp
+@@ -38,6 +38,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <sys/ioctl.h>
+ #include <sys/inotify.h>
+ #include <sys/mman.h>
+ #include <sys/mount.h>
+@@ -46,9 +47,11 @@
+ #include <sys/stat.h>
+ #include <sys/statfs.h>
+ #include <sys/statvfs.h>
++#include <sys/sysmacros.h>
+ #include <sys/time.h>
+ #include <sys/types.h>
+ #include <sys/uio.h>
++#include <time.h>
+ #include <unistd.h>
+ 
+ #include <iostream>
+@@ -435,6 +438,43 @@ static inline __u64 ptr_to_id(const void* ptr) {
+     return (__u64)(uintptr_t) ptr;
+ }
+ 
++static uint64_t cdac_fuse_mix64(uint64_t v) {
++    v ^= v >> 33;
++    v *= 0xff51afd7ed558ccdULL;
++    v ^= v >> 33;
++    v *= 0xc4ceb9fe1a85ec53ULL;
++    v ^= v >> 33;
++    return v;
++}
++
++static uint64_t cdac_fuse_relation_id(uint64_t connection_id, uint64_t request_unique,
++                                      uint64_t nodeid, uint64_t fh) {
++    uint64_t id = 0x4344414346555345ULL;
++    id ^= cdac_fuse_mix64(connection_id);
++    id ^= cdac_fuse_mix64(request_unique + 0x9e3779b97f4a7c15ULL);
++    id ^= cdac_fuse_mix64(nodeid + 0xbf58476d1ce4e5b9ULL);
++    id ^= cdac_fuse_mix64(fh + 0x94d049bb133111ebULL);
++    return cdac_fuse_mix64(id);
++}
++
++static uint64_t cdac_fuse_connection_id(fuse_req_t req) {
++    (void) req;
++    return 0;
++}
++
++static uint64_t cdac_fuse_ts_ns() {
++    struct timespec ts = {};
++    clock_gettime(CLOCK_BOOTTIME, &ts);
++    return static_cast<uint64_t>(ts.tv_sec) * 1000000000ULL + ts.tv_nsec;
++}
++
++static int cdac_fuse_query_fd_cookie(fuse_req_t req, int fd,
++                                     struct fuse_fd_cookie_query* query) {
++    memset(query, 0, sizeof(*query));
++    query->fd = fd;
++    return ioctl(req->se->fd, FUSE_DEV_IOC_FD_COOKIE, query);
++}
++
+ /*
+  * Set an F_RDLCK or F_WRLCKK on fd with fcntl(2).
+  *
+@@ -1678,7 +1718,18 @@ static void pf_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info* fi) {
+     ATRACE_CALL();
+     MetricLogger logger(FuseOpType::OPEN);
+     struct fuse* fuse = get_fuse(req);
++    const uint64_t connection_id = cdac_fuse_connection_id(req);
++    const uint64_t request_unique = req->unique;
+     node* node = fuse->FromInode(ino);
++    LOG(INFO) << "CDAC_FUSE_OPEN_REQUEST ts_ns=" << cdac_fuse_ts_ns()
++              << " fuse_connection_id=" << static_cast<uint32_t>(connection_id >> 32) << ":"
++              << static_cast<uint32_t>(connection_id)
++              << " request_unique=" << request_unique
++              << " nodeid=" << static_cast<uint64_t>(ino)
++              << " requesting_pid=" << req->ctx.pid
++              << " requesting_uid=" << req->ctx.uid
++              << " opcode=FUSE_OPEN"
++              << " path_for_diagnostics=pending";
+     if (!node) {
+         fuse_reply_err(req, ENOENT);
+         logger.setLogMetric(false);
+@@ -1742,6 +1793,35 @@ static void pf_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info* fi) {
+                                              /* allow_passthrough */ !is_fd_from_java,
+                                              open_info.direct_io, &keep_cache);
+     fill_fuse_file_info(h, keep_cache, fi);
++    const uint64_t relation_id = cdac_fuse_relation_id(connection_id, request_unique,
++                                                       static_cast<uint64_t>(ino), fi->fh);
++    struct fuse_fd_cookie_query lower_query = {};
++    const int cookie_result = cdac_fuse_query_fd_cookie(req, fd, &lower_query);
++    const int cookie_errno = cookie_result == 0 ? 0 : errno;
++    struct stat lower_st = {};
++    const int stat_result = fstat(fd, &lower_st);
++    LOG(INFO) << "CDAC_FUSE_LOWER_OPEN ts_ns=" << cdac_fuse_ts_ns()
++              << " relation_id=" << relation_id
++              << " fuse_connection_id=" << static_cast<uint32_t>(connection_id >> 32) << ":"
++              << static_cast<uint32_t>(connection_id)
++              << " request_unique=" << request_unique
++              << " nodeid=" << static_cast<uint64_t>(ino)
++              << " fh=" << fi->fh
++              << " daemon_pid=" << getpid()
++              << " daemon_tid=" << gettid()
++              << " lower_fd=" << fd
++              << " lower_file_cookie=" << lower_query.file_cookie
++              << " lower_inode=" << (cookie_result == 0 ? lower_query.ino :
++                      (stat_result == 0 ? static_cast<uint64_t>(lower_st.st_ino) : 0))
++              << " lower_s_dev=" << (cookie_result == 0 ? lower_query.s_dev_major :
++                      (stat_result == 0 ? major(lower_st.st_dev) : 0)) << ":"
++              << (cookie_result == 0 ? lower_query.s_dev_minor :
++                      (stat_result == 0 ? minor(lower_st.st_dev) : 0))
++              << " open_flags=0x" << std::hex << open_info.flags << std::dec
++              << " open_mode=" << (open_info.for_write ? "write" : "read")
++              << " fd_from_java=" << (is_fd_from_java ? "yes" : "no")
++              << " cookie_query_result=" << cookie_result
++              << " cookie_query_errno=" << cookie_errno;
+ 
+     // TODO(b/173190192) ensuring that h->cached must be enabled in order to
+     // user FUSE passthrough is a conservative rule and might be dropped as
+@@ -1753,6 +1833,16 @@ static void pf_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info* fi) {
+         return;
+     }
+ 
++    LOG(INFO) << "CDAC_FUSE_OPEN_REPLY ts_ns=" << cdac_fuse_ts_ns()
++              << " relation_id=" << relation_id
++              << " fuse_connection_id=" << static_cast<uint32_t>(connection_id >> 32) << ":"
++              << static_cast<uint32_t>(connection_id)
++              << " request_unique=" << request_unique
++              << " nodeid=" << static_cast<uint64_t>(ino)
++              << " fh=" << fi->fh
++              << " lower_fd=" << fd
++              << " lower_file_cookie=" << lower_query.file_cookie
++              << " reply_result=success";
+     fuse_reply_open(req, fi);
+ }
+ 
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index 70e814592..5c2dcf6c4 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -365,6 +365,8 @@ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+ import java.lang.reflect.InvocationTargetException;
+ import java.lang.reflect.Method;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
+ import java.nio.charset.StandardCharsets;
+ import java.nio.file.Path;
+ import java.util.ArrayList;
+@@ -399,6 +401,63 @@ import java.util.stream.Collectors;
+  * available external storage devices
+  */
+ public class MediaProvider extends ContentProvider {
++    private static final String IGUARD_TAG = "IguardMediaProvider";
++    private static final String IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int IGUARD_MAGIC = 0x49475544;
++    private static final int IGUARD_VERSION = 1;
++    private static final int IGUARD_MSG_REPORT = 1;
++    private static final int IGUARD_MSG_INVALIDATE = 2;
++    private static final int IGUARD_MSG_LEN = 112;
++    private static final int IGUARD_SERVICE_LEN = 32;
++    private static final int IGUARD_OP_LEN = 32;
++    private static final int IGUARD_SERVICE_MEDIA_PROVIDER = 6;
++    private static final int IGUARD_OP_MEDIA_OPEN_FILE = 501;
++    private static final String IGUARD_SERVICE_NAME = "media_provider";
++    private static final String IGUARD_OP_OPEN_FILE = "openFile";
++
++    private static void putIguardFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean iguardWriteMsg(int msgType, int callingUid, int callingPid) {
++        final ByteBuffer buf = ByteBuffer.allocate(IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++
++        buf.putInt(IGUARD_MAGIC);
++        buf.putInt(IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(IGUARD_MSG_LEN);
++        buf.putInt(callingUid);
++        buf.putInt(callingPid);
++        buf.putInt(IGUARD_SERVICE_MEDIA_PROVIDER);
++        buf.putInt(IGUARD_OP_MEDIA_OPEN_FILE);
++        putIguardFixedString(buf, IGUARD_SERVICE_NAME, IGUARD_SERVICE_LEN);
++        putIguardFixedString(buf, IGUARD_OP_OPEN_FILE, IGUARD_OP_LEN);
++        buf.putLong(0L);
++        buf.putInt(0);
++
++        try (FileOutputStream out = new FileOutputStream(IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            Log.i(IGUARD_TAG, "write ok type=" + msgType
++                    + " uid=" + callingUid + " pid=" + callingPid
++                    + " service_id=" + IGUARD_SERVICE_MEDIA_PROVIDER
++                    + " op_id=" + IGUARD_OP_MEDIA_OPEN_FILE
++                    + " service=" + IGUARD_SERVICE_NAME
++                    + " op=" + IGUARD_OP_OPEN_FILE);
++            return true;
++        } catch (IOException e) {
++            Log.w(IGUARD_TAG, "write failed type=" + msgType
++                    + " service_id=" + IGUARD_SERVICE_MEDIA_PROVIDER
++                    + " op_id=" + IGUARD_OP_MEDIA_OPEN_FILE, e);
++            return false;
++        }
++    }
++
+     /**
+      * Enables checks to stop apps from inserting and updating to private files via media provider.
+      */
+@@ -10094,110 +10153,118 @@ public class MediaProvider extends ContentProvider {
+     private ParcelFileDescriptor openFileCommon(Uri uri, String mode, CancellationSignal signal,
+             @Nullable Bundle opts)
+             throws FileNotFoundException {
+-        opts = opts == null ? new Bundle() : opts;
+-        // REDACTED_URI_BUNDLE_KEY extra should only be set inside MediaProvider.
+-        opts.remove(QUERY_ARG_REDACTED_URI);
+-        if (isRedactedUri(uri)) {
+-            opts.putParcelable(QUERY_ARG_REDACTED_URI, uri);
+-            uri = getUriForRedactedUri(uri);
+-        }
+-        uri = safeUncanonicalize(uri);
+-
+-        if (isPickerUri(uri)) {
+-            int tid = Process.myTid();
+-            synchronized (mPendingOpenInfo) {
+-                mPendingOpenInfo.put(tid, new PendingOpenInfo(
+-                        Binder.getCallingUid(), /* mediaCapabilitiesUid */ 0, /* shouldRedact */
+-                        false, /* transcodeReason */ 0));
++        final boolean iguardReported = iguardWriteMsg(
++                IGUARD_MSG_REPORT, Binder.getCallingUid(), Binder.getCallingPid());
++        try {
++            opts = opts == null ? new Bundle() : opts;
++            // REDACTED_URI_BUNDLE_KEY extra should only be set inside MediaProvider.
++            opts.remove(QUERY_ARG_REDACTED_URI);
++            if (isRedactedUri(uri)) {
++                opts.putParcelable(QUERY_ARG_REDACTED_URI, uri);
++                uri = getUriForRedactedUri(uri);
+             }
++            uri = safeUncanonicalize(uri);
+ 
+-            try {
+-                return mPickerUriResolver.openFile(uri, mode, signal, mCallingIdentity.get());
+-            } finally {
++            if (isPickerUri(uri)) {
++                int tid = Process.myTid();
+                 synchronized (mPendingOpenInfo) {
+-                    mPendingOpenInfo.remove(tid);
++                    mPendingOpenInfo.put(tid, new PendingOpenInfo(
++                            Binder.getCallingUid(), /* mediaCapabilitiesUid */ 0, /* shouldRedact */
++                            false, /* transcodeReason */ 0));
++                }
++
++                try {
++                    return mPickerUriResolver.openFile(uri, mode, signal, mCallingIdentity.get());
++                } finally {
++                    synchronized (mPendingOpenInfo) {
++                        mPendingOpenInfo.remove(tid);
++                    }
+                 }
+             }
+-        }
+ 
+-        final boolean allowHidden = isCallingPackageAllowedHidden();
+-        final int match = matchUri(uri, allowHidden);
+-        final String volumeName = getVolumeName(uri);
++            final boolean allowHidden = isCallingPackageAllowedHidden();
++            final int match = matchUri(uri, allowHidden);
++            final String volumeName = getVolumeName(uri);
+ 
+-        // Handle some legacy cases where we need to redirect thumbnails
+-        try {
+-            switch (match) {
+-                case AUDIO_ALBUMART_ID: {
+-                    final long albumId = Long.parseLong(uri.getPathSegments().get(3));
+-                    final Uri targetUri = ContentUris
+-                            .withAppendedId(Audio.Albums.getContentUri(volumeName), albumId);
+-                    return ensureThumbnail(targetUri, signal);
+-                }
+-                case AUDIO_ALBUMART_FILE_ID: {
+-                    final long audioId = Long.parseLong(uri.getPathSegments().get(3));
+-                    final Uri targetUri = ContentUris
+-                            .withAppendedId(Audio.Media.getContentUri(volumeName), audioId);
+-                    return ensureThumbnail(targetUri, signal);
+-                }
+-                case VIDEO_MEDIA_ID_THUMBNAIL: {
+-                    final long videoId = Long.parseLong(uri.getPathSegments().get(3));
+-                    final Uri targetUri = ContentUris
+-                            .withAppendedId(Video.Media.getContentUri(volumeName), videoId);
+-                    return ensureThumbnail(targetUri, signal);
+-                }
+-                case IMAGES_MEDIA_ID_THUMBNAIL: {
+-                    final long imageId = Long.parseLong(uri.getPathSegments().get(3));
+-                    final Uri targetUri = ContentUris
+-                            .withAppendedId(Images.Media.getContentUri(volumeName), imageId);
+-                    return ensureThumbnail(targetUri, signal);
+-                }
+-                case CLI: {
+-                    // Command Line Interface "file" - content://media/cli - may be opened only by
+-                    // Shell (or Root).
+-                    if (!isCallingPackageShell()) {
+-                        throw new SecurityException("Only shell (or root) is allowed to open "
+-                                + "MediaProvider's CLI file (" + uri + ')');
++            // Handle some legacy cases where we need to redirect thumbnails
++            try {
++                switch (match) {
++                    case AUDIO_ALBUMART_ID: {
++                        final long albumId = Long.parseLong(uri.getPathSegments().get(3));
++                        final Uri targetUri = ContentUris
++                                .withAppendedId(Audio.Albums.getContentUri(volumeName), albumId);
++                        return ensureThumbnail(targetUri, signal);
++                    }
++                    case AUDIO_ALBUMART_FILE_ID: {
++                        final long audioId = Long.parseLong(uri.getPathSegments().get(3));
++                        final Uri targetUri = ContentUris
++                                .withAppendedId(Audio.Media.getContentUri(volumeName), audioId);
++                        return ensureThumbnail(targetUri, signal);
++                    }
++                    case VIDEO_MEDIA_ID_THUMBNAIL: {
++                        final long videoId = Long.parseLong(uri.getPathSegments().get(3));
++                        final Uri targetUri = ContentUris
++                                .withAppendedId(Video.Media.getContentUri(volumeName), videoId);
++                        return ensureThumbnail(targetUri, signal);
++                    }
++                    case IMAGES_MEDIA_ID_THUMBNAIL: {
++                        final long imageId = Long.parseLong(uri.getPathSegments().get(3));
++                        final Uri targetUri = ContentUris
++                                .withAppendedId(Images.Media.getContentUri(volumeName), imageId);
++                        return ensureThumbnail(targetUri, signal);
+                     }
++                    case CLI: {
++                        // Command Line Interface "file" - content://media/cli - may be opened only
++                        // by Shell (or Root).
++                        if (!isCallingPackageShell()) {
++                            throw new SecurityException("Only shell (or root) is allowed to open "
++                                    + "MediaProvider's CLI file (" + uri + ')');
++                        }
+ 
+-                    // We expect the uri's query to hold a single parameter - "cmd" - which contains
+-                    // the command name followed by the arguments (if any), all joined with '+'
+-                    // symbols:
+-                    // ?cmd=command[+arg1+[arg2+[arg3...]]]
+-                    //
+-                    // For example:
+-                    // (1) ?cmd=version
+-                    // (2) ?cmd=set-cloud-provider=com.my.cloud.provider.authority
+-                    //
+-                    // We retrieve the command name and the argument (if any) with
+-                    // uri.getQueryParameter("cmd") call, which will replace all '+' delimiters with
+-                    // spaces.
+-
+-                    final String[] cmdAndArgs = uri.getQueryParameter("cmd").split("\\s+");
+-                    Log.d(TAG, "MediaProvider CLI command: " + Arrays.toString(cmdAndArgs));
+-                    try {
+-                        // Create a UNIX pipe.
+-                        final ParcelFileDescriptor[] pipe = ParcelFileDescriptor.createPipe();
+-                        // Pass the write end - pipe[1] - to our shell command.
+-                        final var cmd = new MediaProviderShellCommand(getContext(),
+-                                mConfigStore,
+-                                mPickerSyncController,
+-                                /* out */ pipe[1]);
+-                        cmd.exec(cmdAndArgs);
+-                        // Return the read end - pipe[0] - to the caller.
+-                        return pipe[0];
+-                    } catch (IOException e) {
+-                        Log.e(TAG, "Could not create a pipe", e);
+-                        return null;
++                        // We expect the uri's query to hold a single parameter - "cmd" - which
++                        // contains the command name followed by the arguments (if any), all joined
++                        // with '+' symbols:
++                        // ?cmd=command[+arg1+[arg2+[arg3...]]]
++                        //
++                        // For example:
++                        // (1) ?cmd=version
++                        // (2) ?cmd=set-cloud-provider=com.my.cloud.provider.authority
++                        //
++                        // We retrieve the command name and the argument (if any) with
++                        // uri.getQueryParameter("cmd") call, which will replace all '+' delimiters
++                        // with spaces.
++
++                        final String[] cmdAndArgs = uri.getQueryParameter("cmd").split("\\s+");
++                        Log.d(TAG, "MediaProvider CLI command: " + Arrays.toString(cmdAndArgs));
++                        try {
++                            // Create a UNIX pipe.
++                            final ParcelFileDescriptor[] pipe = ParcelFileDescriptor.createPipe();
++                            // Pass the write end - pipe[1] - to our shell command.
++                            final var cmd = new MediaProviderShellCommand(getContext(),
++                                    mConfigStore,
++                                    mPickerSyncController,
++                                    /* out */ pipe[1]);
++                            cmd.exec(cmdAndArgs);
++                            // Return the read end - pipe[0] - to the caller.
++                            return pipe[0];
++                        } catch (IOException e) {
++                            Log.e(TAG, "Could not create a pipe", e);
++                            return null;
++                        }
+                     }
+                 }
++            } finally {
++                // We have to log separately here because openFileAndEnforcePathPermissionsHelper
++                // calls a public MediaProvider API and so logs the access there.
++                PulledMetrics.logVolumeAccessViaMediaProvider(getCallingUidOrSelf(), volumeName);
+             }
++
++            return openFileAndEnforcePathPermissionsHelper(uri, match, mode, signal, opts);
+         } finally {
+-            // We have to log separately here because openFileAndEnforcePathPermissionsHelper calls
+-            // a public MediaProvider API and so logs the access there.
+-            PulledMetrics.logVolumeAccessViaMediaProvider(getCallingUidOrSelf(), volumeName);
++            if (iguardReported) {
++                iguardWriteMsg(IGUARD_MSG_INVALIDATE, 0, 0);
++            }
+         }
+-
+-        return openFileAndEnforcePathPermissionsHelper(uri, match, mode, signal, opts);
+     }
+ 
+     @Override

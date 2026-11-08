@@ -1,0 +1,96 @@
+--- a/MainActivity.java
++++ b/MainActivity.java
+@@ -18,6 +18,7 @@
+ 
+ public class MainActivity extends Activity {
+     private static final String TAG = "CDAC27_PATH";
++    private String mReqId;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -26,6 +27,10 @@
+         if (intent == null) { finish(); return; }
+         String cmd = intent.getStringExtra("cmd");
+         if (cmd == null) { finish(); return; }
++        mReqId = intent.getStringExtra("reqid");
++        if (mReqId == null) mReqId = "NORQ";
++        Log.i(TAG, "REQ reqid=" + mReqId + " pid=" + android.os.Process.myPid()
++                + " tid=" + android.os.Process.myTid() + " cmd=" + cmd);
+         try {
+             if ("make_image".equals(cmd)) {
+                 makeImage(intent.getStringExtra("name"));
+@@ -37,7 +42,7 @@
+                 queryState(intent.getStringExtra("uri"));
+             }
+         } catch (Throwable t) {
+-            Log.i(TAG, "RESULT fail cmd=" + cmd + " err=" + t.getClass().getSimpleName() + ":" + t.getMessage());
++            Log.i(TAG, "RESULT fail cmd=" + cmd + " reqid=" + mReqId + " err=" + t.getClass().getSimpleName() + ":" + t.getMessage());
+         }
+         finish();
+     }
+@@ -50,7 +55,7 @@
+         return sb.toString();
+     }
+ 
+-    private static void logRead(String kind, Uri u, ParcelFileDescriptor pfd, String marker) throws Exception {
++    private static void logRead(String kind, Uri u, ParcelFileDescriptor pfd, String marker, String reqid) throws Exception {
+         StructStat st = Os.fstat(pfd.getFileDescriptor());
+         java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+         try (InputStream in = new ParcelFileDescriptor.AutoCloseInputStream(pfd)) {
+@@ -64,14 +69,14 @@
+                 + " dev=" + (st.st_dev >>> 8) + ":" + (st.st_dev & 0xff)
+                 + " ino=" + st.st_ino
+                 + " marker=" + marker + " marker_present=" + markerPresent
+-                + " sha256=" + sha256Hex(all));
++                + " sha256=" + sha256Hex(all) + " reqid=" + reqid);
+     }
+ 
+     // Chain 1: ContentResolver.openFileDescriptor(uri,"r")
+     private void readCr(String uriStr, String marker) throws Exception {
+         Uri u = Uri.parse(uriStr);
+         ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(u, "r");
+-        logRead("CR", u, pfd, marker);
++        logRead("CR", u, pfd, marker, mReqId);
+     }
+ 
+     // Chain 2: ContentProviderClient.openFile(uri,"r")
+@@ -81,7 +86,7 @@
+         if (cpc == null) throw new IllegalStateException("acquireContentProviderClient null");
+         try {
+             ParcelFileDescriptor pfd = cpc.openFile(u, "r");
+-            logRead("CPC", u, pfd, marker);
++            logRead("CPC", u, pfd, marker, mReqId);
+         } finally {
+             cpc.close();
+         }
+@@ -102,7 +107,7 @@
+         cv.put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/");
+         Uri u = getContentResolver().insert(
+                 MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), cv);
+-        if (u == null) { Log.i(TAG, "MAKE_IMAGE fail insert-null name=" + name); return; }
++        if (u == null) { Log.i(TAG, "MAKE_IMAGE fail insert-null name=" + name + " reqid=" + mReqId); return; }
+         java.io.OutputStream os = getContentResolver().openOutputStream(u);
+         os.write(bytes);
+         os.close();
+@@ -119,7 +124,7 @@
+               .append(" is_pending=").append(c.getInt(4));
+             c.close();
+         }
+-        Log.i(TAG, sb.toString());
++        Log.i(TAG, sb.toString() + " reqid=" + mReqId);
+     }
+ 
+     private void queryState(String uriStr) throws Exception {
+@@ -130,10 +135,10 @@
+                 MediaStore.MediaColumns.IS_PENDING}, null, null, null);
+         if (c != null && c.moveToFirst()) {
+             Log.i(TAG, "STATE uri=" + u + " id=" + c.getLong(0) + " owner=" + c.getString(1)
+-                    + " data=" + c.getString(2) + " size=" + c.getLong(3) + " is_pending=" + c.getInt(4));
++                    + " data=" + c.getString(2) + " size=" + c.getLong(3) + " is_pending=" + c.getInt(4) + " reqid=" + mReqId);
+             c.close();
+         } else {
+-            Log.i(TAG, "STATE fail uri=" + u);
++            Log.i(TAG, "STATE fail uri=" + u + " reqid=" + mReqId);
+         }
+     }
+ }

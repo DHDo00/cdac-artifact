@@ -1,0 +1,13 @@
+CDAC_R26_CONCURRENT_ATTRIBUTION_20261027=COMPLETE
+ROUTE=ESP 5/401 openDocument write; mode "w"; join f_flags=0x8041 measured (no O_TRUNC)
+ARTIFACTS=android_matchedimg_newsystem + kernel_esp_dist + iguardctl_test (hashes FREEZE_MANIFEST.sha256); SELinux Enforcing; no core/SELinux/capacity/timing change
+INSTANCE=cvd-26 ADB 0.0.0.0:6545; 2 boots sequential (boot1 19:39-20:02, boot2 20:03-20:34), clean stop; round-27 untouched; shared config link restored after each boot
+HEALTH=2 boots x 27 serial checks = 54/54 PASS (H0 native allow+capability, H1 A+X real deny, H2 clear recover)
+SCHEDULE=2 boots x 20 waves x 4 requests (AX=A->X deny, AY=A->Y, BX=B->X, BY=B->Y allow); rule verified policy_dump each boot
+OVERLAP=40/40 waves server-side overlap; 4 distinct server_tid per wave; 6/6 request pairs per wave (decision/real-enforce point inside other request [PUSH,POP], tid distinct) = 240 pair-evidences; 0 non-overlap waves
+ATTRIBUTION=160/160 requests mapped uniquely by seq/context_id; caller/object/operation/result all correct
+ENFORCEMENT=40/40 A->X real deny (matched=1 reason=rcs26_tgt_A_X + real-enforce errno=-13 + WAVE_FAIL no PFD + file_open_deny +1); 120/120 allow requests successful with offset-marker capability usable; no wrong deny/allow
+CLEANUP=0 STACK_MISMATCH (fw+kernel); EXIT/POP remaining_depth=0 per request; boot1 push=pop=178 enter=exit=178 fail=0; boot2 push=pop=110 enter=exit=110 fail=0; provider espafd_tree FD snaps NONE x3 each boot; rule clear + serial recovery 3/3 each boot
+OPEN=N/A for frozen design; scope limit=4-request concurrency only (not arbitrary concurrency); pretrial excluded from formal counts
+DELIVERABLES=HISTORY_REUSE.md, PROTOCOL.md+FREEZE_TIME.txt+FREEZE_MANIFEST.sha256, fixtures(app_a/app_b wave+offset sources+build+APK hash+patch), 03_scripts sync/rule/schedule, 05_results raw logs+PER_REQUEST_LEDGER+OVERLAP_TABLE+summary, CONCURRENT_ATTRIBUTION_REPORT.md, TIME_AND_FAILURES.md, FINAL_STATUS.txt, SHA256SUMS.txt
+PAPER=unchanged

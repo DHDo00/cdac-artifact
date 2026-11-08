@@ -1,0 +1,1 @@
+generic/aosp_cf_x86_64_only_phone/vsoc_x86_64_only:15/BP1A.250505.005.D1.ef2c791f/eng.test:userdebug/test-keys

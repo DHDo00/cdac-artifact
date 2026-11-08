@@ -1,0 +1,4 @@
+scope,raw_denominator_n,registered_denial_success_n,mean_ns,median_P50_ns,P95_ns,P99_ns,latency_unit,result_name,overhead_computed
+pooled,500,500,13743390.91,14165936.5,18446476.15,21078017.99,ns,absolute denial-response latency,no
+boot_1,250,250,13471729.428,13983499.5,18088470.55,19705056.46,ns,absolute denial-response latency,no
+boot_2,250,250,14015052.392,14267878.0,18773120.049999993,21101517.49,ns,absolute denial-response latency,no

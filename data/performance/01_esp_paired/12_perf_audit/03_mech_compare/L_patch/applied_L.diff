@@ -1,0 +1,67 @@
+--- frameworks/base/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java.l_base	2026-10-25 09:29:30.985740510 +0800
++++ frameworks/base/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java	2026-10-25 09:29:31.010462072 +0800
+@@ -30,14 +30,17 @@
+ import android.database.MatrixCursor.RowBuilder;
+ import android.net.Uri;
+ import android.os.Binder;
++import android.os.CancellationSignal;
+ import android.os.Bundle;
+ import android.os.Environment;
++import android.os.ParcelFileDescriptor;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.os.storage.DiskInfo;
+ import android.os.storage.StorageEventListener;
+ import android.os.storage.StorageManager;
+ import android.os.storage.VolumeInfo;
++import android.os.SystemProperties;
+ import android.provider.DocumentsContract;
+ import android.provider.DocumentsContract.Document;
+ import android.provider.DocumentsContract.Path;
+@@ -136,6 +139,46 @@
+     @GuardedBy("mRootsLock")
+     private ArrayMap<String, RootInfo> mRoots = new ArrayMap<>();
+ 
++
++    private static final String L_POLICY_PROP = "persist.lab.lpolicy";
++
++    /**
++     * Local write policy for the N/L/C mechanism comparison (this round only).
++     * Policy spec: "uid|documentId" (empty disables). Subject is the trusted
++     * Binder caller uid, read before any identity clearing; object is the
++     * provider-validated document id (the same id the provider resolves to a
++     * file when opening). The check runs before openDocument opens anything,
++     * so a denial acquires no resources and cannot truncate.
++     */
++    private static boolean lPolicyDeniesWrite(int callingUid, String documentId) {
++        final String spec = SystemProperties.get(L_POLICY_PROP, "");
++        final int sep = spec.indexOf('|');
++        if (sep <= 0 || sep + 1 >= spec.length()) {
++            return false;
++        }
++        final int targetUid;
++        try {
++            targetUid = Integer.parseInt(spec.substring(0, sep));
++        } catch (NumberFormatException e) {
++            return false;
++        }
++        return callingUid == targetUid && documentId.equals(spec.substring(sep + 1));
++    }
++
++    @Override
++    public ParcelFileDescriptor openDocument(String documentId, String mode,
++            CancellationSignal signal) throws FileNotFoundException {
++        final int pfdMode = ParcelFileDescriptor.parseMode(mode);
++        if (pfdMode != ParcelFileDescriptor.MODE_READ_ONLY
++                && lPolicyDeniesWrite(Binder.getCallingUid(), documentId)) {
++            Log.i(TAG, "L_POLICY_DENY uid=" + Binder.getCallingUid()
++                    + " doc=" + documentId + " mode=" + mode);
++            throw new FileNotFoundException("Local write policy denied document "
++                    + documentId);
++        }
++        return super.openDocument(documentId, mode, signal);
++    }
++
+     @Override
+     public boolean onCreate() {
+         super.onCreate(DEFAULT_DOCUMENT_PROJECTION);

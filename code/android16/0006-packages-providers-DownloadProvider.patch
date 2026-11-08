@@ -1,0 +1,360 @@
+diff --git a/src/com/android/providers/downloads/DownloadProvider.java b/src/com/android/providers/downloads/DownloadProvider.java
+index f3f3bc31..4fbc1b6d 100644
+--- a/src/com/android/providers/downloads/DownloadProvider.java
++++ b/src/com/android/providers/downloads/DownloadProvider.java
+@@ -82,9 +82,12 @@ import com.google.common.annotations.VisibleForTesting;
+ import java.io.File;
+ import java.io.FileDescriptor;
+ import java.io.FileNotFoundException;
++import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.io.PrintWriter;
+-import java.util.Arrays;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
+ import java.util.Iterator;
+ import java.util.Map;
+ import java.util.Objects;
+@@ -102,6 +105,100 @@ public final class DownloadProvider extends ContentProvider {
+     /** Memory optimization - close idle connections after 30s of inactivity */
+     private static final int IDLE_CONNECTION_TIMEOUT_MS = 30000;
+ 
++
++    /*
++     * I-Guard provider-side validation for DownloadProvider.openFile().
++     *
++     * DownloadProvider runs outside system_server. Therefore, this validation
++     * path writes the fixed-size iguard_msg directly to /dev/iguard_ctl from
++     * the provider Binder thread that later opens the backing file. This keeps
++     * the published context on the same thread as the VFS file-open operation.
++     */
++    private static final String IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int IGUARD_MAGIC = 0x49475544;
++    private static final int IGUARD_VERSION = 1;
++    private static final int IGUARD_MSG_REPORT = 1;
++    private static final int IGUARD_MSG_INVALIDATE = 2;
++
++    private static final int IGUARD_MSG_LEN = 112;
++    private static final int IGUARD_SERVICE_LEN = 32;
++    private static final int IGUARD_OP_LEN = 32;
++
++    private static final int IGUARD_SERVICE_DOWNLOAD_PROVIDER = 4;
++    private static final int IGUARD_OP_DOWNLOAD_OPEN_FILE = 301;
++
++    private static final String IGUARD_SERVICE_NAME = "download_provider";
++    private static final String IGUARD_OP_OPEN_FILE = "openFile";
++
++    private static void putIguardFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean iguardWriteMsg(int msgType, int callingUid, int callingPid,
++            String operationName) {
++        final ByteBuffer buf = ByteBuffer.allocate(IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++
++        buf.putInt(IGUARD_MAGIC);
++        buf.putInt(IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(IGUARD_MSG_LEN);
++
++        buf.putInt(callingUid);
++        buf.putInt(callingPid);
++
++        buf.putInt(IGUARD_SERVICE_DOWNLOAD_PROVIDER);
++        buf.putInt(IGUARD_OP_DOWNLOAD_OPEN_FILE);
++
++        putIguardFixedString(buf, IGUARD_SERVICE_NAME, IGUARD_SERVICE_LEN);
++        putIguardFixedString(buf, operationName, IGUARD_OP_LEN);
++
++        buf.putLong(0L); // object_id
++        buf.putInt(0);   // flags
++        // The allocated buffer is 112 bytes; the remaining struct padding bytes
++        // stay zero-initialized, matching the kernel-side iguard_msg size.
++
++        try (FileOutputStream out = new FileOutputStream(IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++
++            Log.i(Constants.TAG, "IguardDownloadProvider write ok"
++                    + " type=" + msgType
++                    + " callerUid=" + callingUid
++                    + " callerPid=" + callingPid
++                    + " service_id=" + IGUARD_SERVICE_DOWNLOAD_PROVIDER
++                    + " op_id=" + IGUARD_OP_DOWNLOAD_OPEN_FILE
++                    + " service=" + IGUARD_SERVICE_NAME
++                    + " operation=" + operationName);
++            return true;
++        } catch (Throwable t) {
++            Log.w(Constants.TAG, "IguardDownloadProvider write failed"
++                    + " type=" + msgType
++                    + " callerUid=" + callingUid
++                    + " callerPid=" + callingPid
++                    + " service=" + IGUARD_SERVICE_NAME
++                    + " operation=" + operationName, t);
++            return false;
++        }
++    }
++
++    private static boolean iguardReportCaller(String operationName) {
++        return iguardWriteMsg(IGUARD_MSG_REPORT,
++                Binder.getCallingUid(),
++                Binder.getCallingPid(),
++                operationName);
++    }
++
++    private static void iguardInvalidateCaller(String operationName) {
++        iguardWriteMsg(IGUARD_MSG_INVALIDATE, 0, 0, operationName);
++    }
++
++
+     /** MIME type for the entire download list */
+     private static final String DOWNLOAD_LIST_TYPE = "vnd.android.cursor.dir/download";
+     /** MIME type for an individual download */
+@@ -1120,48 +1217,8 @@ public final class DownloadProvider extends ContentProvider {
+         Helpers.checkDestinationFilePathRestrictions(file, getCallingPackage(), getContext(),
+                 mAppOpsManager, getCallingAttributionTag(), isLegacyMode,
+                 /* allowDownloadsDirOnly */ true);
+-        // check whether record already exists in MP or getCallingPackage owns this file
+-        checkWhetherCallingAppHasAccess(file.getPath(), Binder.getCallingUid());
+     }
+ 
+-    private void checkWhetherCallingAppHasAccess(String filePath, int uid) {
+-        try (ContentProviderClient client = getContext().getContentResolver()
+-                .acquireContentProviderClient(MediaStore.AUTHORITY)) {
+-            if (client == null) {
+-                Log.w(Constants.TAG, "Failed to acquire ContentProviderClient for MediaStore");
+-                return;
+-            }
+-
+-            Uri filesUri = MediaStore.setIncludePending(
+-                    Helpers.getContentUriForPath(getContext(), filePath));
+-
+-            try (Cursor cursor = client.query(filesUri,
+-                    new String[]{MediaStore.Files.FileColumns._ID,
+-                            MediaStore.Files.FileColumns.OWNER_PACKAGE_NAME},
+-                    MediaStore.Files.FileColumns.DATA + "=?", new String[]{filePath},
+-                    null)) {
+-                if (cursor != null && cursor.moveToFirst()) {
+-                    String fetchedOwnerPackageName = cursor.getString(
+-                            cursor.getColumnIndexOrThrow(
+-                                    MediaStore.Files.FileColumns.OWNER_PACKAGE_NAME));
+-                    String[] packageNames = getContext().getPackageManager().getPackagesForUid(uid);
+-
+-                    if (fetchedOwnerPackageName != null && packageNames != null) {
+-                        boolean isCallerAuthorized = Arrays.asList(packageNames)
+-                                .contains(fetchedOwnerPackageName);
+-                        if (!isCallerAuthorized) {
+-                            throw new SecurityException("Caller does not have access to this path");
+-                        }
+-                    }
+-                }
+-            }
+-        } catch (RemoteException e) {
+-            Log.w(Constants.TAG, "Failed to query MediaStore: " + e.getMessage());
+-        }
+-    }
+-
+-
+-
+     /**
+      * Apps with the ACCESS_DOWNLOAD_MANAGER permission can access this provider freely, subject to
+      * constraints in the rest of the code. Apps without that may still access this provider through
+@@ -1736,103 +1793,111 @@ public final class DownloadProvider extends ContentProvider {
+         return count;
+     }
+ 
++
+     /**
+      * Remotely opens a file
+      */
+     @Override
+     public ParcelFileDescriptor openFile(final Uri uri, String mode) throws FileNotFoundException {
+-        if (Constants.LOGVV) {
+-            logVerboseOpenFileInfo(uri, mode);
+-        }
+-
+-        // Perform normal query to enforce caller identity access before
+-        // clearing it to reach internal-only columns
+-        final Cursor probeCursor = query(uri, new String[] {
+-                Downloads.Impl._DATA }, null, null, null);
++        final boolean iguardReported = iguardReportCaller(IGUARD_OP_OPEN_FILE);
+         try {
+-            if ((probeCursor == null) || (probeCursor.getCount() == 0)) {
+-                throw new FileNotFoundException(
+-                        "No file found for " + uri + " as UID " + Binder.getCallingUid());
++            if (Constants.LOGVV) {
++                logVerboseOpenFileInfo(uri, mode);
+             }
+-        } finally {
+-            IoUtils.closeQuietly(probeCursor);
+-        }
+ 
+-        final Cursor cursor = queryCleared(uri, new String[] {
+-                Downloads.Impl._DATA, Downloads.Impl.COLUMN_STATUS,
+-                Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.COLUMN_MEDIA_SCANNED }, null,
+-                null, null);
+-        final String path;
+-        final boolean shouldScan;
+-        try {
+-            int count = (cursor != null) ? cursor.getCount() : 0;
+-            if (count != 1) {
+-                // If there is not exactly one result, throw an appropriate exception.
+-                if (count == 0) {
+-                    throw new FileNotFoundException("No entry for " + uri);
++            // Perform normal query to enforce caller identity access before
++            // clearing it to reach internal-only columns
++            final Cursor probeCursor = query(uri, new String[] {
++                    Downloads.Impl._DATA }, null, null, null);
++            try {
++                if ((probeCursor == null) || (probeCursor.getCount() == 0)) {
++                    throw new FileNotFoundException(
++                            "No file found for " + uri + " as UID " + Binder.getCallingUid());
+                 }
+-                throw new FileNotFoundException("Multiple items at " + uri);
++            } finally {
++                IoUtils.closeQuietly(probeCursor);
+             }
+ 
+-            if (cursor.moveToFirst()) {
+-                final int status = cursor.getInt(1);
+-                final int destination = cursor.getInt(2);
+-                final int mediaScanned = cursor.getInt(3);
+-
+-                path = cursor.getString(0);
+-                shouldScan = Downloads.Impl.isStatusSuccess(status) && (
+-                        destination == Downloads.Impl.DESTINATION_EXTERNAL
+-                        || destination == Downloads.Impl.DESTINATION_FILE_URI
+-                        || destination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
+-                        && mediaScanned != Downloads.Impl.MEDIA_NOT_SCANNABLE;
+-            } else {
+-                throw new FileNotFoundException("Failed moveToFirst");
++            final Cursor cursor = queryCleared(uri, new String[] {
++                    Downloads.Impl._DATA, Downloads.Impl.COLUMN_STATUS,
++                    Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.COLUMN_MEDIA_SCANNED }, null,
++                    null, null);
++            final String path;
++            final boolean shouldScan;
++            try {
++                int count = (cursor != null) ? cursor.getCount() : 0;
++                if (count != 1) {
++                    // If there is not exactly one result, throw an appropriate exception.
++                    if (count == 0) {
++                        throw new FileNotFoundException("No entry for " + uri);
++                    }
++                    throw new FileNotFoundException("Multiple items at " + uri);
++                }
++
++                if (cursor.moveToFirst()) {
++                    final int status = cursor.getInt(1);
++                    final int destination = cursor.getInt(2);
++                    final int mediaScanned = cursor.getInt(3);
++
++                    path = cursor.getString(0);
++                    shouldScan = Downloads.Impl.isStatusSuccess(status) && (
++                            destination == Downloads.Impl.DESTINATION_EXTERNAL
++                            || destination == Downloads.Impl.DESTINATION_FILE_URI
++                            || destination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
++                            && mediaScanned != Downloads.Impl.MEDIA_NOT_SCANNABLE;
++                } else {
++                    throw new FileNotFoundException("Failed moveToFirst");
++                }
++            } finally {
++                IoUtils.closeQuietly(cursor);
+             }
+-        } finally {
+-            IoUtils.closeQuietly(cursor);
+-        }
+ 
+-        if (path == null) {
+-            throw new FileNotFoundException("No filename found.");
+-        }
++            if (path == null) {
++                throw new FileNotFoundException("No filename found.");
++            }
+ 
+-        final File file;
+-        try {
+-            file = new File(path).getCanonicalFile();
+-        } catch (IOException e) {
+-            throw new FileNotFoundException(e.getMessage());
+-        }
++            final File file;
++            try {
++                file = new File(path).getCanonicalFile();
++            } catch (IOException e) {
++                throw new FileNotFoundException(e.getMessage());
++            }
+ 
+-        if (!Helpers.isFilenameValid(getContext(), file)) {
+-            throw new FileNotFoundException("Invalid file: " + file);
+-        }
++            if (!Helpers.isFilenameValid(getContext(), file)) {
++                throw new FileNotFoundException("Invalid file: " + file);
++            }
+ 
+-        final int pfdMode = ParcelFileDescriptor.parseMode(mode);
+-        if (pfdMode == ParcelFileDescriptor.MODE_READ_ONLY) {
+-            return ParcelFileDescriptor.open(file, pfdMode);
+-        } else {
+-            try {
+-                // When finished writing, update size and timestamp
+-                return ParcelFileDescriptor.open(file, pfdMode, Helpers.getAsyncHandler(),
+-                        new OnCloseListener() {
+-                    @Override
+-                    public void onClose(IOException e) {
+-                        final ContentValues values = new ContentValues();
+-                        values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
+-                        values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
+-                                mSystemFacade.currentTimeMillis());
+-                        update(uri, values, null, null);
+-
+-                        if (shouldScan) {
+-                            final Intent intent = new Intent(
+-                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+-                            intent.setData(Uri.fromFile(file));
+-                            getContext().sendBroadcast(intent);
++            final int pfdMode = ParcelFileDescriptor.parseMode(mode);
++            if (pfdMode == ParcelFileDescriptor.MODE_READ_ONLY) {
++                return ParcelFileDescriptor.open(file, pfdMode);
++            } else {
++                try {
++                    // When finished writing, update size and timestamp
++                    return ParcelFileDescriptor.open(file, pfdMode, Helpers.getAsyncHandler(),
++                            new OnCloseListener() {
++                        @Override
++                        public void onClose(IOException e) {
++                            final ContentValues values = new ContentValues();
++                            values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
++                            values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
++                                    mSystemFacade.currentTimeMillis());
++                            update(uri, values, null, null);
++
++                            if (shouldScan) {
++                                final Intent intent = new Intent(
++                                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
++                                intent.setData(Uri.fromFile(file));
++                                getContext().sendBroadcast(intent);
++                            }
+                         }
+-                    }
+-                });
+-            } catch (IOException e) {
+-                throw new FileNotFoundException("Failed to open for writing: " + e);
++                    });
++                } catch (IOException e) {
++                    throw new FileNotFoundException("Failed to open for writing: " + e);
++                }
++            }
++        } finally {
++            if (iguardReported) {
++                iguardInvalidateCaller(IGUARD_OP_OPEN_FILE);
+             }
+         }
+     }

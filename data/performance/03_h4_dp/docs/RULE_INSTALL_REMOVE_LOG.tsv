@@ -1,0 +1,241 @@
+label	action	runtime_policy_count	target_policy_cache_entry_count	rule
+A_start	clear	0	0	-
+E_E0_1	clear	0	0	-
+E_E0_2	clear	0	0	-
+E_E0_3	clear	0	0	-
+E_E0_4	clear	0	0	-
+E_E0_5	clear	0	0	-
+E_E1_1_pre_install	clear	0	0	-
+E_E1_1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E1_2_pre_install	clear	0	0	-
+E_E1_2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E1_3_pre_install	clear	0	0	-
+E_E1_3	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E1_4_pre_install	clear	0	0	-
+E_E1_4	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E1_5_pre_install	clear	0	0	-
+E_E1_5	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E2_1_pre_install	clear	0	0	-
+E_E2_1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E2_2_pre_install	clear	0	0	-
+E_E2_2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E2_3_pre_install	clear	0	0	-
+E_E2_3	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E2_4_pre_install	clear	0	0	-
+E_E2_4	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E2_5_pre_install	clear	0	0	-
+E_E2_5	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E3_1_pre_install	clear	0	0	-
+E_E3_1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E3_2_pre_install	clear	0	0	-
+E_E3_2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E3_3_pre_install	clear	0	0	-
+E_E3_3	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E3_4_pre_install	clear	0	0	-
+E_E3_4	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_E3_5_pre_install	clear	0	0	-
+E_E3_5	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+E_after	clear	0	0	-
+A_pos_1_P0	clear	0	0	-
+A_pos_2_P1_pre_install	clear	0	0	-
+A_pos_2_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_3_P2_pre_install	clear	0	0	-
+A_pos_3_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_4_P0	clear	0	0	-
+A_pos_5_P2_pre_install	clear	0	0	-
+A_pos_5_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_6_P1_pre_install	clear	0	0	-
+A_pos_6_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_7_P1_pre_install	clear	0	0	-
+A_pos_7_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_8_P0	clear	0	0	-
+A_pos_9_P2_pre_install	clear	0	0	-
+A_pos_9_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_10_P1_pre_install	clear	0	0	-
+A_pos_10_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_11_P2_pre_install	clear	0	0	-
+A_pos_11_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_12_P0	clear	0	0	-
+A_pos_13_P2_pre_install	clear	0	0	-
+A_pos_13_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_14_P0	clear	0	0	-
+A_pos_15_P1_pre_install	clear	0	0	-
+A_pos_15_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_16_P2_pre_install	clear	0	0	-
+A_pos_16_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_17_P1_pre_install	clear	0	0	-
+A_pos_17_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_18_P0	clear	0	0	-
+A_pos_19_P0	clear	0	0	-
+A_pos_20_P1_pre_install	clear	0	0	-
+A_pos_20_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_21_P2_pre_install	clear	0	0	-
+A_pos_21_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_22_P0	clear	0	0	-
+A_pos_23_P2_pre_install	clear	0	0	-
+A_pos_23_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_24_P1_pre_install	clear	0	0	-
+A_pos_24_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_25_P1_pre_install	clear	0	0	-
+A_pos_25_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_26_P0	clear	0	0	-
+A_pos_27_P2_pre_install	clear	0	0	-
+A_pos_27_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_28_P1_pre_install	clear	0	0	-
+A_pos_28_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_29_P2_pre_install	clear	0	0	-
+A_pos_29_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_30_P0	clear	0	0	-
+A_pos_31_P2_pre_install	clear	0	0	-
+A_pos_31_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_32_P0	clear	0	0	-
+A_pos_33_P1_pre_install	clear	0	0	-
+A_pos_33_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_34_P2_pre_install	clear	0	0	-
+A_pos_34_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_35_P1_pre_install	clear	0	0	-
+A_pos_35_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_36_P0	clear	0	0	-
+A_pos_37_P0	clear	0	0	-
+A_pos_38_P1_pre_install	clear	0	0	-
+A_pos_38_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_39_P2_pre_install	clear	0	0	-
+A_pos_39_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_40_P0	clear	0	0	-
+A_pos_41_P2_pre_install	clear	0	0	-
+A_pos_41_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_42_P1_pre_install	clear	0	0	-
+A_pos_42_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_43_P1_pre_install	clear	0	0	-
+A_pos_43_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_44_P0	clear	0	0	-
+A_pos_45_P2_pre_install	clear	0	0	-
+A_pos_45_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_46_P1_pre_install	clear	0	0	-
+A_pos_46_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_47_P2_pre_install	clear	0	0	-
+A_pos_47_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_48_P0	clear	0	0	-
+A_pos_49_P2_pre_install	clear	0	0	-
+A_pos_49_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_50_P0	clear	0	0	-
+A_pos_51_P1_pre_install	clear	0	0	-
+A_pos_51_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_52_P2_pre_install	clear	0	0	-
+A_pos_52_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_53_P1_pre_install	clear	0	0	-
+A_pos_53_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_54_P0	clear	0	0	-
+A_pos_55_P0	clear	0	0	-
+A_pos_56_P1_pre_install	clear	0	0	-
+A_pos_56_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_57_P2_pre_install	clear	0	0	-
+A_pos_57_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_58_P1_pre_install	clear	0	0	-
+A_pos_58_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_59_P2_pre_install	clear	0	0	-
+A_pos_59_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+A_pos_60_P0	clear	0	0	-
+A_end	clear	0	0	-
+B_start	clear	0	0	-
+B_pos_1_P0	clear	0	0	-
+B_pos_2_P2_pre_install	clear	0	0	-
+B_pos_2_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_3_P1_pre_install	clear	0	0	-
+B_pos_3_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_4_P2_pre_install	clear	0	0	-
+B_pos_4_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_5_P1_pre_install	clear	0	0	-
+B_pos_5_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_6_P0	clear	0	0	-
+B_pos_7_P0	clear	0	0	-
+B_pos_8_P1_pre_install	clear	0	0	-
+B_pos_8_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_9_P2_pre_install	clear	0	0	-
+B_pos_9_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_10_P1_pre_install	clear	0	0	-
+B_pos_10_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_11_P0	clear	0	0	-
+B_pos_12_P2_pre_install	clear	0	0	-
+B_pos_12_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_13_P0	clear	0	0	-
+B_pos_14_P2_pre_install	clear	0	0	-
+B_pos_14_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_15_P1_pre_install	clear	0	0	-
+B_pos_15_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_16_P2_pre_install	clear	0	0	-
+B_pos_16_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_17_P0	clear	0	0	-
+B_pos_18_P1_pre_install	clear	0	0	-
+B_pos_18_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_19_P1_pre_install	clear	0	0	-
+B_pos_19_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_20_P2_pre_install	clear	0	0	-
+B_pos_20_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_21_P0	clear	0	0	-
+B_pos_22_P2_pre_install	clear	0	0	-
+B_pos_22_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_23_P1_pre_install	clear	0	0	-
+B_pos_23_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_24_P0	clear	0	0	-
+B_pos_25_P0	clear	0	0	-
+B_pos_26_P1_pre_install	clear	0	0	-
+B_pos_26_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_27_P2_pre_install	clear	0	0	-
+B_pos_27_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_28_P1_pre_install	clear	0	0	-
+B_pos_28_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_29_P0	clear	0	0	-
+B_pos_30_P2_pre_install	clear	0	0	-
+B_pos_30_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_31_P0	clear	0	0	-
+B_pos_32_P2_pre_install	clear	0	0	-
+B_pos_32_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_33_P1_pre_install	clear	0	0	-
+B_pos_33_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_34_P2_pre_install	clear	0	0	-
+B_pos_34_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_35_P0	clear	0	0	-
+B_pos_36_P1_pre_install	clear	0	0	-
+B_pos_36_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_37_P1_pre_install	clear	0	0	-
+B_pos_37_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_38_P2_pre_install	clear	0	0	-
+B_pos_38_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_39_P0	clear	0	0	-
+B_pos_40_P2_pre_install	clear	0	0	-
+B_pos_40_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_41_P1_pre_install	clear	0	0	-
+B_pos_41_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_42_P0	clear	0	0	-
+B_pos_43_P0	clear	0	0	-
+B_pos_44_P1_pre_install	clear	0	0	-
+B_pos_44_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_45_P2_pre_install	clear	0	0	-
+B_pos_45_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_46_P1_pre_install	clear	0	0	-
+B_pos_46_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_47_P0	clear	0	0	-
+B_pos_48_P2_pre_install	clear	0	0	-
+B_pos_48_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_49_P0	clear	0	0	-
+B_pos_50_P2_pre_install	clear	0	0	-
+B_pos_50_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_51_P1_pre_install	clear	0	0	-
+B_pos_51_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_52_P2_pre_install	clear	0	0	-
+B_pos_52_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_53_P0	clear	0	0	-
+B_pos_54_P1_pre_install	clear	0	0	-
+B_pos_54_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_55_P1_pre_install	clear	0	0	-
+B_pos_55_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_56_P2_pre_install	clear	0	0	-
+B_pos_56_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_57_P0	clear	0	0	-
+B_pos_58_P2_pre_install	clear	0	0	-
+B_pos_58_P2	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_59_P1_pre_install	clear	0	0	-
+B_pos_59_P1	install	1	1	service_id=4 op_id=301 caller_uid=10121 service=content_provider operation=openAssetFile ino=3109 s_dev=266338400 f_flags_mask=0x3 f_flags_value=0x2 required_relation_type=direct_backing_file_reference required_relation_stage=open_time decision=deny reason=h4_app_visible_performance_lower_object_deny
+B_pos_60_P0	clear	0	0	-
+B_end	clear	0	0	-

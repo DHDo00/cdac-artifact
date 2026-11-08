@@ -1,0 +1,18 @@
+CDAC_PERF_20261024=COMPLETE
+LOG_IMPACT=EXPLAINED_MOSTLY (LOG_ON median 20.8-23.6ms -> LOG_OFF 6.3-7.0ms; ~46KB/request console -> ~1.5KB)
+LOG_GATING=kernel verbose_audit gates ALL per-request CDAC kernel logs; framework logging_mode=quiet (partial effect on loaded providers, negligible cost)
+FUNC_UNDER_LOG_OFF=PASS (A+X deny via file_open_deny counter, B+X allow, clear->recover; push/pop balanced)
+PERF_PROTOCOL=FROZEN before formal sampling (03_protocol_frozen/PERF_PROTOCOL.md)
+PAIRS=4 (alternate side order P1 S0-first, P2 enabled-first, P3 S0-first, P4 enabled-first)
+PER_STATE_PER_BOOT=warmup20+record200; valid n=200 each, invalid=0 (16 valid blocks)
+S0_MEDIAN_MS_PER_BOOT=3.33,2.71,3.13,3.03
+S2_MEDIAN_MS_PER_BOOT=5.55,6.67,5.29,5.58 (delta mean +2.72ms, ratio mean 1.92x)
+S3_MEDIAN_MS_PER_BOOT=5.21,5.73,5.55,4.75 (delta mean +2.26ms, ratio mean 1.76x; S2 vs S3 NOT distinguishable)
+S1_MEDIAN_MS_PER_BOOT=6.54,7.13,5.46,6.00 (auxiliary; not faster than S2)
+POOLED_MEDIAN_NS=S0 3045218, S1 6237511, S2 5735940, S3 5385918
+POOLED_P95_NS=S0 10819647, S1 13423468, S2 14028540, S3 14614968 (per-boot P95 kept separately)
+QUANTILE=type-7 linear interpolation (fixed)
+P4_ENABLED_FIRST_ATTEMPT=INVALID (grant automation failed; 200x SecurityException per state preserved in 04_samples/p4_failed_first_attempt)
+RETRIED=P4 enabled same order S1,S3,S2 on fresh boot (recorded)
+DECISION_NS_POLICY_COST=separate internal records only
+FORMAL_LIMITS=4 pairs small-n, single ESP write workload, no formal CI, no stable-P95 claim

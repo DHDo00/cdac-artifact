@@ -1,0 +1,12 @@
+attempt_start=2026-10-25T11:05:29+08:00
+runtime=mech_20261025_N
+launch_pid=3165969
+side=Nprime
+attempt_end=2026-10-25T11:13:32+08:00 RESULT=TIMEOUT
+launcher_rc=1 holder_started=2026-10-25T11:13:32+08:00
+attempt_start=2026-10-25T13:24:46+08:00
+runtime=mech_20261025_N
+launch_pid=3190372
+side=Nprime
+attempt_end=2026-10-25T13:27:03+08:00 RESULT=ADB_OK attempts=27
+launcher_rc=0 holder_started=2026-10-25T13:27:03+08:00

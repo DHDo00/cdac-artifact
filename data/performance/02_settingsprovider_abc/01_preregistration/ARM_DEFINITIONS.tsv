@@ -1,0 +1,5 @@
+arm	paper_name	ablate_disable_ctx	ablate_disable_runtime	path_tail_only	verbose_audit	rule_state	expected_application_outcome	verification_oracle
+A	same-artifact CDAC-inactive baseline	Y	N	N	Y	NO_RULE	success_usable_capability	push_skipped+target_no_context+no_target_decision/apply/enforce
+B	CDAC active, no reviewed rule	N	N	N	Y	NO_RULE	success_usable_capability	target_decision_entered+matched=0+rule_src=default
+C	CDAC active, installed nonmatching rule	N	N	N	Y	ONE_DECOY_DENY_RULE	success_usable_capability	target_decision_entered+one_distinct_decoy_rule+matched=0+rule_src=default
+D	reviewed target denial	N	N	N	Y	ONE_REVIEWED_TARGET_DENY_RULE	registered_EACCES_no_capability	exact_runtime_match+direct_errno=-13+no_capability+balanced_accounting

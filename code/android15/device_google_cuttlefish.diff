@@ -1,0 +1,9 @@
+diff --git a/shared/config/ueventd.rc b/shared/config/ueventd.rc
+index 5b01e3646..36a2a0c6e 100644
+--- a/shared/config/ueventd.rc
++++ b/shared/config/ueventd.rc
+@@ -57,3 +57,4 @@
+ 
+ # Factory Reset Protection
+ /dev/block/by-name/frp 0660 system system
++/dev/iguard_ctl 0666 root root

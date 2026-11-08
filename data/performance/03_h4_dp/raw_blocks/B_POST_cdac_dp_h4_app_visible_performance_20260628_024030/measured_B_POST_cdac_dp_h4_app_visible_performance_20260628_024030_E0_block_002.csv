@@ -1,0 +1,2 @@
+session_id,boot_id,block_id,block_position,mode,sample_index,latency_ns,terminal_result_code,pfd_returned,functional_valid
+B_POST_cdac_dp_h4_app_visible_performance_20260628_024030,4c09bbd0-70ed-4165-a50a-7e048731eaec,2,2,E0,0,9982391,1,true,true

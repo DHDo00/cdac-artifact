@@ -1,0 +1,20 @@
+{
+  "binder_descriptor": "android.content.IContentProvider",
+  "binder_entry": "openAssetFile",
+  "caller_semantic": "ORIGINATING_APPLICATION_CALLER",
+  "capability_form": "AssetFileDescriptor/ParcelFileDescriptor",
+  "component": "com.android.providers.settings.SettingsProvider",
+  "direct_mode": "PREVIEW_ENFORCE_FOR_8_701",
+  "exposure_boundary": "Binder reply descriptor serialization after provider return",
+  "op_id": 701,
+  "operation_selectivity_evaluated": false,
+  "provenance": "source-patch-framework-endpoint identity stronger than DP",
+  "route_id": "S10_SETTINGS_PROVIDER_OPEN_ASSET_FILE_RINGTONE_CACHE",
+  "route_mapping_closed": true,
+  "route_tuple_sha256": "7fd7b74febc0f99fe9c41405e9d4efabf89502ed7c02b7672f836473a698762a",
+  "runtime_profile": "S10_8_701",
+  "scientific_route_denominator": 1,
+  "service_id": 8,
+  "target_object_selection": "stat /data/system_de/0/ringtones/ringtone_cache after boot identity checks and before the first scientific block",
+  "wording": "QUALIFIED_ROUTE"
+}

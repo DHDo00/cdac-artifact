@@ -1,0 +1,47 @@
+{
+ "label": "boot1_b11_N1",
+ "N_requested": 1,
+ "clear": {
+  "stdout": "policy_clear ok\n",
+  "rc": 0,
+  "count_after": 0,
+  "dump": "runtime_policy_count=0\n"
+ },
+ "adds": [
+  {
+   "kind": "target",
+   "cmd": "add service_id=5 op_id=401 caller_uid=10122 operation=openAssetFile ino=3175 s_dev=266338400 i_mode=00 f_flags_mask=0x3 f_flags_value=0x1 decision=deny reason=rcs21_tgt_A_X",
+   "rc": 0,
+   "stdout": "policy_add ok: service_id=5 op_id=401 caller_uid=10122 decision=2 path_tail=- reason=rcs21_tgt_A_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3175 s_dev=266338400 i_mode=00 schema=v2",
+   "stderr": ""
+  }
+ ],
+ "count_actual": 1,
+ "n_slots_actual": 1,
+ "slots": [
+  [
+   0,
+   {
+    "service_id": "5",
+    "op_id": "401",
+    "caller_uid": "10122",
+    "service": "-",
+    "operation": "openAssetFile",
+    "path_tail": "-",
+    "ino": "3175",
+    "s_dev": "254:96",
+    "i_mode": "00",
+    "f_flags_mask": "0x3",
+    "f_flags_value": "0x1",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "required_relation_type": "0",
+    "required_relation_stage": "0",
+    "decision": "would-deny",
+    "reason": "rcs21_tgt_A_X",
+    "specificity": "7"
+   }
+  ]
+ ],
+ "verified": true
+}

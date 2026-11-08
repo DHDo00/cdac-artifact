@@ -1,0 +1,12 @@
+condition,planned,attempted,usable,cdac_denied,other_failure,unresolved,formal_denominator
+no_rule_ax,60,60,60,0,0,0,60
+no_rule_bx,60,60,60,0,0,0,60
+ma_ax,60,60,0,60,0,0,60
+ma_bx,60,60,60,0,0,0,60
+ma_ay,60,60,60,0,0,0,60
+mb_bx,60,60,0,60,0,0,60
+mb_ax,60,60,60,0,0,0,60
+mb_by,60,60,60,0,0,0,60
+revoke_ax,60,60,60,0,0,0,60
+revoke_bx,60,60,60,0,0,0,60
+TOTAL,600,600,480,120,0,0,600

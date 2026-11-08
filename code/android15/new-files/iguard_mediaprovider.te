@@ -1,0 +1,7 @@
+# CDAC R1 provider-side validation (ported from A16 iguard_mediaprovider.te).
+#
+# The modular MediaProvider process runs in the mediaprovider_app domain on this
+# A17 build, while the legacy in-process provider path runs in mediaprovider.
+# Allow only those provider domains to publish CDAC entry context to the kernel
+# control device before opening the delegated file object.
+allow { mediaprovider mediaprovider_app } iguard_ctl_device:chr_file { getattr open write };

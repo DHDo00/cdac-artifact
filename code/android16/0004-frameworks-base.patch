@@ -1,0 +1,1390 @@
+diff --git a/core/java/android/content/ContentProvider.java b/core/java/android/content/ContentProvider.java
+index 9b8918adc859..2c2679faa6da 100644
+--- a/core/java/android/content/ContentProvider.java
++++ b/core/java/android/content/ContentProvider.java
+@@ -123,6 +123,31 @@ import java.util.Objects;
+ public abstract class ContentProvider implements ContentInterface, ComponentCallbacks2 {
+ 
+     private static final String TAG = "ContentProvider";
++    private static final String URI_BASELINE_TAG = "URI_BASELINE";
++    private static final int URI_BASELINE_NOT_CHECKED = Integer.MIN_VALUE;
++    private static final ThreadLocal<UriBaselineGrantTrace> sUriBaselineGrantTrace =
++            new ThreadLocal<>();
++
++    private static final class UriBaselineGrantTrace {
++        private String uriGrantResult = "not_checked";
++    }
++
++    private static void uriBaselineStartGrantTrace() {
++        sUriBaselineGrantTrace.set(new UriBaselineGrantTrace());
++    }
++
++    private static String uriBaselineFinishGrantTrace() {
++        final UriBaselineGrantTrace trace = sUriBaselineGrantTrace.get();
++        sUriBaselineGrantTrace.remove();
++        return trace == null ? "unknown" : trace.uriGrantResult;
++    }
++
++    private static void uriBaselineSetGrantResult(String result) {
++        final UriBaselineGrantTrace trace = sUriBaselineGrantTrace.get();
++        if (trace != null) {
++            trace.uriGrantResult = result;
++        }
++    }
+ 
+     /*
+      * Note: if you add methods to ContentProvider, you must add similar methods to
+@@ -591,7 +616,19 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+             uri = validateIncomingUri(uri);
+             uri = maybeGetUriWithoutUserId(uri);
+             final String updatedMode = validateFileMode(mode);
+-            enforceFilePermission(attributionSource, uri, updatedMode);
++            final UriBaselineDecision uriBaselineDecision = checkFilePermissionForUriBaseline(
++                    attributionSource, uri, updatedMode);
++            if (uriBaselineDecision.securityException != null) {
++                logUriBaseline("openFile", uri, updatedMode, uriBaselineDecision);
++                throw uriBaselineDecision.securityException;
++            }
++            if (!uriBaselineDecision.isGranted()) {
++                final FileNotFoundException e = new FileNotFoundException("App op not allowed");
++                uriBaselineDecision.permissionException = e;
++                logUriBaseline("openFile", uri, updatedMode, uriBaselineDecision);
++                throw e;
++            }
++            logUriBaseline("openFile", uri, updatedMode, uriBaselineDecision);
+             traceBegin(TRACE_TAG_ACTIVITY_MANAGER, "openFile: ", uri.getAuthority());
+             final AttributionSource original = setCallingAttributionSource(
+                     attributionSource);
+@@ -613,7 +650,19 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+             uri = validateIncomingUri(uri);
+             uri = maybeGetUriWithoutUserId(uri);
+             final String updatedMode = validateFileMode(mode);
+-            enforceFilePermission(attributionSource, uri, updatedMode);
++            final UriBaselineDecision uriBaselineDecision = checkFilePermissionForUriBaseline(
++                    attributionSource, uri, updatedMode);
++            if (uriBaselineDecision.securityException != null) {
++                logUriBaseline("openAssetFile", uri, updatedMode, uriBaselineDecision);
++                throw uriBaselineDecision.securityException;
++            }
++            if (!uriBaselineDecision.isGranted()) {
++                final FileNotFoundException e = new FileNotFoundException("App op not allowed");
++                uriBaselineDecision.permissionException = e;
++                logUriBaseline("openAssetFile", uri, updatedMode, uriBaselineDecision);
++                throw e;
++            }
++            logUriBaseline("openAssetFile", uri, updatedMode, uriBaselineDecision);
+             traceBegin(TRACE_TAG_ACTIVITY_MANAGER, "openAssetFile: ", uri.getAuthority());
+             final AttributionSource original = setCallingAttributionSource(
+                     attributionSource);
+@@ -671,7 +720,19 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+             Bundle.setDefusable(opts, true);
+             uri = validateIncomingUri(uri);
+             uri = maybeGetUriWithoutUserId(uri);
+-            enforceFilePermission(attributionSource, uri, "r");
++            final UriBaselineDecision uriBaselineDecision = checkFilePermissionForUriBaseline(
++                    attributionSource, uri, "r");
++            if (uriBaselineDecision.securityException != null) {
++                logUriBaseline("openTypedAssetFile", uri, "r", uriBaselineDecision);
++                throw uriBaselineDecision.securityException;
++            }
++            if (!uriBaselineDecision.isGranted()) {
++                final FileNotFoundException e = new FileNotFoundException("App op not allowed");
++                uriBaselineDecision.permissionException = e;
++                logUriBaseline("openTypedAssetFile", uri, "r", uriBaselineDecision);
++                throw e;
++            }
++            logUriBaseline("openTypedAssetFile", uri, "r", uriBaselineDecision);
+             traceBegin(TRACE_TAG_ACTIVITY_MANAGER, "openTypedAssetFile: ", uri.getAuthority());
+             final AttributionSource original = setCallingAttributionSource(
+                     attributionSource);
+@@ -821,20 +882,132 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+             }
+         }
+ 
+-        @PermissionCheckerManager.PermissionResult
+-        private void enforceFilePermission(@NonNull AttributionSource attributionSource,
++        private UriBaselineDecision enforceFilePermission(@NonNull AttributionSource attributionSource,
+                 Uri uri, String mode)
+                 throws FileNotFoundException, SecurityException {
+-            if (mode != null && mode.indexOf('w') != -1) {
+-                if (enforceWritePermission(attributionSource, uri)
+-                        != PermissionChecker.PERMISSION_GRANTED) {
+-                    throw new FileNotFoundException("App op not allowed");
++            final UriBaselineDecision decision = checkFilePermissionForUriBaseline(
++                    attributionSource, uri, mode);
++            if (decision.securityException != null) {
++                throw decision.securityException;
++            }
++            if (!decision.isGranted()) {
++                throw new FileNotFoundException("App op not allowed");
++            }
++            return decision;
++        }
++
++        private UriBaselineDecision checkFilePermissionForUriBaseline(
++                @NonNull AttributionSource attributionSource, Uri uri, String mode) {
++            final UriBaselineDecision decision = new UriBaselineDecision(mode);
++            uriBaselineStartGrantTrace();
++            try {
++                if (decision.isWriteMode()) {
++                    decision.writePermissionResult = enforceWritePermission(attributionSource, uri);
++                } else {
++                    decision.readPermissionResult = enforceReadPermission(attributionSource, uri);
+                 }
+-            } else {
+-                if (enforceReadPermission(attributionSource, uri)
+-                        != PermissionChecker.PERMISSION_GRANTED) {
+-                    throw new FileNotFoundException("App op not allowed");
++            } catch (SecurityException e) {
++                decision.securityException = e;
++                if (decision.isWriteMode()) {
++                    decision.writePermissionResult = PermissionChecker.PERMISSION_HARD_DENIED;
++                } else {
++                    decision.readPermissionResult = PermissionChecker.PERMISSION_HARD_DENIED;
++                }
++            } finally {
++                decision.uriGrantResult = uriBaselineFinishGrantTrace();
++            }
++            return decision;
++        }
++
++        private void logUriBaseline(String transportMethod, Uri uri, String mode,
++                UriBaselineDecision decision) {
++            final String readResult = decision == null ? "unknown"
++                    : uriBaselinePermissionResultToString(decision.readPermissionResult);
++            final String writeResult = decision == null ? "unknown"
++                    : uriBaselinePermissionResultToString(decision.writePermissionResult);
++            final Throwable exception = decision == null ? null : decision.exception();
++            Log.i(URI_BASELINE_TAG,
++                    "event=openFile_permission"
++                    + " transport_method=" + uriBaselineSanitize(transportMethod)
++                    + " caller_uid=" + Binder.getCallingUid()
++                    + " caller_pid=" + Binder.getCallingPid()
++                    + " authority=" + uriBaselineSanitize(uri == null ? null : uri.getAuthority())
++                    + " uri=" + uriBaselineSanitize(uri)
++                    + " mode=" + uriBaselineSanitize(mode)
++                    + " is_write_mode=" + (decision != null && decision.isWriteMode())
++                    + " framework_perm_result=" + (decision == null ? "unknown"
++                            : decision.frameworkPermissionResultString())
++                    + " uri_grant_result=" + (decision == null ? "unknown"
++                            : decision.uriGrantResult)
++                    + " permission_path=" + (decision == null ? "unknown"
++                            : decision.permissionPath())
++                    + " exception_class=" + (exception == null ? "none"
++                            : exception.getClass().getName())
++                    + " exception_message=" + (exception == null ? "none"
++                            : uriBaselineSanitize(exception.getMessage()))
++                    + " read_perm=" + readResult
++                    + " write_perm=" + writeResult);
++        }
++
++        private String uriBaselinePermissionResultToString(int result) {
++            if (result == URI_BASELINE_NOT_CHECKED) {
++                return "not_checked";
++            } else if (result == PermissionChecker.PERMISSION_GRANTED) {
++                return "granted";
++            } else if (result == PermissionChecker.PERMISSION_SOFT_DENIED) {
++                return "soft_denied";
++            } else if (result == PermissionChecker.PERMISSION_HARD_DENIED) {
++                return "hard_denied";
++            }
++            return "unknown_" + result;
++        }
++
++        private String uriBaselineSanitize(@Nullable Object value) {
++            if (value == null) {
++                return "null";
++            }
++            return String.valueOf(value)
++                    .replace('\n', '_')
++                    .replace('\r', '_')
++                    .replace('\t', '_')
++                    .replace(' ', '_');
++        }
++
++        private final class UriBaselineDecision {
++            private final boolean mWriteMode;
++            private int readPermissionResult = URI_BASELINE_NOT_CHECKED;
++            private int writePermissionResult = URI_BASELINE_NOT_CHECKED;
++            private String uriGrantResult = "unknown";
++            private SecurityException securityException;
++            private FileNotFoundException permissionException;
++
++            UriBaselineDecision(String mode) {
++                mWriteMode = mode != null && mode.indexOf('w') != -1;
++            }
++
++            boolean isWriteMode() {
++                return mWriteMode;
++            }
++
++            boolean isGranted() {
++                return mWriteMode
++                        ? writePermissionResult == PermissionChecker.PERMISSION_GRANTED
++                        : readPermissionResult == PermissionChecker.PERMISSION_GRANTED;
++            }
++
++            String frameworkPermissionResultString() {
++                return isGranted() ? "granted" : "denied";
++            }
++
++            String permissionPath() {
++                return mWriteMode ? "write" : "read";
++            }
++
++            Throwable exception() {
++                if (securityException != null) {
++                    return securityException;
+                 }
++                return permissionException;
+             }
+         }
+ 
+@@ -1026,8 +1199,11 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+         }
+         final Uri userUri = (mSingleUser && !UserHandle.isSameUser(mMyUid, uid))
+                 ? maybeAddUserId(uri, callingUserId) : uri;
+-        if (context.checkUriPermission(userUri, pid, uid, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+-                == PackageManager.PERMISSION_GRANTED) {
++        final int uriGrantResult = context.checkUriPermission(userUri, pid, uid,
++                Intent.FLAG_GRANT_READ_URI_PERMISSION);
++        uriBaselineSetGrantResult(uriGrantResult == PackageManager.PERMISSION_GRANTED
++                ? "granted" : "denied");
++        if (uriGrantResult == PackageManager.PERMISSION_GRANTED) {
+             return PermissionChecker.PERMISSION_GRANTED;
+         }
+ 
+@@ -1106,8 +1282,11 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+         }
+ 
+         // last chance, check against any uri grants
+-        if (context.checkUriPermission(uri, pid, uid, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+-                == PackageManager.PERMISSION_GRANTED) {
++        final int uriGrantResult = context.checkUriPermission(uri, pid, uid,
++                Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
++        uriBaselineSetGrantResult(uriGrantResult == PackageManager.PERMISSION_GRANTED
++                ? "granted" : "denied");
++        if (uriGrantResult == PackageManager.PERMISSION_GRANTED) {
+             return PermissionChecker.PERMISSION_GRANTED;
+         }
+ 
+@@ -2678,6 +2857,8 @@ public abstract class ContentProvider implements ContentInterface, ComponentCall
+                 mSingleUser = (info.flags & ProviderInfo.FLAG_SINGLE_USER) != 0;
+                 mSystemUserOnly = (info.flags & ProviderInfo.FLAG_SYSTEM_USER_ONLY) != 0;
+                 setAuthorities(info.authority);
++                android.os.CdacEndpointRegistry.registerContentProvider(mTransport.asBinder(),
++                        getClass().getName(), info.authority);
+             }
+             if (Build.IS_DEBUGGABLE) {
+                 setTransportLoggingEnabled(Log.isLoggable(getClass().getSimpleName(),
+diff --git a/core/java/android/os/Binder.java b/core/java/android/os/Binder.java
+index 09b7a1aca1f6..3d512db1403c 100644
+--- a/core/java/android/os/Binder.java
++++ b/core/java/android/os/Binder.java
+@@ -47,6 +47,7 @@ import java.io.IOException;
+ import java.io.PrintWriter;
+ import java.lang.reflect.Modifier;
+ import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.atomic.AtomicLong;
+ import java.util.concurrent.atomic.AtomicReferenceArray;
+ 
+ /**
+@@ -92,6 +93,7 @@ public class Binder implements IBinder {
+     /** @hide */
+     public static final boolean CHECK_PARCEL_SIZE = false;
+     static final String TAG = "Binder";
++    private static final AtomicLong sCdacBinderEntrySeq = new AtomicLong(1);
+ 
+     /** @hide */
+     public static boolean LOG_RUNTIME_EXCEPTION = false; // DO NOT SUBMIT WITH TRUE
+@@ -1428,6 +1430,10 @@ public class Binder implements IBinder {
+ 
+     private boolean execTransactInternal(int code, Parcel data, Parcel reply, int flags,
+             int callingUid) {
++        cdacAuditBinderEntry(code, flags, callingUid);
++        final CdacBinderContext.Frame cdacFrame = CdacBinderContext.enter(
++                this, code, flags, callingUid, Binder.getCallingPid());
++        boolean cdacExceptionalExit = false;
+         // Make sure the observer won't change while processing a transaction.
+         final BinderInternal.Observer observer = sObserver;
+ 
+@@ -1478,6 +1484,7 @@ public class Binder implements IBinder {
+                 res = onTransact(code, data, reply, flags);
+             }
+         } catch (RemoteException|RuntimeException e) {
++            cdacExceptionalExit = true;
+             if (observer != null) {
+                 observer.callThrewException(callSession, e);
+             }
+@@ -1514,6 +1521,7 @@ public class Binder implements IBinder {
+                 observer.callEnded(callSession, data.dataSize(), reply.dataSize(), workSourceUid);
+             }
+ 
++            CdacBinderContext.exit(cdacFrame, cdacExceptionalExit);
+             checkParcel(this, code, reply, "Unreasonably large binder reply buffer");
+         }
+ 
+@@ -1526,6 +1534,32 @@ public class Binder implements IBinder {
+         return res;
+     }
+ 
++    private void cdacAuditBinderEntry(int code, int flags, int callingUid) {
++        final String descriptor = getInterfaceDescriptor();
++        if (!"android.content.IContentProvider".equals(descriptor)) {
++            return;
++        }
++        CdacRuntimeConfig.noteBinderEntry();
++        if (!CdacRuntimeConfig.isPerAttemptTextLoggingEnabled()) {
++            sCdacBinderEntrySeq.getAndIncrement();
++            return;
++        }
++        final String transactionName = getTransactionName(code);
++        Log.i(TAG, "event=CDAC_BINDER_ENTRY"
++                + " binder_tx_id=" + sCdacBinderEntrySeq.getAndIncrement()
++                + " ts_ns=" + SystemClock.elapsedRealtimeNanos()
++                + " server_pid=" + Process.myPid()
++                + " server_tid=" + Process.myTid()
++                + " origin_uid=" + callingUid
++                + " origin_pid=" + Binder.getCallingPid()
++                + " receiver_object_identity=" + System.identityHashCode(this)
++                + " receiver_java_class=" + getClass().getName()
++                + " receiver_interface_descriptor=" + descriptor
++                + " transaction_code=" + code
++                + " transaction_name=" + (transactionName != null ? transactionName : "")
++                + " transaction_flags=0x" + Integer.toHexString(flags));
++    }
++
+     /**
+      * Set the configuration for the heavy hitter watcher.
+      *
+@@ -1554,4 +1588,4 @@ public class Binder implements IBinder {
+             watcher.setConfig(false, 0, 0.0f, null);
+         }
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/packages/ExternalStorageProvider/Android.bp b/packages/ExternalStorageProvider/Android.bp
+index 0bbdf7aae9a5..a61db9ce3ebe 100644
+--- a/packages/ExternalStorageProvider/Android.bp
++++ b/packages/ExternalStorageProvider/Android.bp
+@@ -22,6 +22,8 @@ android_app {
+     ],
+ 
+     platform_apis: true,
++    min_sdk_version: "36",
++    target_sdk_version: "36",
+ 
+     certificate: "platform",
+ 
+diff --git a/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java b/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
+index 78255627903d..bbc060b9e04f 100644
+--- a/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
++++ b/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
+@@ -16,6 +16,7 @@
+ 
+ package com.android.externalstorage;
+ 
++import static java.util.regex.Pattern.CASE_INSENSITIVE;
+ 
+ import android.annotation.NonNull;
+ import android.annotation.Nullable;
+@@ -30,7 +31,9 @@ import android.database.MatrixCursor.RowBuilder;
+ import android.net.Uri;
+ import android.os.Binder;
+ import android.os.Bundle;
++import android.os.CancellationSignal;
+ import android.os.Environment;
++import android.os.ParcelFileDescriptor;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.os.storage.DiskInfo;
+@@ -59,17 +62,18 @@ import com.android.internal.util.IndentingPrintWriter;
+ import java.io.File;
+ import java.io.FileDescriptor;
+ import java.io.FileNotFoundException;
++import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.io.PrintWriter;
+-import java.nio.file.Files;
+-import java.nio.file.Paths;
+-import java.util.Arrays;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
+ import java.util.Collections;
+ import java.util.List;
+ import java.util.Locale;
+ import java.util.Objects;
+ import java.util.UUID;
+-import java.util.stream.Collectors;
++import java.util.regex.Pattern;
+ 
+ /**
+  * Presents content of the shared (a.k.a. "external") storage.
+@@ -87,14 +91,32 @@ public class ExternalStorageProvider extends FileSystemProvider {
+ 
+     private static final boolean DEBUG = false;
+ 
++    private static final String IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int IGUARD_MAGIC = 0x49475544;
++    private static final int IGUARD_VERSION = 1;
++    private static final int IGUARD_MSG_REPORT = 1;
++    private static final int IGUARD_MSG_INVALIDATE = 2;
++    private static final int IGUARD_MSG_LEN = 112;
++    private static final int IGUARD_SERVICE_LEN = 32;
++    private static final int IGUARD_OP_LEN = 32;
++    private static final int IGUARD_SERVICE_EXTERNAL_STORAGE_PROVIDER = 5;
++    private static final int IGUARD_OP_ESP_OPEN_DOCUMENT = 401;
++    private static final String IGUARD_SERVICE_NAME = "external_storage_provider";
++    private static final String IGUARD_OP_NAME = "esp_open_document";
++
+     public static final String AUTHORITY = DocumentsContract.EXTERNAL_STORAGE_PROVIDER_AUTHORITY;
+ 
+     private static final Uri BASE_URI =
+             new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority(AUTHORITY).build();
+ 
+-    private static final String PRIMARY_EMULATED_STORAGE_PATH = "/storage/emulated/";
+-
+-    private static final String STORAGE_PATH = "/storage/";
++    /**
++     * Regex for detecting {@code /Android/data/}, {@code /Android/obb/} and
++     * {@code /Android/sandbox/} along with all their subdirectories and content.
++     *
++     * LAB-ONLY CVE-2024-43093 PRE-PATCH REVERT: restored for controlled dummy-data audit only.
++     */
++    private static final Pattern PATTERN_RESTRICTED_ANDROID_SUBTREES =
++            Pattern.compile("^Android/(?:data|obb|sandbox)(?:/.+)?", CASE_INSENSITIVE);
+ 
+     private static final String[] DEFAULT_ROOT_PROJECTION = new String[] {
+             Root.COLUMN_ROOT_ID, Root.COLUMN_FLAGS, Root.COLUMN_ICON, Root.COLUMN_TITLE,
+@@ -106,6 +128,62 @@ public class ExternalStorageProvider extends FileSystemProvider {
+             Document.COLUMN_LAST_MODIFIED, Document.COLUMN_FLAGS, Document.COLUMN_SIZE,
+     };
+ 
++    private static void putIguardFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean iguardWriteMsg(int msgType, int callingUid, int callingPid) {
++        final ByteBuffer buf = ByteBuffer.allocate(IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++
++        buf.putInt(IGUARD_MAGIC);
++        buf.putInt(IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(IGUARD_MSG_LEN);
++        buf.putInt(callingUid);
++        buf.putInt(callingPid);
++        buf.putInt(IGUARD_SERVICE_EXTERNAL_STORAGE_PROVIDER);
++        buf.putInt(IGUARD_OP_ESP_OPEN_DOCUMENT);
++        putIguardFixedString(buf, IGUARD_SERVICE_NAME, IGUARD_SERVICE_LEN);
++        putIguardFixedString(buf, IGUARD_OP_NAME, IGUARD_OP_LEN);
++        buf.putLong(0L); // object_id
++        buf.putInt(0);   // flags
++
++        try (FileOutputStream out = new FileOutputStream(IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            Log.i(TAG, "IguardESP write ok type=" + msgType
++                    + " uid=" + callingUid + " pid=" + callingPid
++                    + " service_id=" + IGUARD_SERVICE_EXTERNAL_STORAGE_PROVIDER
++                    + " op_id=" + IGUARD_OP_ESP_OPEN_DOCUMENT);
++            return true;
++        } catch (IOException e) {
++            Log.w(TAG, "IguardESP write failed type=" + msgType
++                    + " service_id=" + IGUARD_SERVICE_EXTERNAL_STORAGE_PROVIDER
++                    + " op_id=" + IGUARD_OP_ESP_OPEN_DOCUMENT, e);
++            return false;
++        }
++    }
++
++    @Override
++    public ParcelFileDescriptor openDocument(
++            String documentId, String mode, CancellationSignal signal)
++            throws FileNotFoundException {
++        final boolean reported = iguardWriteMsg(
++                IGUARD_MSG_REPORT, Binder.getCallingUid(), Binder.getCallingPid());
++        try {
++            return super.openDocument(documentId, mode, signal);
++        } finally {
++            if (reported) {
++                iguardWriteMsg(IGUARD_MSG_INVALIDATE, 0, 0);
++            }
++        }
++    }
++
+     private static class RootInfo {
+         public String rootId;
+         public String volumeId;
+@@ -309,66 +387,8 @@ public class ExternalStorageProvider extends FileSystemProvider {
+             return false;
+         }
+ 
+-        try {
+-            final RootInfo root = getRootFromDocId(documentId);
+-            final String canonicalPath = getPathFromDocId(documentId);
+-            return isRestrictedPath(root.rootId, canonicalPath);
+-        } catch (Exception e) {
+-            return true;
+-        }
+-    }
+-
+-    /**
+-     * Based on the given root id and path, we restrict path access if file is Android/data or
+-     * Android/obb or Android/sandbox or one of their subdirectories.
+-     *
+-     * @param canonicalPath of the file
+-     * @return true if path is restricted
+-     */
+-    private boolean isRestrictedPath(String rootId, String canonicalPath) {
+-        if (rootId == null || canonicalPath == null) {
+-            return true;
+-        }
+-
+-        final String rootPath;
+-        if (rootId.equalsIgnoreCase(ROOT_ID_PRIMARY_EMULATED)) {
+-            // Creates "/storage/emulated/<user-id>"
+-            rootPath = PRIMARY_EMULATED_STORAGE_PATH + UserHandle.myUserId();
+-        } else {
+-            // Creates "/storage/<volume-uuid>"
+-            rootPath = STORAGE_PATH + rootId;
+-        }
+-        List<java.nio.file.Path> restrictedPathList = Arrays.asList(
+-                Paths.get(rootPath, "Android", "data"),
+-                Paths.get(rootPath, "Android", "obb"),
+-                Paths.get(rootPath, "Android", "sandbox"));
+-        // We need to identify restricted parent paths which actually exist on the device
+-        List<java.nio.file.Path> validRestrictedPathsToCheck = restrictedPathList.stream().filter(
+-                Files::exists).collect(Collectors.toList());
+-
+-        boolean isRestricted = false;
+-        java.nio.file.Path filePathToCheck = Paths.get(rootPath, canonicalPath);
+-        try {
+-            while (filePathToCheck != null) {
+-                for (java.nio.file.Path restrictedPath : validRestrictedPathsToCheck) {
+-                    if (Files.isSameFile(restrictedPath, filePathToCheck)) {
+-                        isRestricted = true;
+-                        Log.v(TAG, "Restricting access for path: " + filePathToCheck);
+-                        break;
+-                    }
+-                }
+-                if (isRestricted) {
+-                    break;
+-                }
+-
+-                filePathToCheck = filePathToCheck.getParent();
+-            }
+-        } catch (Exception e) {
+-            Log.w(TAG, "Error in checking file equality check.", e);
+-            isRestricted = true;
+-        }
+-
+-        return isRestricted;
++        final String path = getPathFromDocId(documentId);
++        return PATTERN_RESTRICTED_ANDROID_SUBTREES.matcher(path).matches();
+     }
+ 
+ 
+@@ -648,9 +668,7 @@ public class ExternalStorageProvider extends FileSystemProvider {
+                 return false;
+             }
+ 
+-            final RootInfo root = getRootFromDocId(documentId);
+-            final String canonicalPath = getPathFromDocId(documentId);
+-            return !isRestrictedPath(root.rootId, canonicalPath);
++            return !shouldHideDocument(documentId);
+         } catch (Exception e) {
+             return false;
+         }
+diff --git a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+index 1231f5632649..990523a2f6d3 100644
+--- a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
++++ b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+@@ -145,9 +145,11 @@ import java.io.InputStream;
+ import java.io.OutputStream;
+ import java.io.PrintWriter;
+ import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
+ import java.security.InvalidKeyException;
+ import java.security.NoSuchAlgorithmException;
+ import java.security.SecureRandom;
++import java.nio.charset.StandardCharsets;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collection;
+@@ -157,6 +159,8 @@ import java.util.HashSet;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Set;
++import java.util.ArrayDeque;
++import java.util.concurrent.atomic.AtomicLong;
+ import java.util.regex.Pattern;
+ 
+ import javax.crypto.Mac;
+@@ -201,6 +205,139 @@ public class SettingsProvider extends ContentProvider {
+ 
+     private static final String LOG_TAG = "SettingsProvider";
+ 
++    /*
++     * CDAC provider-side caller publication for SettingsProvider.openFile().
++     *
++     * SettingsProvider is hosted in system_server and the ringtone-cache file is opened
++     * synchronously on the provider Binder thread. This mirrors the existing
++     * current framework Binder context bridge: publish caller/entry just before the
++     * provider reaches its same-thread VFS open and pop it in the method finally.
++     */
++    private static final String CDAC_IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int CDAC_IGUARD_MAGIC = 0x49475544;
++    private static final int CDAC_IGUARD_VERSION = 1;
++    private static final int CDAC_IGUARD_MSG_PUSH = 5;
++    private static final int CDAC_IGUARD_MSG_POP = 6;
++    private static final int CDAC_IGUARD_MSG_LEN = 136;
++    private static final int CDAC_IGUARD_FIELD_LEN = 32;
++    private static final int CDAC_SERVICE_SETTINGS_PROVIDER = 8;
++    private static final int CDAC_OP_SETTINGS_OPEN_FILE = 701;
++    private static final String CDAC_SERVICE_NAME = "settings_provider";
++    private static final String CDAC_OP_OPEN_FILE = "openFile";
++    private static final long CDAC_SETTINGS_ENDPOINT_ID = 0x5310_0000_0000_0001L;
++    private static final int CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH = 2;
++    private static final AtomicLong sCdacSettingsSequence = new AtomicLong(1);
++    private static final ThreadLocal<ArrayDeque<CdacSettingsFrame>> sCdacSettingsFrames =
++            ThreadLocal.withInitial(ArrayDeque::new);
++
++    private static void putCdacFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean cdacWriteProviderContext(int msgType, CdacSettingsFrame frame) {
++        final ByteBuffer buf = ByteBuffer.allocate(CDAC_IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++        buf.putInt(CDAC_IGUARD_MAGIC);
++        buf.putInt(CDAC_IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(CDAC_IGUARD_MSG_LEN);
++        buf.putInt(frame.callingUid);
++        buf.putInt(frame.callingPid);
++        buf.putInt(CDAC_SERVICE_SETTINGS_PROVIDER);
++        buf.putInt(CDAC_OP_SETTINGS_OPEN_FILE);
++        buf.putInt(frame.serverTid);
++        buf.putInt(0); // transactionCode: provider-local route, not Binder transaction metadata.
++        buf.putInt(0); // transactionFlags
++        buf.putInt(frame.nestingDepth);
++        buf.putLong(frame.sequenceId);
++        buf.putLong(CDAC_SETTINGS_ENDPOINT_ID);
++        buf.putLong(0L); // descriptor hash unavailable for provider-local hook.
++        putCdacFixedString(buf, CDAC_SERVICE_NAME, CDAC_IGUARD_FIELD_LEN);
++        putCdacFixedString(buf, frame.operationName, CDAC_IGUARD_FIELD_LEN);
++
++        try (FileOutputStream out = new FileOutputStream(CDAC_IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++            Slog.i(LOG_TAG, "CdacSettingsProvider write ok"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service_id=" + CDAC_SERVICE_SETTINGS_PROVIDER
++                    + " op_id=" + CDAC_OP_SETTINGS_OPEN_FILE
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName);
++            return true;
++        } catch (Throwable t) {
++            Slog.w(LOG_TAG, "CdacSettingsProvider write failed"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName, t);
++            return false;
++        }
++    }
++
++    private static CdacSettingsFrame cdacReportCaller(String operationName) {
++        final ArrayDeque<CdacSettingsFrame> stack = sCdacSettingsFrames.get();
++        final CdacSettingsFrame frame = new CdacSettingsFrame(sCdacSettingsSequence.getAndIncrement(),
++                Binder.getCallingUid(), Binder.getCallingPid(), android.os.Process.myTid(),
++                CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH + stack.size(), operationName);
++        if (!cdacWriteProviderContext(CDAC_IGUARD_MSG_PUSH, frame)) {
++            return null;
++        }
++        stack.push(frame);
++        return frame;
++    }
++
++    private static void cdacInvalidateCaller(CdacSettingsFrame frame) {
++        if (frame == null) {
++            return;
++        }
++        final ArrayDeque<CdacSettingsFrame> stack = sCdacSettingsFrames.get();
++        final CdacSettingsFrame top = stack.peek();
++        if (top != frame) {
++            Slog.w(LOG_TAG, "CdacSettingsProvider stack mismatch"
++                    + " seq=" + frame.sequenceId
++                    + " topSeq=" + (top != null ? top.sequenceId : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++        cdacWriteProviderContext(CDAC_IGUARD_MSG_POP, frame);
++    }
++
++    private static final class CdacSettingsFrame {
++        final long sequenceId;
++        final int callingUid;
++        final int callingPid;
++        final int serverTid;
++        final int nestingDepth;
++        final String operationName;
++
++        CdacSettingsFrame(long sequenceId, int callingUid, int callingPid, int serverTid,
++                int nestingDepth, String operationName) {
++            this.sequenceId = sequenceId;
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.serverTid = serverTid;
++            this.nestingDepth = nestingDepth;
++            this.operationName = operationName;
++        }
++    }
++
+     public static final String TABLE_SYSTEM = "system";
+     public static final String TABLE_SECURE = "secure";
+     public static final String TABLE_GLOBAL = "global";
+@@ -836,34 +973,39 @@ public class SettingsProvider extends ContentProvider {
+ 
+     @Override
+     public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
+-        final int userId = getUserIdFromUri(uri, UserHandle.getCallingUserId());
+-        if (userId != UserHandle.getCallingUserId()) {
+-            getContext().enforceCallingPermission(Manifest.permission.INTERACT_ACROSS_USERS,
+-                    "Access files from the settings of another user");
+-        }
+-        final String callingPackage = getCallingPackage();
+-        if (mode.contains("w") && !Settings.checkAndNoteWriteSettingsOperation(getContext(),
+-                Binder.getCallingUid(), callingPackage, getCallingAttributionTag(),
+-                true /* throwException */)) {
+-            Slog.e(LOG_TAG, "Package: " + callingPackage + " is not allowed to modify "
+-                    + "system settings files.");
+-        }
+-        uri = ContentProvider.getUriWithoutUserId(uri);
+-
+-        final String cacheRingtoneSetting;
+-        if (Settings.System.RINGTONE_CACHE_URI.equals(uri)) {
+-            cacheRingtoneSetting = Settings.System.RINGTONE;
+-        } else if (Settings.System.NOTIFICATION_SOUND_CACHE_URI.equals(uri)) {
+-            cacheRingtoneSetting = Settings.System.NOTIFICATION_SOUND;
+-        } else if (Settings.System.ALARM_ALERT_CACHE_URI.equals(uri)) {
+-            cacheRingtoneSetting = Settings.System.ALARM_ALERT;
+-        } else {
+-            throw new FileNotFoundException("Direct file access no longer supported; "
+-                    + "ringtone playback is available through android.media.Ringtone");
+-        }
++        final CdacSettingsFrame cdacFrame = cdacReportCaller(CDAC_OP_OPEN_FILE);
++        try {
++            final int userId = getUserIdFromUri(uri, UserHandle.getCallingUserId());
++            if (userId != UserHandle.getCallingUserId()) {
++                getContext().enforceCallingPermission(Manifest.permission.INTERACT_ACROSS_USERS,
++                        "Access files from the settings of another user");
++            }
++            final String callingPackage = getCallingPackage();
++            if (mode.contains("w") && !Settings.checkAndNoteWriteSettingsOperation(getContext(),
++                    Binder.getCallingUid(), callingPackage, getCallingAttributionTag(),
++                    true /* throwException */)) {
++                Slog.e(LOG_TAG, "Package: " + callingPackage + " is not allowed to modify "
++                        + "system settings files.");
++            }
++            uri = ContentProvider.getUriWithoutUserId(uri);
++
++            final String cacheRingtoneSetting;
++            if (Settings.System.RINGTONE_CACHE_URI.equals(uri)) {
++                cacheRingtoneSetting = Settings.System.RINGTONE;
++            } else if (Settings.System.NOTIFICATION_SOUND_CACHE_URI.equals(uri)) {
++                cacheRingtoneSetting = Settings.System.NOTIFICATION_SOUND;
++            } else if (Settings.System.ALARM_ALERT_CACHE_URI.equals(uri)) {
++                cacheRingtoneSetting = Settings.System.ALARM_ALERT;
++            } else {
++                throw new FileNotFoundException("Direct file access no longer supported; "
++                        + "ringtone playback is available through android.media.Ringtone");
++            }
+ 
+-        final File cacheFile = getCacheFile(cacheRingtoneSetting, userId);
+-        return ParcelFileDescriptor.open(cacheFile, ParcelFileDescriptor.parseMode(mode));
++            final File cacheFile = getCacheFile(cacheRingtoneSetting, userId);
++            return ParcelFileDescriptor.open(cacheFile, ParcelFileDescriptor.parseMode(mode));
++        } finally {
++            cdacInvalidateCaller(cdacFrame);
++        }
+     }
+ 
+     @Nullable
+diff --git a/services/core/Android.bp b/services/core/Android.bp
+index fab23ee1dfa7..aa54f65236f9 100644
+--- a/services/core/Android.bp
++++ b/services/core/Android.bp
+@@ -33,6 +33,7 @@ filegroup {
+ filegroup {
+     name: "services.core-aidl-sources",
+     srcs: [
++	"java/com/android/server/iguard/IIguardDemoService.aidl",
+         ":dumpstate_aidl",
+         ":framework_native_aidl",
+         ":gsiservice_aidl",
+diff --git a/services/core/java/com/android/server/DropBoxManagerService.java b/services/core/java/com/android/server/DropBoxManagerService.java
+index 4b16e4fc74a2..e4089fe6ae1e 100644
+--- a/services/core/java/com/android/server/DropBoxManagerService.java
++++ b/services/core/java/com/android/server/DropBoxManagerService.java
+@@ -73,7 +73,6 @@ import com.android.internal.util.FrameworkStatsLog;
+ import com.android.internal.util.ObjectUtils;
+ import com.android.server.DropBoxManagerInternal.EntrySource;
+ import com.android.server.feature.flags.Flags;
+-
+ import libcore.io.IoUtils;
+ 
+ import java.io.ByteArrayInputStream;
+@@ -84,11 +83,16 @@ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.InputStreamReader;
+ import java.io.PrintWriter;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.List;
+ import java.util.SortedSet;
+ import java.util.TreeSet;
++import java.util.concurrent.atomic.AtomicLong;
+ import java.util.zip.GZIPOutputStream;
+ 
+ /**
+@@ -120,9 +124,145 @@ public final class DropBoxManagerService extends SystemService {
+     // Size beyond which to force-compress newly added entries.
+     private static final long COMPRESS_THRESHOLD_BYTES = 16_384;
+ 
++    /*
++     * CDAC service-side caller publication for DropBoxManagerService.getNextEntry().
++     *
++     * The service selects an EntryFile and opens its backing file synchronously on the
++     * same system_server Binder thread before marshalling the returned Entry/PFD. This
++     * publishes the caller and route identity immediately around that VFS open without
++     * changing native DropBox permission checks or using tag/timestamp as object identity.
++     */
++    private static final String CDAC_IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int CDAC_IGUARD_MAGIC = 0x49475544;
++    private static final int CDAC_IGUARD_VERSION = 1;
++    private static final int CDAC_IGUARD_MSG_PUSH = 5;
++    private static final int CDAC_IGUARD_MSG_POP = 6;
++    private static final int CDAC_IGUARD_MSG_LEN = 136;
++    private static final int CDAC_IGUARD_FIELD_LEN = 32;
++    private static final int CDAC_SERVICE_DROPBOX_MANAGER = 7;
++    private static final int CDAC_OP_DROPBOX_GET_NEXT_ENTRY = 601;
++    private static final String CDAC_SERVICE_NAME = "dropbox_manager";
++    private static final String CDAC_OP_GET_NEXT_ENTRY = "getNextEntry";
++    private static final long CDAC_DROPBOX_ENDPOINT_ID = 0x5100_0000_0000_0001L;
++    private static final int CDAC_SERVICE_LOCAL_BASE_NESTING_DEPTH = 2;
++    private static final AtomicLong sCdacDropBoxSequence = new AtomicLong(1);
++    private static final ThreadLocal<ArrayDeque<CdacDropBoxFrame>> sCdacDropBoxFrames =
++            ThreadLocal.withInitial(ArrayDeque::new);
++
+     // Tags that we should drop by default.
+     private static final List<String> DISABLED_BY_DEFAULT_TAGS =
+             List.of("data_app_wtf", "system_app_wtf", "system_server_wtf");
++
++    private static void putCdacFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean cdacWriteDropBoxContext(int msgType, CdacDropBoxFrame frame) {
++        final ByteBuffer buf = ByteBuffer.allocate(CDAC_IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++        buf.putInt(CDAC_IGUARD_MAGIC);
++        buf.putInt(CDAC_IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(CDAC_IGUARD_MSG_LEN);
++        buf.putInt(frame.callingUid);
++        buf.putInt(frame.callingPid);
++        buf.putInt(CDAC_SERVICE_DROPBOX_MANAGER);
++        buf.putInt(CDAC_OP_DROPBOX_GET_NEXT_ENTRY);
++        buf.putInt(frame.serverTid);
++        buf.putInt(0); // transactionCode: service-local route, not Binder transaction metadata.
++        buf.putInt(0); // transactionFlags
++        // Kernel service-local push normalizes to the per-thread stack depth. Use 0 on pop so
++        // cleanup is sequence-checked without rejecting provider-local diagnostic depth values.
++        buf.putInt(msgType == CDAC_IGUARD_MSG_POP ? 0 : frame.nestingDepth);
++        buf.putLong(frame.sequenceId);
++        buf.putLong(CDAC_DROPBOX_ENDPOINT_ID);
++        buf.putLong(0L); // descriptor hash unavailable for service-local hook.
++        putCdacFixedString(buf, CDAC_SERVICE_NAME, CDAC_IGUARD_FIELD_LEN);
++        putCdacFixedString(buf, frame.operationName, CDAC_IGUARD_FIELD_LEN);
++
++        try (FileOutputStream out = new FileOutputStream(CDAC_IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++            Slog.i(TAG, "CdacDropBoxService write ok"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service_id=" + CDAC_SERVICE_DROPBOX_MANAGER
++                    + " op_id=" + CDAC_OP_DROPBOX_GET_NEXT_ENTRY
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName);
++            return true;
++        } catch (Throwable t) {
++            Slog.w(TAG, "CdacDropBoxService write failed"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName, t);
++            return false;
++        }
++    }
++
++    private static CdacDropBoxFrame cdacReportCaller(String operationName) {
++        final ArrayDeque<CdacDropBoxFrame> stack = sCdacDropBoxFrames.get();
++        final CdacDropBoxFrame frame = new CdacDropBoxFrame(sCdacDropBoxSequence.getAndIncrement(),
++                Binder.getCallingUid(), Binder.getCallingPid(), android.os.Process.myTid(),
++                CDAC_SERVICE_LOCAL_BASE_NESTING_DEPTH + stack.size(), operationName);
++        if (!cdacWriteDropBoxContext(CDAC_IGUARD_MSG_PUSH, frame)) {
++            return null;
++        }
++        stack.push(frame);
++        return frame;
++    }
++
++    private static void cdacInvalidateCaller(CdacDropBoxFrame frame) {
++        if (frame == null) {
++            return;
++        }
++        final ArrayDeque<CdacDropBoxFrame> stack = sCdacDropBoxFrames.get();
++        final CdacDropBoxFrame top = stack.peek();
++        if (top != frame) {
++            Slog.w(TAG, "CdacDropBoxService stack mismatch"
++                    + " seq=" + frame.sequenceId
++                    + " topSeq=" + (top != null ? top.sequenceId : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++        cdacWriteDropBoxContext(CDAC_IGUARD_MSG_POP, frame);
++    }
++
++    private static final class CdacDropBoxFrame {
++        final long sequenceId;
++        final int callingUid;
++        final int callingPid;
++        final int serverTid;
++        final int nestingDepth;
++        final String operationName;
++
++        CdacDropBoxFrame(long sequenceId, int callingUid, int callingPid, int serverTid,
++                int nestingDepth, String operationName) {
++            this.sequenceId = sequenceId;
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.serverTid = serverTid;
++            this.nestingDepth = nestingDepth;
++            this.operationName = operationName;
++        }
++    }
++
+     // TODO: This implementation currently uses one file per entry, which is
+     // inefficient for smallish entries -- consider using a single queue file
+     // per tag (or even globally) instead.
+@@ -611,7 +751,6 @@ public final class DropBoxManagerService extends SystemService {
+             return true;
+         }
+ 
+-
+         String permission = Manifest.permission.READ_LOGS;
+         if (Flags.enableReadDropboxPermission()
+                 && CompatChanges.isChangeEnabled(ENFORCE_READ_DROPBOX_DATA, callingUid)) {
+@@ -621,7 +760,6 @@ public final class DropBoxManagerService extends SystemService {
+         // Callers always need this permission
+         getContext().enforceCallingOrSelfPermission(permission, TAG);
+ 
+-
+         // Callers also need the ability to read usage statistics
+         switch (getContext().getSystemService(AppOpsManager.class).noteOp(
+                 AppOpsManager.OP_GET_USAGE_STATS, callingUid, callingPackage, callingAttributionTag,
+@@ -642,37 +780,43 @@ public final class DropBoxManagerService extends SystemService {
+      */
+     public synchronized @Nullable IDropBoxManagerService.Entry getNextEntry(String tag, long millis,
+             String callingPackage, @Nullable String callingAttributionTag) {
+-        if (!checkPermission(Binder.getCallingUid(), callingPackage, callingAttributionTag)) {
+-            return null;
+-        }
+-
++        final CdacDropBoxFrame cdacFrame = cdacReportCaller(CDAC_OP_GET_NEXT_ENTRY);
+         try {
+-            init();
+-        } catch (IOException e) {
+-            Slog.e(TAG, "Can't init", e);
+-            return null;
+-        }
+-
+-        FileList list = tag == null ? mAllFiles : mFilesByTag.get(tag);
+-        if (list == null) return null;
++            final int callingUid = Binder.getCallingUid();
+ 
+-        for (EntryFile entry : list.contents.tailSet(new EntryFile(millis + 1))) {
+-            if (entry.tag == null) continue;
+-            if ((entry.flags & DropBoxManager.IS_EMPTY) != 0) {
+-                return createDropBoxEntry(entry.tag, entry.timestampMillis);
++            if (!checkPermission(callingUid, callingPackage, callingAttributionTag)) {
++                return null;
+             }
+-            final File file = entry.getFile(mDropBoxDir);
++
+             try {
+-                return createDropBoxEntry(entry.tag, entry.timestampMillis, file, entry.flags);
++                init();
+             } catch (IOException e) {
+-                Slog.wtf(TAG, "Can't read: " + file, e);
+-                // Continue to next file
++                Slog.e(TAG, "Can't init", e);
++                return null;
+             }
+-        }
+ 
+-        return null;
+-    }
++            FileList list = tag == null ? mAllFiles : mFilesByTag.get(tag);
++            if (list == null) return null;
++
++            for (EntryFile entry : list.contents.tailSet(new EntryFile(millis + 1))) {
++                if (entry.tag == null) continue;
++                if ((entry.flags & DropBoxManager.IS_EMPTY) != 0) {
++                    return createDropBoxEntry(entry.tag, entry.timestampMillis);
++                }
++                final File file = entry.getFile(mDropBoxDir);
++                try {
++                    return createDropBoxEntry(entry.tag, entry.timestampMillis, file, entry.flags);
++                } catch (IOException e) {
++                    Slog.wtf(TAG, "Can't read: " + file, e);
++                    // Continue to next file.
++                }
++            }
+ 
++            return null;
++        } finally {
++            cdacInvalidateCaller(cdacFrame);
++        }
++    }
+ 
+     /**
+      * Mimics the legacy constructor implementation of {@link DropBoxManager.Entry} that was
+@@ -739,131 +883,131 @@ public final class DropBoxManagerService extends SystemService {
+             return;
+         }
+ 
+-        if (PROFILE_DUMP) Debug.startMethodTracing("/data/trace/dropbox.dump");
+-
+-        StringBuilder out = new StringBuilder();
+-        boolean doPrint = false, doFile = false;
+-        boolean dumpProto = false;
+-        ArrayList<String> searchArgs = new ArrayList<String>();
+-        for (int i = 0; args != null && i < args.length; i++) {
+-            if (args[i].equals("-p") || args[i].equals("--print")) {
+-                doPrint = true;
+-            } else if (args[i].equals("-f") || args[i].equals("--file")) {
+-                doFile = true;
+-            } else if (args[i].equals("--proto")) {
+-                dumpProto = true;
+-            } else if (args[i].equals("-h") || args[i].equals("--help")) {
+-                pw.println("Dropbox (dropbox) dump options:");
+-                pw.println("  [-h|--help] [-p|--print] [-f|--file] [timestamp]");
+-                pw.println("    -h|--help: print this help");
+-                pw.println("    -p|--print: print full contents of each entry");
+-                pw.println("    -f|--file: print path of each entry's file");
+-                pw.println("    --proto: dump data to proto");
+-                pw.println("  [timestamp] optionally filters to only those entries.");
++            if (PROFILE_DUMP) Debug.startMethodTracing("/data/trace/dropbox.dump");
++
++            StringBuilder out = new StringBuilder();
++            boolean doPrint = false, doFile = false;
++            boolean dumpProto = false;
++            ArrayList<String> searchArgs = new ArrayList<String>();
++            for (int i = 0; args != null && i < args.length; i++) {
++                if (args[i].equals("-p") || args[i].equals("--print")) {
++                    doPrint = true;
++                } else if (args[i].equals("-f") || args[i].equals("--file")) {
++                    doFile = true;
++                } else if (args[i].equals("--proto")) {
++                    dumpProto = true;
++                } else if (args[i].equals("-h") || args[i].equals("--help")) {
++                    pw.println("Dropbox (dropbox) dump options:");
++                    pw.println("  [-h|--help] [-p|--print] [-f|--file] [timestamp]");
++                    pw.println("    -h|--help: print this help");
++                    pw.println("    -p|--print: print full contents of each entry");
++                    pw.println("    -f|--file: print path of each entry's file");
++                    pw.println("    --proto: dump data to proto");
++                    pw.println("  [timestamp] optionally filters to only those entries.");
++                    return;
++                } else if (args[i].startsWith("-")) {
++                    out.append("Unknown argument: ").append(args[i]).append("\n");
++                } else {
++                    searchArgs.add(args[i]);
++                }
++            }
++
++            if (dumpProto) {
++                dumpProtoLocked(fd, searchArgs);
+                 return;
+-            } else if (args[i].startsWith("-")) {
+-                out.append("Unknown argument: ").append(args[i]).append("\n");
+-            } else {
+-                searchArgs.add(args[i]);
+             }
+-        }
+ 
+-        if (dumpProto) {
+-            dumpProtoLocked(fd, searchArgs);
+-            return;
+-        }
++            out.append("Drop box contents: ").append(mAllFiles.contents.size()).append(" entries\n");
++            out.append("Max entries: ").append(mMaxFiles).append("\n");
+ 
+-        out.append("Drop box contents: ").append(mAllFiles.contents.size()).append(" entries\n");
+-        out.append("Max entries: ").append(mMaxFiles).append("\n");
++            out.append("Low priority rate limit period: ");
++            out.append(mLowPriorityRateLimitPeriod).append(" ms\n");
++            out.append("Low priority tags: ").append(mLowPriorityTags).append("\n");
+ 
+-        out.append("Low priority rate limit period: ");
+-        out.append(mLowPriorityRateLimitPeriod).append(" ms\n");
+-        out.append("Low priority tags: ").append(mLowPriorityTags).append("\n");
++            if (!searchArgs.isEmpty()) {
++                out.append("Searching for:");
++                for (String a : searchArgs) out.append(" ").append(a);
++                out.append("\n");
++            }
+ 
+-        if (!searchArgs.isEmpty()) {
+-            out.append("Searching for:");
+-            for (String a : searchArgs) out.append(" ").append(a);
++            int numFound = 0;
+             out.append("\n");
+-        }
++            for (EntryFile entry : mAllFiles.contents) {
++                if (!matchEntry(entry, searchArgs)) continue;
+ 
+-        int numFound = 0;
+-        out.append("\n");
+-        for (EntryFile entry : mAllFiles.contents) {
+-            if (!matchEntry(entry, searchArgs)) continue;
++                numFound++;
++                if (doPrint) out.append("========================================\n");
+ 
+-            numFound++;
+-            if (doPrint) out.append("========================================\n");
++                String date = TimeMigrationUtils.formatMillisWithFixedFormat(entry.timestampMillis);
++                out.append(date).append(" ").append(entry.tag == null ? "(no tag)" : entry.tag);
+ 
+-            String date = TimeMigrationUtils.formatMillisWithFixedFormat(entry.timestampMillis);
+-            out.append(date).append(" ").append(entry.tag == null ? "(no tag)" : entry.tag);
+-
+-            final File file = entry.getFile(mDropBoxDir);
+-            if (file == null) {
+-                out.append(" (no file)\n");
+-                continue;
+-            } else if ((entry.flags & DropBoxManager.IS_EMPTY) != 0) {
+-                out.append(" (contents lost)\n");
+-                continue;
+-            } else {
+-                out.append(" (");
+-                if ((entry.flags & DropBoxManager.IS_GZIPPED) != 0) out.append("compressed ");
+-                out.append((entry.flags & DropBoxManager.IS_TEXT) != 0 ? "text" : "data");
+-                out.append(", ").append(file.length()).append(" bytes)\n");
+-            }
++                final File file = entry.getFile(mDropBoxDir);
++                if (file == null) {
++                    out.append(" (no file)\n");
++                    continue;
++                } else if ((entry.flags & DropBoxManager.IS_EMPTY) != 0) {
++                    out.append(" (contents lost)\n");
++                    continue;
++                } else {
++                    out.append(" (");
++                    if ((entry.flags & DropBoxManager.IS_GZIPPED) != 0) out.append("compressed ");
++                    out.append((entry.flags & DropBoxManager.IS_TEXT) != 0 ? "text" : "data");
++                    out.append(", ").append(file.length()).append(" bytes)\n");
++                }
+ 
+-            if (doFile || (doPrint && (entry.flags & DropBoxManager.IS_TEXT) == 0)) {
+-                if (!doPrint) out.append("    ");
+-                out.append(file.getPath()).append("\n");
+-            }
++                if (doFile || (doPrint && (entry.flags & DropBoxManager.IS_TEXT) == 0)) {
++                    if (!doPrint) out.append("    ");
++                    out.append(file.getPath()).append("\n");
++                }
+ 
+-            if ((entry.flags & DropBoxManager.IS_TEXT) != 0 && doPrint) {
+-                DropBoxManager.Entry dbe = null;
+-                InputStreamReader isr = null;
+-                try {
+-                    dbe = new DropBoxManager.Entry(
+-                             entry.tag, entry.timestampMillis, file, entry.flags);
+-
+-                    if (doPrint) {
+-                        isr = new InputStreamReader(dbe.getInputStream());
+-                        char[] buf = new char[4096];
+-                        boolean newline = false;
+-                        for (;;) {
+-                            int n = isr.read(buf);
+-                            if (n <= 0) break;
+-                            out.append(buf, 0, n);
+-                            newline = (buf[n - 1] == '\n');
+-
+-                            // Flush periodically when printing to avoid out-of-memory.
+-                            if (out.length() > 65536) {
+-                                pw.write(out.toString());
+-                                out.setLength(0);
++                if ((entry.flags & DropBoxManager.IS_TEXT) != 0 && doPrint) {
++                    DropBoxManager.Entry dbe = null;
++                    InputStreamReader isr = null;
++                    try {
++                        dbe = new DropBoxManager.Entry(
++                                 entry.tag, entry.timestampMillis, file, entry.flags);
++
++                        if (doPrint) {
++                            isr = new InputStreamReader(dbe.getInputStream());
++                            char[] buf = new char[4096];
++                            boolean newline = false;
++                            for (;;) {
++                                int n = isr.read(buf);
++                                if (n <= 0) break;
++                                out.append(buf, 0, n);
++                                newline = (buf[n - 1] == '\n');
++
++                                // Flush periodically when printing to avoid out-of-memory.
++                                if (out.length() > 65536) {
++                                    pw.write(out.toString());
++                                    out.setLength(0);
++				                                    }
+                             }
++                            if (!newline) out.append("\n");
+                         }
+-                        if (!newline) out.append("\n");
+-                    }
+-                } catch (IOException e) {
+-                    out.append("*** ").append(e.toString()).append("\n");
+-                    Slog.e(TAG, "Can't read: " + file, e);
+-                } finally {
+-                    if (dbe != null) dbe.close();
+-                    if (isr != null) {
+-                        try {
+-                            isr.close();
+-                        } catch (IOException unused) {
++                    } catch (IOException e) {
++                        out.append("*** ").append(e.toString()).append("\n");
++                        Slog.e(TAG, "Can't read: " + file, e);
++                    } finally {
++                        if (dbe != null) dbe.close();
++                        if (isr != null) {
++                            try {
++                                isr.close();
++                            } catch (IOException unused) {
++                            }
+                         }
+                     }
+                 }
+-            }
+ 
+-            if (doPrint) out.append("\n");
+-        }
++                if (doPrint) out.append("\n");
++            }
+ 
+-        if (numFound == 0) out.append("(No entries found.)\n");
++            if (numFound == 0) out.append("(No entries found.)\n");
+ 
+-        if (args == null || args.length == 0) {
+-            if (!doPrint) out.append("\n");
+-            out.append("Usage: dumpsys dropbox [--print|--file] [YYYY-mm-dd] [HH:MM:SS] [tag]\n");
+-        }
++            if (args == null || args.length == 0) {
++                if (!doPrint) out.append("\n");
++                out.append("Usage: dumpsys dropbox [--print|--file] [YYYY-mm-dd] [HH:MM:SS] [tag]\n");
++            }
+ 
+         pw.write(out.toString());
+         if (PROFILE_DUMP) Debug.stopMethodTracing();
+diff --git a/services/core/jni/onload.cpp b/services/core/jni/onload.cpp
+index d50b0f909ab6..c58468b74ccd 100644
+--- a/services/core/jni/onload.cpp
++++ b/services/core/jni/onload.cpp
+@@ -72,7 +72,6 @@ int register_android_server_display_smallAreaDetectionController(JNIEnv* env);
+ int register_com_android_server_accessibility_BrailleDisplayConnection(JNIEnv* env);
+ int register_android_server_am_PhantomProcessList(JNIEnv* env);
+ int register_android_server_utils_LongMethodTracer(JNIEnv* env);
+-
+ // Note: Consider adding new JNI entrypoints for optional services to
+ // LazyJniRegistrar instead, and relying on lazy registration.
+ };
+@@ -89,7 +88,6 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* /* reserved */)
+         return result;
+     }
+     ALOG_ASSERT(env, "Could not retrieve the env!");
+-
+     register_android_server_broadcastradio_BroadcastRadioService(env);
+     register_android_server_broadcastradio_Tuner(vm, env);
+     register_android_server_PowerManagerService(env);
+diff --git a/services/java/com/android/server/SystemServer.java b/services/java/com/android/server/SystemServer.java
+index 9ab827e36eb6..a5eefc09d3fa 100644
+--- a/services/java/com/android/server/SystemServer.java
++++ b/services/java/com/android/server/SystemServer.java
+@@ -16,6 +16,9 @@
+ 
+ package com.android.server;
+ 
++//DH
++import com.android.server.iguard.IguardDemoService;
++//DH
+ import static android.app.userrecovery.flags.Flags.enableUserRecoveryManager;
+ import static android.media.tv.flags.Flags.mediaQualityFw;
+ import static android.net.NetworkStack.PERMISSION_MAINLINE_NETWORK_STACK;
+@@ -1601,7 +1604,12 @@ public final class SystemServer implements Dumpable {
+             t.traceBegin("StartKeyChainSystemService");
+             mSystemServiceManager.startService(KeyChainSystemService.class);
+             t.traceEnd();
+-
++	    
++	    //DH
++	    t.traceBegin("StartIguardDemoService");
++            mSystemServiceManager.startService(IguardDemoService.class);
++	    t.traceEnd();
++	    //DH
+             t.traceBegin("StartBinaryTransparencyService");
+             mSystemServiceManager.startService(BinaryTransparencyService.class);
+             t.traceEnd();

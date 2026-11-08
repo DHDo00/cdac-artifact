@@ -1,0 +1,16 @@
+CDAC_R35_R1_REVERSAL_AND_DATA_PROVENANCE_20261028=COMPLETE
+DATE_RANGE=2026-10-28/29 (TZ=Asia/Shanghai)
+INSTANCES=1 (cvd-35, ADB 0.0.0.0:6554, 1 boot); BUILDS=0; SELINUX_UNCHANGED=yes; HISTORICAL_ARCHIVES_UNCHANGED=yes
+R1_SUBJECT_REVERSAL=PASS (30/30 requests once-passed; 6/6 real denies + 24/24 allows/recoveries)
+  B0 no-rule: A->X 3/3 ok(original e22785..), B->X 3/3 ok(redacted 96f60e..)
+  B1 rule caller=A op=openFile: A->X 3/3 DENY_PASS(real-enforce errno=-13 deny-now, matched=1 cdac35_r14a, obj 0:45/ino2931), B->X 3/3 allow, A->Y 3/3 allow
+  B2 rule caller=B op=openFile (SUBJECT REVERSAL): B->X 3/3 DENY_PASS(real-enforce -13 deny-now, matched=1 cdac35_rev), A->X 3/3 allow(recovered), B->Y 3/3 allow
+  B3 revoke: A->X 3/3 allow, B->X 3/3 allow; runtime_policy_count=0 readback
+  fixed-rule caller selectivity vs rule-subject reversal both established in-boot; 25-round txn23 evidence kept separate (not R1)
+  backing X unchanged throughout (dev 65120/ino2931/size911/sha e22785..); file_open_deny 0->3->6; push=pop=35; 0 mismatch
+R1_ELIGIBILITY=route(C2 txn14 openFile -> 6/501) + non-root distinct A/B(10121/10122) + native auth + existing publish path + real-deny-capable artifact all confirmed
+METRIC_PROVENANCE=12 requested numbers traced to protocol/CSV/scripts/reports; recomputation matches reported values; no silent edits; distinctions recorded (10/10 forwarding vs DP post-rule health; 160/160 concurrency vs legacy MP reconstruction; 24 vs 60; 61 checks=17 deny+44 allow; 128 rules & ms values NOT denominators; +2.72/+2.26 = mean of per-boot median diffs, not pooled median; 0.252 ms baseline=P0 patched empty-policy, CI spans zero)
+PRESERVED=19-round runtime-precondition block; 32-round design block (publish-only); 33-round six direct-write domains + permissive su disclosure; third-party downstream UNVERIFIED; path_tail chain confirmed with C UNRESOLVED_DETAIL; human-cost MATERIALS_READY_ONLY; cross-version ARTIFACT_INSUFFICIENT_OLD_VERSION; B1-B4 definitions/proofs; L/C tie scope
+NO=platform rebuild; mechanism change; report-only-as-deny; root-as-app; other-instance access; unrelated-task scanning
+DELIVERABLES=00_inputs/INPUT_AND_VERSION_CHECK.md, 01_reconciliation/R1_PROTOCOL_RECONCILIATION.md, 02_metrics/{METRIC_PROVENANCE.csv,METRIC_PROVENANCE.md}, 03_protocol/PROTOCOL_FROZEN.md, 04_fixtures/*, 05_artifacts/*, 06_runtime/*, 07_results/{PER_REQUEST_LEDGER.csv,RESULTS_SUMMARY.md,TIME_AND_FAILURES.md,raw logs,file states,policy dumps,counters}, 08_conclusions/R1_RESULT_AND_LIMITATIONS.md, 09_review_updates/{CLAIM_EVIDENCE_MAP,REVIEW_GAP_MATRIX,REVIEW_RESPONSE_DRAFT,OPEN_ISSUES}.md, 10_paper_draft/PAPER_INSERTION_DRAFT.md, FINAL_STATUS.txt, SHA256SUMS.txt
+STOP=minimal R1 batch + data audit complete; instance stopped rc=0; config link restored; no expansion to concurrency/third-party/perf/mechanism rework

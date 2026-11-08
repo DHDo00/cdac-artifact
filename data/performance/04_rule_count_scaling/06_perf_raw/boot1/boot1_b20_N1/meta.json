@@ -1,0 +1,17 @@
+{
+ "boot": "1",
+ "block": 20,
+ "position": 3,
+ "scale": 1,
+ "loadavg1": 3.12,
+ "disturbed": false,
+ "config_verified": true,
+ "count_actual": 1,
+ "ts": "2026-10-26T18:07:40+0800",
+ "csv_rows": 5,
+ "qc_post": "counter_schema_version=2\ncontext_push_ok=1165\ncontext_push_fail=0\ncontext_pop_ok=1165\ncontext_pop_fail=0\ncontext_lookup_hit=0\ncontext_lookup_miss=0\nrelation_decision=200\nrelation_complete=200\nrelation_incomplete=0\nrelation_stale=0\nrelation_rule_match=0\nrelation_rule_nonmatch=200\nrelation_deny=0\nrelation_allow=200\nfile_open_join=2295\nfile_open_no_context=1039809\nfile_open_deny=16\nrelation_publish_total=200\nrelation_unpaired=0\ncontext_enter_total=1165\ncontext_exit_total=1165\ncontext_nested_mismatch_total=0\ncontext_stale_total=0\ncontext_borrowed_total=0\nrule_match_total=0\nfrdac_deny_total=0\nfd_receive_event_total=354\nfd_receiver_install_attempt_total=2014623\nfd_receiver_install_success_total=2014623\nfd_receiver_install_failure_total=0\nfrdac_target_fd_transfer_attempt_total=5524\nfrdac_target_receiver_install_success_total=5524\nfrdac_target_receiver_install_failure_total=0\nfrdac_denied_internal_fd_acquire_total=0\nfrdac_denied_internal_fd_release_total=0\nfrdac_denied_internal_fd_outstanding=0\nfrdac_denied_app_fd_install_total=0\n",
+ "file_state": {
+  "X": "/data/media/0/espafd_tree/X.bin 16 65120 3175\n479907bce18e40ca961bf1b7424bb1fce7aace5df1a57b9d0393dd2112d3831b  /data/media/0/espafd_tree/X.bin"
+ },
+ "policy_dump_post": "runtime_policy_count=1\n[0] service_id=5 op_id=401 caller_uid=10122 service=- operation=openAssetFile path_tail=- ino=3175 s_dev=254:96 i_mode=00 f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 required_relation_type=0 required_relation_stage=0 decision=would-deny reason=rcs21_tgt_A_X specificity=7\n"
+}

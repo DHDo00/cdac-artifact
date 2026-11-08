@@ -1,0 +1,6 @@
+metric,value,definition,evidence
+add_command_records_parsed,45,policy_add ok lines parsed from package + A15/A17 rule files,DEPLOYMENT_LEDGER.csv
+clear_command_records_parsed,10,policy_clear ok lines parsed; clear is NOT a deny deployment,DEPLOYMENT_LEDGER.csv
+add_with_matching_dump_readback,31,"add record whose (round,boot,reason,caller) has an authoritative [slot] dump in the package",RAW_POLICY_RECORDS.csv op_evidence
+add_without_readback_candidate,14,"add-only records (R12 x6, R16 x8) without dump in package; deployment success not verifiable offline",DEPLOYMENT_LEDGER.csv
+request_level_execution_results,per-round,"real-enforce denials with request association exist per round (R39 240, R38 6, R41 4, R35 6, A15 6, A17 12, R21 17 of 61 checks...) but are outside this rule-accounting package",round ledgers; paper app:media-method-label etc.

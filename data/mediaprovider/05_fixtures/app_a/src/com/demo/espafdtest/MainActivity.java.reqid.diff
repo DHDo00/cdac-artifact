@@ -1,0 +1,161 @@
+--- a/MainActivity.java
++++ b/MainActivity.java
+@@ -19,6 +19,7 @@
+ 
+ public class MainActivity extends Activity {
+     private static final String TAG = "CDAC27_PATH";
++    private String mReqId;
+     private static final String X_MARKER = "CDAC25GPSMARK_AAAA";
+ 
+     @Override
+@@ -28,6 +29,10 @@
+         if (intent == null) { finish(); return; }
+         String cmd = intent.getStringExtra("cmd");
+         if (cmd == null) { finish(); return; }
++        mReqId = intent.getStringExtra("reqid");
++        if (mReqId == null) mReqId = "NORQ";
++        Log.i(TAG, "REQ reqid=" + mReqId + " pid=" + android.os.Process.myPid()
++                + " tid=" + android.os.Process.myTid() + " cmd=" + cmd);
+         try {
+             if ("make_image".equals(cmd)) {
+                 makeImage(intent.getStringExtra("name"));
+@@ -47,7 +52,7 @@
+                 queryState(intent.getStringExtra("uri"));
+             }
+         } catch (Throwable t) {
+-            Log.i(TAG, "RESULT fail cmd=" + cmd + " err=" + t.getClass().getSimpleName() + ":" + t.getMessage());
++            Log.i(TAG, "RESULT fail cmd=" + cmd + " reqid=" + mReqId + " err=" + t.getClass().getSimpleName() + ":" + t.getMessage());
+         }
+         finish();
+     }
+@@ -79,7 +84,7 @@
+         return sb.toString();
+     }
+ 
+-    private static void logRead(String kind, Uri u, ParcelFileDescriptor pfd, String marker) throws Exception {
++    private static void logRead(String kind, Uri u, ParcelFileDescriptor pfd, String marker, String reqid) throws Exception {
+         StructStat st = Os.fstat(pfd.getFileDescriptor());
+         java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+         try (InputStream in = new ParcelFileDescriptor.AutoCloseInputStream(pfd)) {
+@@ -93,13 +98,13 @@
+                 + " dev=" + (st.st_dev >>> 8) + ":" + (st.st_dev & 0xff)
+                 + " ino=" + st.st_ino
+                 + " marker=" + marker + " marker_present=" + markerPresent
+-                + " sha256=" + sha256Hex(all));
++                + " sha256=" + sha256Hex(all) + " reqid=" + reqid);
+     }
+ 
+     private void readCr(String uriStr, String marker) throws Exception {
+         Uri u = Uri.parse(uriStr);
+         ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(u, "r");
+-        logRead("CR", u, pfd, marker);
++        logRead("CR", u, pfd, marker, mReqId);
+     }
+ 
+     private void readCpc(String uriStr, String marker) throws Exception {
+@@ -108,7 +113,7 @@
+         if (cpc == null) throw new IllegalStateException("acquireContentProviderClient null");
+         try {
+             ParcelFileDescriptor pfd = cpc.openFile(u, "r");
+-            logRead("CPC", u, pfd, marker);
++            logRead("CPC", u, pfd, marker, mReqId);
+         } finally {
+             cpc.close();
+         }
+@@ -131,7 +136,7 @@
+         Uri u = Uri.parse(uriStr);
+         byte[] payload = payloadWithToken("image1.jpg", token);
+         ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(u, "w");
+-        if (pfd == null) { Log.i(TAG, "WRITE_MP fail null-pfd uri=" + u); return; }
++        if (pfd == null) { Log.i(TAG, "WRITE_MP fail null-pfd uri=" + u + " reqid=" + mReqId); return; }
+         StructStat pre = Os.fstat(pfd.getFileDescriptor());
+         FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor());
+         out.write(payload); out.flush();
+@@ -141,20 +146,20 @@
+                 + " pfd=1 dev=" + (pre.st_dev >>> 8) + ":" + (pre.st_dev & 0xff)
+                 + " ino=" + pre.st_ino
+                 + " size_pre=" + pre.st_size + " size_post=" + post.st_size
+-                + " written=" + payload.length + " sha256=" + sha256Hex(payload));
++                + " written=" + payload.length + " sha256=" + sha256Hex(payload) + " reqid=" + mReqId);
+     }
+ 
+     private void restoreMp(String uriStr) throws Exception {
+         Uri u = Uri.parse(uriStr);
+         byte[] orig = readAssetBytes("image1.jpg");
+         ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(u, "w");
+-        if (pfd == null) { Log.i(TAG, "RESTORE_MP fail null-pfd uri=" + u); return; }
++        if (pfd == null) { Log.i(TAG, "RESTORE_MP fail null-pfd uri=" + u + " reqid=" + mReqId); return; }
+         FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor());
+         out.write(orig); out.flush();
+         StructStat post = Os.fstat(pfd.getFileDescriptor());
+         pfd.close();
+         Log.i(TAG, "RESTORE_MP ok uri=" + u + " size_post=" + post.st_size
+-                + " written=" + orig.length + " sha256=" + sha256Hex(orig));
++                + " written=" + orig.length + " sha256=" + sha256Hex(orig) + " reqid=" + mReqId);
+     }
+ 
+     private void writeDiag(String uriStr, int n) throws Exception {
+@@ -162,7 +167,7 @@
+         byte[] payload = new byte[n];
+         for (int i = 0; i < n; i++) payload[i] = (byte) 'D';
+         ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(u, "w");
+-        if (pfd == null) { Log.i(TAG, "WRITE_DIAG fail null-pfd uri=" + u); return; }
++        if (pfd == null) { Log.i(TAG, "WRITE_DIAG fail null-pfd uri=" + u + " reqid=" + mReqId); return; }
+         StructStat pre = Os.fstat(pfd.getFileDescriptor());
+         FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor());
+         out.write(payload); out.flush();
+@@ -172,20 +177,20 @@
+                 + " dev=" + (pre.st_dev >>> 8) + ":" + (pre.st_dev & 0xff)
+                 + " ino=" + pre.st_ino
+                 + " size_pre=" + pre.st_size + " size_post=" + post.st_size
+-                + " written=" + n);
++                + " written=" + n + " reqid=" + mReqId);
+     }
+ 
+     private void restoreDiag(String uriStr) throws Exception {
+         Uri u = Uri.parse(uriStr);
+         byte[] orig = readAssetBytes("image2.jpg");
+         ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(u, "w");
+-        if (pfd == null) { Log.i(TAG, "RESTORE_DIAG fail null-pfd uri=" + u); return; }
++        if (pfd == null) { Log.i(TAG, "RESTORE_DIAG fail null-pfd uri=" + u + " reqid=" + mReqId); return; }
+         FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor());
+         out.write(orig); out.flush();
+         StructStat post = Os.fstat(pfd.getFileDescriptor());
+         pfd.close();
+         Log.i(TAG, "RESTORE_DIAG ok uri=" + u + " size_post=" + post.st_size
+-                + " written=" + orig.length + " sha256=" + sha256Hex(orig));
++                + " written=" + orig.length + " sha256=" + sha256Hex(orig) + " reqid=" + mReqId);
+     }
+ 
+     private void makeImage(String name) throws Exception {
+@@ -198,7 +203,7 @@
+         cv.put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/");
+         Uri u = getContentResolver().insert(
+                 MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), cv);
+-        if (u == null) { Log.i(TAG, "MAKE_IMAGE fail insert-null name=" + name); return; }
++        if (u == null) { Log.i(TAG, "MAKE_IMAGE fail insert-null name=" + name + " reqid=" + mReqId); return; }
+         java.io.OutputStream os = getContentResolver().openOutputStream(u);
+         os.write(bytes);
+         os.close();
+@@ -215,7 +220,7 @@
+               .append(" is_pending=").append(c.getInt(4));
+             c.close();
+         }
+-        Log.i(TAG, sb.toString());
++        Log.i(TAG, sb.toString() + " reqid=" + mReqId);
+     }
+ 
+     private void queryState(String uriStr) throws Exception {
+@@ -226,10 +231,10 @@
+                 MediaStore.MediaColumns.IS_PENDING}, null, null, null);
+         if (c != null && c.moveToFirst()) {
+             Log.i(TAG, "STATE uri=" + u + " id=" + c.getLong(0) + " owner=" + c.getString(1)
+-                    + " data=" + c.getString(2) + " size=" + c.getLong(3) + " is_pending=" + c.getInt(4));
++                    + " data=" + c.getString(2) + " size=" + c.getLong(3) + " is_pending=" + c.getInt(4) + " reqid=" + mReqId);
+             c.close();
+         } else {
+-            Log.i(TAG, "STATE fail uri=" + u);
++            Log.i(TAG, "STATE fail uri=" + u + " reqid=" + mReqId);
+         }
+     }
+ }

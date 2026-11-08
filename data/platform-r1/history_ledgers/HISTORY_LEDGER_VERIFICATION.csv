@@ -1,0 +1,5 @@
+comparison_boot_index,platform,source,sha256,sha_matches_reported,rows,verdict_counts,copied_to
+1,A15,a15_cleanup_fix_and_porting_audit_closeout_20261030_171705/R1_PER_REQUEST_LEDGER.csv,ee323432433ba5cd3908bc401efcac44cfe79169acc76a21ea6577b88869c8e3,True,30,"{'ALLOW_PASS': 24, 'DENY_PASS': 6}",history_ledgers/A15_boot1_PER_REQUEST_LEDGER.csv
+1,A16,35_r1_reversal_and_data_provenance_20261028/07_results/PER_REQUEST_LEDGER.csv,ad40e7c0c525565b0264e66588739d66a1f55ddc79db5453bc8dfda5ebaba515,True,30,"{'ALLOW_PASS': 24, 'DENY_PASS': 6}",history_ledgers/A16_boot1_PER_REQUEST_LEDGER.csv
+1,A17,a17_r1_port_and_enforcement_20261029_174341/08_results/PER_REQUEST_LEDGER.csv,a4629d0537a798a9b77613d8b9d62c719c091c823112cb787d24f787fb8144e6,True,30,"{'ALLOW_PASS': 24, 'DENY_PASS': 6}",history_ledgers/A17_boot1_PER_REQUEST_LEDGER.csv
+2,A17,a17_r1_audit_and_boot2_20261029_221425/05_results/BOOT2_PER_REQUEST_LEDGER.csv,58ba57817f1e082cbcd795dd820326455165dd6548004e8c54ecd1f0953e3af6,True,30,"{'ALLOW_PASS': 24, 'DENY_PASS': 6}",history_ledgers/A17_boot2_PER_REQUEST_LEDGER.csv

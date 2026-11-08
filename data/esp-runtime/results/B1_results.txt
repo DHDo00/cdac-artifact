@@ -1,0 +1,9 @@
+10-28 16:14:24.037  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+10-28 16:14:27.131  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+10-28 16:14:30.516  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+10-28 16:14:33.887  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+10-28 16:14:37.797  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+10-28 16:14:40.898  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+10-28 16:14:44.307  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+10-28 16:14:47.474  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+10-28 16:14:50.835  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2

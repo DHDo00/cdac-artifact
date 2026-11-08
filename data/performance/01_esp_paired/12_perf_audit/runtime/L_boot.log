@@ -1,0 +1,6 @@
+attempt_start=2026-10-25T13:34:47+08:00
+runtime=mech_20261025_L
+launch_pid=3192883
+side=L
+attempt_end=2026-10-25T13:37:19+08:00 RESULT=ADB_OK attempts=30
+launcher_rc=0 holder_started=2026-10-25T13:37:19+08:00

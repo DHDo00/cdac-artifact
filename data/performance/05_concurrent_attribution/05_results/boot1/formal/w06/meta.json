@@ -1,0 +1,25 @@
+{
+ "wave": 6,
+ "boot": "b1",
+ "mode": "formal",
+ "ok": true,
+ "clock_anchor": "1793102425.956368124\n2026-10-27 12:00:25",
+ "reason": "",
+ "missing": [],
+ "ready_ok": true,
+ "elapsed_s": 0.62,
+ "app_rows": {
+  "r26_b1_w06_AX": "r26_b1_w06_AX,1143389234329,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccx.bin,WAVE_FAIL,java.io.FileNotFoundException,0,0,-1,false,false,0,0,0,0,0,,10121,10879,13033",
+  "r26_b1_w06_AY": "r26_b1_w06_AY,1143390326528,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccy.bin,WAVE_OK,,0,0,-1,false,false,45,3374,33200,4112,16,,10121,10879,13047",
+  "r26_b1_w06_BX": "r26_b1_w06_BX,1143395303865,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccx.bin,WAVE_OK,,0,0,-1,false,false,45,3372,33200,4112,16,,10122,10928,13052",
+  "r26_b1_w06_BY": "r26_b1_w06_BY,1143395434390,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccy.bin,WAVE_OK,,0,0,-1,false,false,45,3374,33200,4112,16,,10122,10928,13059"
+ },
+ "markers": {
+  "AY": "638e49f40a492b21717d3f1332244e46be81d099ad1d37187a66e93f790ba4e3",
+  "BX": "71d5bff4a9491450b916549036959bfabb512d5fe9312c8cbcb7ffd4a44a2073",
+  "BY": "342413082458c9ec7f6763171a8ee4b959a9d02dab6f8060913e49b3845f1ea4"
+ },
+ "loadavg": "3.00 2.78 2.97 5/3162 4015679",
+ "qc": "counter_schema_version=2\ncontext_push_ok=119\ncontext_push_fail=0\ncontext_pop_ok=119\ncontext_pop_fail=0\ncontext_lookup_hit=0\ncontext_lookup_miss=0\nrelation_decision=0\nrelation_complete=0\nrelation_incomplete=0\nrelation_stale=0\nrelation_rule_match=0\nrelation_rule_nonmatch=0\nrelation_deny=0\nrelation_allow=0\nfile_open_join=199\nfile_open_no_context=364791\nfile_open_deny=18\nrelation_publish_total=0\nrelation_unpaired=0\ncontext_enter_total=119\ncontext_exit_total=119\ncontext_nested_mismatch_total=0\ncontext_stale_total=0\ncontext_borrowed_total=0\nrule_match_total=0\nfrdac_deny_total=0\nfd_receive_event_total=125\nfd_receiver_install_attempt_total=743915\nfd_receiver_install_success_total=743915\nfd_receiver_install_failure_total=0\nfrdac_target_fd_transfer_attempt_total=278\nfrdac_target_receiver_install_success_total=278\nfrdac_target_receiver_install_failure_total=0\nfrdac_denied_internal_fd_acquire_total=0\nfrdac_denied_internal_fd_release_total=0\nfrdac_denied_internal_fd_outstanding=0\nfrdac_denied_app_fd_install_total=0\n",
+ "ts": "2026-10-27T20:00:25+0800"
+}

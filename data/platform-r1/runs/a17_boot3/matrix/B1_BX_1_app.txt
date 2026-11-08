@@ -1,0 +1,2 @@
+--------- beginning of main
+11-02 03:41:05.678  4774  4774 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/19 bytes=911 dev=0:45 ino=3544 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983

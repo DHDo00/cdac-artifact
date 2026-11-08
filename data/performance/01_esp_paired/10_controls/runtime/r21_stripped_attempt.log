@@ -1,0 +1,6 @@
+attempt_start=2026-10-23T17:41:25+08:00
+runtime=cdac_runs/esp_controls_20261023_r21_stripped
+launch_pid=1161054
+mode=stripped-S0 (v1 CDAC-free Android + v1 stripped kernel)
+attempt_end=2026-10-23T17:43:56+08:00 RESULT=ADB_OK attempts=30
+launcher_rc=0 holder_started=2026-10-23T17:43:56+08:00

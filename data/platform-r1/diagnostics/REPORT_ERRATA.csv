@@ -1,0 +1,7 @@
+errata_id,original_statement,corrected_statement,evidence,impact
+ER1,"exit 自身不会抛出（writeFrame catch Throwable）","writeFrame 捕获 Throwable 仅覆盖设备写/flush/noteContextPublish/发布日志；exit 外层无 catch，stack.peek/pop/clear、noteContextExit、Log 不在 catch 内——在普通 JVM 模型下无已知抛出路径，但不能无条件声称绝不抛/绝不掩盖","CdacBinderContext.java 全文 + raw_CdacBinderContext_exit.txt (catches:(none))","收紧表述；不影响已运行证据"
+ER2,"D1-D4 PASS（含 Error 后恢复）","D1 正常清理、D2 RuntimeException 后同 TID 继续、D3 Error 展开时完成一次 exit/POP、D4(同TID三连) 已建立；Error 后同进程继续服务 NOT_ESTABLISHED（进程终止、TXN4 无服务端 ENTER）","DIAGNOSTIC_CLIENT_ATTEMPTS.csv/DIAGNOSTIC_SERVER_FRAMES.csv/DIAGNOSTIC_CLAIMS.csv","D4 范围纠正，不得把过程目标写成完成"
+ER3,"paper_table caption 'MediaProvider R1 route ... D1-D4'","诊断对象=su 域两进程 app_process、IContentProvider 描述符 Binder 映射通用 4/301、caller UID0，非 MediaProvider 6/501；MediaProvider 部分仅 R1 回归","driver_Main.java + remote_logcat.txt ENTER service_id=4 op_id=301","caption 拆分，诊断不得冒称正式路线"
+ER4,"E6 超大 reply 会由 checkParcel 抛 RuntimeException","CHECK_PARCEL_SIZE=false 常量折叠；固定产物 checkParcel=return-void；E6 不可触发，仅保留次序属性","Binder.java:95/1281 + raw_checkParcel.txt","E6 分类修正"
+ER5,"R1 账本 B1/B2 rule_version=cdac35_r14a/cdac35_rev","rule_version 为模板/形状标识（ledger 构建器模板名）；本 boot 实际 reason=matched_reason=a15cdac_r14a/a15cdac_rev","closeout R1_PER_REQUEST_LEDGER.csv 两列对照 + run_matrix.sh 实际规则字符串","字段语义标注/更名，不改请求结果"
+ER6,"成本 892/763 vs 修正制品 891/763","892/763=含 checkfc 总数（主体890/762+checkfc2/1）；修正 Binder 净少 1 空行（34 adds）→修正制品 891/763；A17=890/763；4/5 不含 Binder 调用点","RECHECK_DELTAS.csv + fixed Binder diff (adds=34)","数字口径保持清晰，不与复用率混用"

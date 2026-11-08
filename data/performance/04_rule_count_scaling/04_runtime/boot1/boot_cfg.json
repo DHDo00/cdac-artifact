@@ -1,0 +1,15 @@
+{
+ "A": 10122,
+ "B": 10123,
+ "T": 10121,
+ "X": 3175,
+ "Y": 3183,
+ "Xdev": 65120,
+ "Xsize": 14,
+ "DEVRAW": 266338400,
+ "fingerprint": "generic/aosp_cf_x86_64_only_phone/vsoc_x86_64_only:Baklava/BP4A.251205.006/cdacmsb20260818:eng/test-keys",
+ "kernel": "6.12.74-android16-6-maybe-dirty",
+ "selinux": "Enforcing",
+ "iguard_ctl": "yes",
+ "ts": "2026-10-26T17:30:19+0800"
+}

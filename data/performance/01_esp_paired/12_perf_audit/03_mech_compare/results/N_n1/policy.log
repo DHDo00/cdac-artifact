@@ -1,0 +1,8 @@
+N: no policy surface; request treated as native allow
+rep=1 policy_readback=N/A
+N: no policy surface; request treated as native allow
+rep=2 policy_readback=N/A
+N: no policy surface; request treated as native allow
+rep=3 policy_readback=N/A
+N minimal-sequence=N/A (no policy surface)
+N: no policy surface; request treated as native allow

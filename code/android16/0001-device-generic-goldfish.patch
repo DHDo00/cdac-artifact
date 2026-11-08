@@ -1,0 +1,10 @@
+diff --git a/init/ueventd.rc b/init/ueventd.rc
+index f9f7bf79..94ce6219 100644
+--- a/init/ueventd.rc
++++ b/init/ueventd.rc
+@@ -18,3 +18,5 @@
+ 
+ # uwb virtconsole
+ /dev/hvc2                 0660   uwb     uwb
++
++/dev/iguard_ctl          0666   root       root

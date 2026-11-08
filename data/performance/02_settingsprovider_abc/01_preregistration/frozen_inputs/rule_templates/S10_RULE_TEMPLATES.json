@@ -1,0 +1,30 @@
+{
+  "common": {
+    "caller_uid": "PRIMARY_CALLER_UID_FROM_FROZEN_CALLER_CONTRACT",
+    "decision": "deny",
+    "f_flags_mask": "0x3",
+    "f_flags_value": "0x2",
+    "f_mode_mask": "0x0",
+    "f_mode_value": "0x0",
+    "i_mode": "00",
+    "op_id": 701,
+    "required_relation_stage": 0,
+    "required_relation_type": 0,
+    "schema": "policy-add-v2",
+    "service_id": 8
+  },
+  "decoy_object_rule": {
+    "object_role": "NON_TARGET_DECOY_OBJECT_FROM_BOOT_OBJECT_MANIFEST",
+    "reason_format": "v3_science_{boot_label}_{block_id}_decoy",
+    "rule_state": "DECOY_OBJECT_RULE"
+  },
+  "no_rule": {
+    "expected_dump": "runtime_policy_count=0",
+    "rule_state": "NO_RULE"
+  },
+  "target_rule": {
+    "object_role": "TARGET_OBJECT_FROM_BOOT_OBJECT_MANIFEST",
+    "reason_format": "v3_science_{boot_label}_{block_id}_target",
+    "rule_state": "TARGET_RULE"
+  }
+}

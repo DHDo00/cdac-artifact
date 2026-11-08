@@ -1,0 +1,24 @@
+{
+ "tag": "C1_S2_after_recover",
+ "ts_ns": 1792748079645449337,
+ "recorder": "host adb stat+sha256sum",
+ "recording_action_side_effects": "see per-row recorder_note",
+ "rows": [
+  {
+   "tag": "C1_S2_after_recover",
+   "file": "X.bin",
+   "exists": true,
+   "dev": "65120",
+   "ino": "3401",
+   "size": 14,
+   "mode": "660",
+   "uid": "10094",
+   "gid": "1023",
+   "atime": 1792748039,
+   "mtime": 1792748076,
+   "ctime": 1792748076,
+   "sha256": "d17e1546848d8f98cc9ddb71e309260f6b77da60df4004bc0b6ec52d72b25044",
+   "recorder_note": "sha256 read via FUSE may advance atime (relatime); mtime/ctime unchanged by read"
+  }
+ ]
+}

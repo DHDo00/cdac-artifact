@@ -1,0 +1,212 @@
+{
+  "duplicate_reqids": [],
+  "missing_schedule": [],
+  "boot_ledger_mismatches": [],
+  "attempted_missing": [],
+  "structure": [],
+  "pooled_M": [
+    {
+      "condition": "no_rule_ax",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "no_rule_bx",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "ma_ax",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 0,
+      "cdac_denied": 60,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "ma_bx",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "ma_ay",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "mb_bx",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 0,
+      "cdac_denied": 60,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "mb_ax",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "mb_by",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "revoke_ax",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "revoke_bx",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "TOTAL",
+      "planned": 600,
+      "attempted": 600,
+      "usable": 480,
+      "cdac_denied": 120,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 600
+    }
+  ],
+  "pooled_L": [
+    {
+      "condition": "no_rule_r",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "no_rule_w",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "lw_r",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "lw_w",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 0,
+      "cdac_denied": 60,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "lr_r",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 0,
+      "cdac_denied": 60,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "lr_w",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "revoke_r",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "revoke_w",
+      "planned": 60,
+      "attempted": 60,
+      "usable": 60,
+      "cdac_denied": 0,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 60
+    },
+    {
+      "condition": "TOTAL",
+      "planned": 480,
+      "attempted": 480,
+      "usable": 360,
+      "cdac_denied": 120,
+      "other_failure": 0,
+      "unresolved": 0,
+      "formal_denominator": 480
+    }
+  ],
+  "no_req_line": []
+}

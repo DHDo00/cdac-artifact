@@ -1,0 +1,27 @@
+PASS I01_input_zip_size input zip bytes == 422427 :: 422427
+PASS I02_input_zip_sha input zip sha256 == 59daca84... :: 59daca84b49d45c94361aaab09e74139d6e7047d376b32dceb998985c06e124b
+PASS I03_paper_bytes paper bytes == 121715
+PASS I04_paper_sha paper sha == e18ef6a5...
+PASS I05_server_pkg_size server tar.gz bytes == 587979
+PASS I06_server_pkg_sha server tar.gz sha == 952d9b22...
+PASS I07_verify_input verify_input.py PASS on pristine unpack (17 hash entries, version 8) :: {'status': 'PASS', 'hash_entries': 17, 'paper_version': 8, 'paper_sha256': 'e18ef6a5e584b0d9f984f430e7ab617b7c92d9bcf98102e7cbcbeec9496181a1', 'errors': []}
+PASS F01_r39_flags_zero R39 LR/LW dumps parsed flags mask/value=0, device 0:0 :: 6
+PASS F02_exact_vs_wildcard exact 0:45/254:96 never keyed as wildcard
+PASS F03_unknown_preserved R12/R16 add-only rows keep op UNKNOWN (14 rows, never defaulted)
+PASS F04_source_union R27-eq14;R35-r14a;R39-ma keep one merged key with all sources :: ['v2|6|501|A|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny']
+PASS F05_purpose_mixed R35-rev target+B reversal share key with R39-mb as MIXED_target+control :: ['MIXED_target+control']
+PASS F06_purpose_order classification derives from the purpose SET (order independent)
+PASS S01_r40_not_in_paper R40-72/720 NOT in current paper (72/720 denominators preserved)
+PASS S02_ports_in_paper A15/A17 ports IN_PAPER with corrected/historical batches separated
+PASS S03_prev_subset previous confirmed subset == 5 (R39 4 + R41)
+PASS S04_paper_counts paper counts recorded (18 deny = 11 target + 7 control; 1 filler; candidates 2+6)
+PASS S05_pending pending-only = 8 (7 target + 1 control); intersection = 1; union deny = 26
+PASS T01_templates 7 canonical + 2 generators + 9 post-hoc + NOT_RECORDED (not counted as 1)
+PASS D01_commands 39 package adds (45 with A15/A17) + 10 clear parsed; clear separate
+PASS D02_verified verified deployments = adds with matching dump readback (31); 14 candidates
+PASS N01_instances parsed deny instances 62 (incl ports), filler 127
+PASS C01_cost_deltas registry +21/-6, allowlist +1 kept as shared-mechanism endpoint increments
+PASS C02_a15 A15 892/763 includes checkfc; mechanism-only 890/762; 891/763 stays DERIVED
+PASS X01_determinism recompute is deterministic (same hashes on rerun) :: {'LOGICAL_CONFIGURATIONS.csv': True, 'COUNT_CONTRIBUTIONS.csv': True, 'stats.json': True, 'INSTANCE_LEDGER.csv': True, 'DEPLOYMENT_LEDGER.csv': True}
+
+scope_checks: pass=25 fail=0

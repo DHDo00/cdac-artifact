@@ -1,0 +1,35 @@
+### B1_AX_1
+APP: 11-02 03:24:49.335  3184  3184 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+DECISION: iguard_ctx: decision seq=18 action=would-deny matched=1 reason=cdac35_r14a rule_src=runtime specificity=7 reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg obj_ino=2967 obj_s_dev=0:45 obj_i_mode=0100770 obj_f_flags=0x28000 obj_f_mode=0x801d
+APPLY: iguard_ctx: decision-apply seq=18 result=would-deny action=would-deny matched=1 reason=cdac35_r14a rule_src=runtime reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg
+ENFORCE: iguard_ctx: real-enforce seq=18 reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file op=openFile path_tail=image1.jpg errno=-13 verdict=deny-now
+
+### B1_AX_2
+APP: 11-02 03:24:52.384  3184  3184 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+DECISION: iguard_ctx: decision seq=19 action=would-deny matched=1 reason=cdac35_r14a rule_src=runtime specificity=7 reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg obj_ino=2967 obj_s_dev=0:45 obj_i_mode=0100770 obj_f_flags=0x28000 obj_f_mode=0x801d
+APPLY: iguard_ctx: decision-apply seq=19 result=would-deny action=would-deny matched=1 reason=cdac35_r14a rule_src=runtime reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg
+ENFORCE: iguard_ctx: real-enforce seq=19 reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file op=openFile path_tail=image1.jpg errno=-13 verdict=deny-now
+
+### B1_AX_3
+APP: 11-02 03:24:55.514  3184  3184 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+DECISION: iguard_ctx: decision seq=20 action=would-deny matched=1 reason=cdac35_r14a rule_src=runtime specificity=7 reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg obj_ino=2967 obj_s_dev=0:45 obj_i_mode=0100770 obj_f_flags=0x28000 obj_f_mode=0x801d
+APPLY: iguard_ctx: decision-apply seq=20 result=would-deny action=would-deny matched=1 reason=cdac35_r14a rule_src=runtime reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg
+ENFORCE: iguard_ctx: real-enforce seq=20 reporter_tgid=1940 reporter_tid=1964 caller_uid=10121 caller_pid=3184 service_id=6 op_id=501 service=media_provider_open_file op=openFile path_tail=image1.jpg errno=-13 verdict=deny-now
+
+### B2_BX_1
+APP: 11-02 03:25:21.128  3454  3454 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+DECISION: iguard_ctx: decision seq=27 action=would-deny matched=1 reason=cdac35_rev rule_src=runtime specificity=7 reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg obj_ino=2967 obj_s_dev=0:45 obj_i_mode=0100770 obj_f_flags=0x28000 obj_f_mode=0x801d
+APPLY: iguard_ctx: decision-apply seq=27 result=would-deny action=would-deny matched=1 reason=cdac35_rev rule_src=runtime reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg
+ENFORCE: iguard_ctx: real-enforce seq=27 reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file op=openFile path_tail=image1.jpg errno=-13 verdict=deny-now
+
+### B2_BX_2
+APP: 11-02 03:25:24.109  3454  3454 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+DECISION: iguard_ctx: decision seq=28 action=would-deny matched=1 reason=cdac35_rev rule_src=runtime specificity=7 reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg obj_ino=2967 obj_s_dev=0:45 obj_i_mode=0100770 obj_f_flags=0x28000 obj_f_mode=0x801d
+APPLY: iguard_ctx: decision-apply seq=28 result=would-deny action=would-deny matched=1 reason=cdac35_rev rule_src=runtime reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg
+ENFORCE: iguard_ctx: real-enforce seq=28 reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file op=openFile path_tail=image1.jpg errno=-13 verdict=deny-now
+
+### B2_BX_3
+APP: 11-02 03:25:27.109  3454  3454 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+DECISION: iguard_ctx: decision seq=29 action=would-deny matched=1 reason=cdac35_rev rule_src=runtime specificity=7 reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg obj_ino=2967 obj_s_dev=0:45 obj_i_mode=0100770 obj_f_flags=0x28000 obj_f_mode=0x801d
+APPLY: iguard_ctx: decision-apply seq=29 result=would-deny action=would-deny matched=1 reason=cdac35_rev rule_src=runtime reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file operation=openFile path_tail=image1.jpg
+ENFORCE: iguard_ctx: real-enforce seq=29 reporter_tgid=1940 reporter_tid=1964 caller_uid=10122 caller_pid=3454 service_id=6 op_id=501 service=media_provider_open_file op=openFile path_tail=image1.jpg errno=-13 verdict=deny-now

@@ -1,0 +1,2 @@
+attempt1_failed_at=2026-11-02T11:18:13+08:00 reason=enable_tap_devices_flag_absent_from_generated_script_tap_creation_denied
+attempt2_preflight_failed_at=2026-11-02T11:23:20+08:00 reason=apk_path_for_A16_is_app_a_build_subdir

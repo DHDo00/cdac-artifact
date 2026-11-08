@@ -1,0 +1,9 @@
+[2026-10-29T23:39:24+0800] START boot2 serial=0.0.0.0:6558 out=07_results/boot2
+[2026-10-29T23:39:25+0800] install apks
+[2026-10-29T23:39:29+0800] uidA=10121 uidB=10122
+[2026-10-29T23:39:36+0800] backX=/data/media/0/Pictures/image1.jpg inoX=2979 backY=/data/media/0/Pictures/image2.jpg inoY=3008
+[2026-10-29T23:39:38+0800] preflight reads
+[2026-10-29T23:39:51+0800] preflight write + restore
+[2026-10-29T23:39:57+0800] preflight rule round-trips
+[2026-10-29T23:40:07+0800] preflight notes: A->X: result=ALLOW sha=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375 mp=true  | B->X: result=ALLOW sha=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983 mp=false  | A->Y: result=ALLOW sha=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2 mp=true  | B->Y: result=ALLOW sha=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993 mp=false  | A->X write: result=ALLOW appsha=6ca8491274b89050688ff3cf9671eb0b98e03f958d47f8e46b54d9e9bf954359 expect=6ca8491274b89050688ff3cf9671eb0b98e03f958d47f8e46b54d9e9bf954359 backing=6ca8491274b89050688ff3cf9671eb0b98e03f958d47f8e46b54d9e9bf954359 ok=True | restore: backing_sha=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375 expect=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375 | rule MA dump_ok=True | rule MB dump_ok=True | rule LW dump_ok=True | rule LR dump_ok=True
+[2026-10-30T00:07:07+0800] END boot2

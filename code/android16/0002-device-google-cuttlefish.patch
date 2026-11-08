@@ -1,0 +1,95 @@
+diff --git a/build/Android.bp b/build/Android.bp
+index 3515d0e14..b64170fd2 100644
+--- a/build/Android.bp
++++ b/build/Android.bp
+@@ -289,6 +289,9 @@ cvd_host_webrtc_assets = [
+     "webrtc_index.js",
+     "webrtc_keyboard.js",
+     "webrtc_location.js",
++    "webrtc_material_icons.css",
++    "webrtc_material_icons.ttf",
++    "webrtc_material_icons_outlined.otf",
+     "webrtc_mouse.js",
+     "webrtc_rootcanal.js",
+     "webrtc_server.crt",
+diff --git a/host/frontend/webrtc/html_client/Android.bp b/host/frontend/webrtc/html_client/Android.bp
+index 9e363ca15..6ce2dc2c2 100644
+--- a/host/frontend/webrtc/html_client/Android.bp
++++ b/host/frontend/webrtc/html_client/Android.bp
+@@ -45,6 +45,27 @@ prebuilt_usr_share_host {
+     sub_dir: "webrtc/assets",
+ }
+ 
++prebuilt_usr_share_host {
++    name: "webrtc_material_icons.css",
++    src: "material_icons.css",
++    filename: "material_icons.css",
++    sub_dir: "webrtc/assets",
++}
++
++prebuilt_usr_share_host {
++    name: "webrtc_material_icons.ttf",
++    src: "fonts/MaterialIcons-Regular.ttf",
++    filename: "MaterialIcons-Regular.ttf",
++    sub_dir: "webrtc/assets/fonts",
++}
++
++prebuilt_usr_share_host {
++    name: "webrtc_material_icons_outlined.otf",
++    src: "fonts/MaterialIconsOutlined-Regular.otf",
++    filename: "MaterialIconsOutlined-Regular.otf",
++    sub_dir: "webrtc/assets/fonts",
++}
++
+ prebuilt_usr_share_host {
+     name: "webrtc_adb.js",
+     src: "js/adb.js",
+diff --git a/host/frontend/webrtc/html_client/client.html b/host/frontend/webrtc/html_client/client.html
+index 0c0863dd7..7ce835d71 100644
+--- a/host/frontend/webrtc/html_client/client.html
++++ b/host/frontend/webrtc/html_client/client.html
+@@ -19,8 +19,7 @@
+         <link rel="stylesheet" type="text/css" href="style.css" >
+         <link rel="stylesheet" type="text/css" href="controls.css" >
+         <link rel="stylesheet" type="text/css" href="custom.css" >
+-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
++        <link rel="stylesheet" type="text/css" href="material_icons.css" >
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     </head>
+     <body>
+diff --git a/host/frontend/webrtc_operator/assets/index.html b/host/frontend/webrtc_operator/assets/index.html
+index 09d8c706f..564bb2aed 100644
+--- a/host/frontend/webrtc_operator/assets/index.html
++++ b/host/frontend/webrtc_operator/assets/index.html
+@@ -19,7 +19,7 @@
+         <title>My Virtual Device Playground</title>
+ 
+         <link rel="stylesheet" type="text/css" href="index.css" >
+-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
++        <link rel="stylesheet" type="text/css" href="material_icons.css" >
+     </head>
+ 
+     <body>
+diff --git a/shared/config/ueventd.rc b/shared/config/ueventd.rc
+index 8a0d79a50..9a7856e1e 100644
+--- a/shared/config/ueventd.rc
++++ b/shared/config/ueventd.rc
+@@ -66,3 +66,6 @@
+ 
+ # v4l2loopback and virtio-media devices
+ /dev/video*   0660 system    camera
++
++# I-Guard control channel
++/dev/iguard_ctl 0666 root root
+diff --git a/vsoc_x86_64_only/phone/aosp_cf.mk b/vsoc_x86_64_only/phone/aosp_cf.mk
+index ab01b8a54..16639bd35 100644
+--- a/vsoc_x86_64_only/phone/aosp_cf.mk
++++ b/vsoc_x86_64_only/phone/aosp_cf.mk
+@@ -68,3 +68,6 @@ PRODUCT_IGNORE_ALL_ANDROIDMK := true
+ ifeq ($(TARGET_PRODUCT),aosp_cf_x86_64_only_phone)
+ PRODUCT_SOONG_ONLY := $(RELEASE_SOONG_ONLY_CUTTLEFISH)
+ endif
++
++PRODUCT_PACKAGES += \
++    IguardDemoClient

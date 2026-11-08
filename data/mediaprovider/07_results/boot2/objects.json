@@ -1,0 +1,11 @@
+{
+  "boot": 2,
+  "uidA": "10121",
+  "uidB": "10122",
+  "uriX": "content://media/external_primary/images/media/19",
+  "uriY": "content://media/external_primary/images/media/20",
+  "backX": "/data/media/0/Pictures/image1.jpg",
+  "backY": "/data/media/0/Pictures/image2.jpg",
+  "inoX": "2979",
+  "inoY": "3008"
+}

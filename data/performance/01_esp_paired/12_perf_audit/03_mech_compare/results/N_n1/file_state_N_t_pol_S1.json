@@ -1,0 +1,24 @@
+{
+ "tag": "N_t_pol_S1",
+ "ts_ns": 1792906426404014500,
+ "recorder": "host adb stat+sha256sum",
+ "recording_action_side_effects": "see per-row recorder_note",
+ "rows": [
+  {
+   "tag": "N_t_pol_S1",
+   "file": "D2.bin",
+   "exists": true,
+   "dev": "65120",
+   "ino": "3181",
+   "size": 3,
+   "mode": "660",
+   "uid": "10093",
+   "gid": "1023",
+   "atime": 1792906414,
+   "mtime": 1792906424,
+   "ctime": 1792906424,
+   "sha256": "82aa55a0d397f88346ca1cee8d3909b95f13fa7deb1d4ab38376b8256da85510",
+   "recorder_note": "sha256 read via FUSE may advance atime (relatime); mtime/ctime unchanged by read"
+  }
+ ]
+}

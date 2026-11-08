@@ -1,0 +1,5 @@
+metric,value,instance_key_definition,evidence_tier
+deny_instances_parsed,62,"(round, boot, caller_uid, ino, s_dev, flags_mask/value, mode_mask/value, decision, reason); add+dump of same bound value set merge; repeated deployment does not add instances",DUMP_AUTHORITATIVE for dump rows; DUMP_INHERITED for add rows with unique same-round dump
+deny_instances_in_paper,46,same key restricted to IN_PAPER rounds,as above
+filler_instances,127,R21 filler audit slots (127) bound to N=128 dump,DUMP_AUTHORITATIVE
+56_deny_127_filler_statement,holds for the parsed subset,56 = prior correction parsed deny instances (now 62 with A15/A17); 127 = R21 filler slots; A17 boot2 and R30-name-O lack packaged originals and are excluded,INSTANCE_LEDGER.csv; MISSING_AND_LIMITATIONS.md

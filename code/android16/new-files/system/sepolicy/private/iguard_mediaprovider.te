@@ -1,0 +1,7 @@
+# I-Guard provider-side validation.
+#
+# DownloadProvider runs in the mediaprovider domain on this AOSP build, while
+# the modular MediaProvider process runs in mediaprovider_app. Allow only those
+# provider domains to publish I-Guard entry context to the kernel control device
+# before opening the delegated file object.
+allow { mediaprovider mediaprovider_app } iguard_ctl_device:chr_file { getattr open write };

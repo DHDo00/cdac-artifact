@@ -1,0 +1,1 @@
+crw-rw-rw- 1 root root u:object_r:iguard_ctl_device:s0  10, 268 2026-11-02 03:05 /dev/iguard_ctl

@@ -1,0 +1,31 @@
+diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
+index 8da1043..cf95701 100644
+--- a/include/fuse_kernel.h
++++ b/include/fuse_kernel.h
+@@ -1110,12 +1110,26 @@ struct fuse_backing_map {
+ 	uint64_t	padding;
+ };
+ 
++struct fuse_fd_cookie_query {
++	uint32_t	fd;
++	uint32_t	padding;
++	uint64_t	file_cookie;
++	uint64_t	ino;
++	uint32_t	s_dev_major;
++	uint32_t	s_dev_minor;
++	uint32_t	i_mode;
++	uint32_t	f_flags;
++	uint64_t	f_mode;
++};
++
+ /* Device ioctls: */
+ #define FUSE_DEV_IOC_MAGIC		229
+ #define FUSE_DEV_IOC_CLONE		_IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
+ #define FUSE_DEV_IOC_BACKING_OPEN	_IOW(FUSE_DEV_IOC_MAGIC, 1, \
+ 					     struct fuse_backing_map)
+ #define FUSE_DEV_IOC_BACKING_CLOSE	_IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_t)
++#define FUSE_DEV_IOC_FD_COOKIE		_IOWR(FUSE_DEV_IOC_MAGIC, 3, \
++					      struct fuse_fd_cookie_query)
+ /* Android Passthrough ioctls */
+ #define FUSE_DEV_IOC_PASSTHROUGH_OPEN_V0 _IOW(229, 1, struct fuse_passthrough_out_v0)
+ #define FUSE_DEV_IOC_PASSTHROUGH_OPEN_V1 _IOW(229, 127, struct fuse_passthrough_out_v0)

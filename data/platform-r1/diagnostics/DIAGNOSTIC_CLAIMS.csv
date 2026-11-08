@@ -1,0 +1,6 @@
+claim,status,evidence
+"normal cleanup (frame -> one POP, depth restored)",ESTABLISHED,ctx1: PUSH ok -> EXIT remaining_depth=0 -> POP ok; kernel ENTER/EXIT_CTL
+"handled RuntimeException -> Binder catch -> exceptional=yes -> POP, same thread continues",ESTABLISHED,ctx2 exceptional=yes; ctx2->ctx3 same server_tid=22727
+Error unwinding -> POP completed before process exit,ESTABLISHED,ctx4 EXIT/POP ok + kernel EXIT_CTL seq=4 + counters 7->11; client TXN3 DeadObjectException
+Error AFTER recovery (same process/thread continues serving),NOT_ESTABLISHED,server process terminated after ctx4; TXN4 has no server ENTER (DeadObjectException)
+same-TID subsequent attribution after Runtime/Normal,ESTABLISHED,"ctx1..ctx3 same tid, fresh seq, depth=1 each"

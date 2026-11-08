@@ -1,0 +1,6 @@
+{
+ "r26_b1_w16_AX": "r26_b1_w16_AX,1179122677594,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccx.bin,WAVE_FAIL,java.io.FileNotFoundException,0,0,-1,false,false,0,0,0,0,0,,10121,10879,13995",
+ "r26_b1_w16_AY": "r26_b1_w16_AY,1179123026018,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccy.bin,WAVE_OK,,0,0,-1,false,false,45,3374,33200,4112,16,,10121,10879,14004",
+ "r26_b1_w16_BX": "r26_b1_w16_BX,1179130714150,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccx.bin,WAVE_OK,,0,0,-1,false,false,45,3372,33200,4112,16,,10122,10928,14012",
+ "r26_b1_w16_BY": "r26_b1_w16_BY,1179131053767,content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree/document/primary%3Aespafd_tree%2Fccy.bin,WAVE_OK,,0,0,-1,false,false,45,3374,33200,4112,16,,10122,10928,14019"
+}

@@ -1,0 +1,2 @@
+--------- beginning of main
+10-23 09:50:45.118  3380  5472 I EspTiming: TIMED_DONE state=S0 label=stripped_S0_001 warmup=5 recorded=20 uid=10120 out=/storage/emulated/0/Android/data/com.demo.esptiming/files/timing/stripped_S0_001.csv

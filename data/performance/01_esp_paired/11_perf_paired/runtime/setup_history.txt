@@ -1,0 +1,7 @@
+enabled|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|14 65120 3114
+enabled|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|14 65120 3124
+stripped|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|14 65120 3071
+stripped|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|14 65120 3076
+enabled|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|14 65120 3136
+enabled|||
+stripped|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|grant uri=content://com.android.externalstorage.documents/tree/primary%3Aespafd_tree read=true write=true|14 65120 3065

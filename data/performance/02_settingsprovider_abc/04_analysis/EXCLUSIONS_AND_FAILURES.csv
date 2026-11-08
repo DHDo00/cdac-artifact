@@ -1,0 +1,1 @@
+record_type,trial_id,boot_id,block_id,arm,classification,primary_eligible,exclusion_reason,failure_codes,latency_ns,raw_evidence_path

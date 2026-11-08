@@ -1,0 +1,10 @@
+diff --git a/private/file_contexts b/private/file_contexts
+index 56977a1e9..90e8dd97e 100644
+--- a/private/file_contexts
++++ b/private/file_contexts
+@@ -1001,3 +1001,5 @@
+ #############################
+ # For casefolding_remover
+ /system/bin/casefolding_remover u:object_r:casefolding_remover_exec:s0
++
++/dev/iguard_ctl    u:object_r:iguard_ctl_device:s0

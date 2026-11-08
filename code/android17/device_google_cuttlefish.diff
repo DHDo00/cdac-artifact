@@ -1,0 +1,9 @@
+diff --git a/shared/config/ueventd.rc b/shared/config/ueventd.rc
+index 4ab0539ef..8b2896c1b 100644
+--- a/shared/config/ueventd.rc
++++ b/shared/config/ueventd.rc
+@@ -71,3 +71,4 @@
+ 
+ # v4l2loopback and virtio-media devices
+ /dev/video*   0660 system    camera
++/dev/iguard_ctl 0666 root root

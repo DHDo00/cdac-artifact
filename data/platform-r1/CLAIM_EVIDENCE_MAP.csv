@@ -1,0 +1,20 @@
+claim,status,evidence,sources,evidence_level,allowed_wording
+A15 修正版三 boot/90 正式请求（1 历史 + 2 新增）真实核验,PENDING_FINAL (2/3 boots verified this round),历史 A15CLEAN-R1 30=6+24；A15B2 30/30=6 DENY_PASS+24 ALLOW_PASS（boot_id cf1d72c2、deny 0→3→6、push=pop=41、final count=0）；A15B3 30/30=6+24（boot_id 9c9530e6、deny 0→3→6、push=pop=41）,runs/a15_boot2,runs/a15_boot3, closeout R1_PER_REQUEST_LEDGER.csv,RUNTIME_GUEST+SOURCE,填写实际核验值；不得预填 18/72
+A16 R35 冻结制品三 boot/90（原批次+新增重复）,PENDING_FINAL (1/3 verified),R35 cvd-35 boot1 30=6+24 历史账本复验一致,A16B2/A16B3 runs,35_r1 07_results/PER_REQUEST_LEDGER.csv,RUNTIME_GUEST+SOURCE,A16 列注明 R35 冻结制品：原始批次及新增重复；不得把 90 全写成历史 R35 原有数据
+A17 三 boot/90（复用两 boot+补一）,PENDING_FINAL (2/3 verified),A17 boot1/boot2 各 30=6+24 历史账本复验一致,A17B3 run,a17 两归档 ledgers,RUNTIME_GUEST+SOURCE,复用两 boot；第三 boot 仅补一次
+9 boot 不合并为 270/270；3 boot 是重复验证设计,ESTABLISHED,9 boot 分属三版各自制品,PER_BOOT_SUMMARY.csv / THREE_VERSION_SUMMARY.csv,ACCOUNTING,每版 3 独立启动；不是 9 个独立平台
+正式分母不含预检/诊断/全局发布计数,ESTABLISHED,预检 E_AX/E_BX×3+装规读回单列；诊断 4/301 单列；全局 push/pop 单列,PROTOCOL_FROZEN.md, DIAGNOSTIC_*.csv,ACCOUNTING,不相加凑 90
+A15 主对照全为修正制品,ESTABLISHED,三 boot system.img=70c2ab35… 全一致（A15B2/B3 前后哈希复核未变）,INPUT_HASHES.csv, ARTIFACT_AND_RUNTIME_IDENTITY.csv,BINARY_DIRECT,A15 修正版主表全部 70c2ab35 制品；旧制品 186ea808 单列
+A15 旧制品 30 请求为历史结果,ESTABLISHED,a15_r1_port cvd-7 1 boot 30=6+24（system 186ea808）,a15_r1_port_and_enforcement_20261030_094655,SOURCE+历史运行,单列；不与修正制品合并成 60/90
+4/301 诊断为 su 域两进程夹具、caller UID0、无真实文件交付,ESTABLISHED,DIAGNOSTIC_SERVER_FRAMES.csv 4 frame tid22727 service 4/301 op 501 caller_uid 0,DIAGNOSTIC_*.csv, closeout 05_diagnostics,RUNTIME_GUEST,不得称为新增 DownloadProvider/MediaProvider 执法路线
+诊断三类出口覆盖于共同 Binder 夹具,ESTABLISHED,normal/Runtime/Error-unwind 均 ESTABLISHED；Error-after-recovery NOT_ESTABLISHED,DIAGNOSTIC_CLAIMS.csv,RUNTIME_GUEST,不写成在 MediaProvider 6/501 实际触发并通过全部异常类型
+E6 checkParcel 不可触发（return-void、CHECK_PARCEL_SIZE=false）,ESTABLISHED,fixed dex checkParcel=return-void,binder_cleanup 04_dex/raw_checkParcel.txt + E6_CHECKPARCEL.md,BINARY_DIRECT+SOURCE,删除超大 reply 抛 RuntimeException 表述；不与 TransactionTooLargeException 混同
+E8 observer.callStarted 对评估路线不可达,ESTABLISHED,MediaProvider sObserver==null（仅 system_server 设置）,CALLBACK_REACHABILITY.csv E8 行,SOURCE_DIRECT,E8 对评估路线/进程关闭（冻结配置下）
+E7 traceEnd/observer.callEnded 对评估路线不可达（冻结配置）,ESTABLISHED,冻结启动无 atrace；observer==null；exit 为 finally 首条执行语句,CALLBACK_REACHABILITY.csv E7 行,SOURCE_DIRECT,静态配置链；不升级为全 boot 运行事实
+system_server observer/trace 窗口 UNKNOWN_BOUNDED,ESTABLISHED,observer 默认启用、无运行时触发证据,CALLBACK_REACHABILITY.csv system_server 行,SOURCE_DIRECT(结构),保留 UNKNOWN_BOUNDED；三版共用不等于已修复；三版本 R1 成功不能推出 system_server 通过
+20/23 为源码资格结果（非运行验收）,ESTABLISHED,23=DLP4+ESP16+GraphicsStats3；20=4+13+3；3 条转发 ABSTAIN,route_observation_control_lookup_20260917,SOURCE_ONLY_FROZEN_AUDIT,不写成运行成功数；不是本轮需保持的验收数字
+三条 GraphicsStats 路径 B1-B4 均 ESTABLISHED（system_server 宿主）,ESTABLISHED,三路径 B1-B4 机制与源码引用齐备,ROUTES_23_WITH_B1_B4.csv,SOURCE_ONLY_FROZEN_AUDIT,结构资格成立；更广异常配置下共同实现前提未充分验证
+4/5 自有 R1 源文件原样复用 ≠ 系统 80%；Binder 不在分母,ESTABLISHED,4/5 文件级复用（0 行差异）；Binder 钩子按 fragment 计,porting_reuse_and_adaptation_cost REUSE_SUMMARY,SOURCE+哈希,只写文件级复用比例；不写行级复用率或系统 80%
+A15 修正接入规模 891/763（892/763 含 checkfc）,ESTABLISHED,ER6 + fixed Binder diff adds=34,REPORT_ERRATA.csv ER6,SOURCE_RECOMPUTE,修正前后分列
+人工主动时间 UNMEASURED,ESTABLISHED,无验证人时记录,TIME_HUMAN_MEASUREMENT_NOTE.txt,ACCOUNTING,墙钟/构建等待/guest 运行不改成人时
+发布与管理共享 /dev/iguard_ctl write（非 publish-only）,ESTABLISHED,STACK_PUSH/POP + POLICY_ADD/CLEAR 同一设备写接口,A17_TCB_ALIGNMENT + API_AND_SCOPE_CHECK §3,SOURCE+RUNTIME,不写 publish-only；A15/A17 最小移植不与 A16 R33 六域套用

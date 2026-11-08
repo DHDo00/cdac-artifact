@@ -1,0 +1,62 @@
+metric,value,scope,detail,role_normalized_key,source
+paper_role_configs_target,1,IN_PAPER,MIXED_target+control,v2|6|501|A|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-r14a;R27-eq14;R27-probe;R35-r14a;R39-ma
+paper_pending_intersection_configs,1,IN_PAPER∩COMPLETED_PENDING,MIXED_target+control,v2|6|501|A|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-r14a;R27-eq14;R27-probe;R35-r14a;R39-ma
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,MIXED_target+control,v2|6|501|A|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-r14a;R27-eq14;R27-probe;R35-r14a;R39-ma
+prev_confirmed_subset_deny,1,MAIN_INCLUDED(prev),MIXED_target+control,v2|6|501|A|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-r14a;R27-eq14;R27-probe;R35-r14a;R39-ma
+paper_role_configs_target,1,IN_PAPER,MIXED_target+control,v2|6|501|B|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-rev;R35-rev;R39-mb
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,MIXED_target+control,v2|6|501|B|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-rev;R35-rev;R39-mb
+prev_confirmed_subset_deny,1,MAIN_INCLUDED(prev),MIXED_target+control,v2|6|501|B|X|openFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A17-rev;R35-rev;R39-mb
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|6|501|A|X|openFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R36-SR;R39-lr
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R36-SR;R39-lr
+prev_confirmed_subset_deny,1,MAIN_INCLUDED(prev),CDAC_target_deny,v2|6|501|A|X|openFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R36-SR;R39-lr
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|6|501|A|X|openAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R36-SW;R39-lw
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R36-SW;R39-lw
+prev_confirmed_subset_deny,1,MAIN_INCLUDED(prev),CDAC_target_deny,v2|6|501|A|X|openAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R36-SW;R39-lw
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|5|401|A|X|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R21;R24-tgt;R26;R41
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R21;R24-tgt;R26;R41
+prev_confirmed_subset_deny,1,MAIN_INCLUDED(prev),CDAC_target_deny,v2|5|401|A|X|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R21;R24-tgt;R26;R41
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openTypedAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R40-RA
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openTypedAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R40-RA
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|6|501|deputy|X|openTypedAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R40-RD
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|deputy|X|openTypedAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R40-RD
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|4|301|A|X|openAssetFile|exact:254:96|none|fF:0x0/0x0|fM:0x0/0x0|rel:1/1|deny,batch3d-DP
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|4|301|A|X|openAssetFile|exact:254:96|none|fF:0x0/0x0|fM:0x0/0x0|rel:1/1|deny,batch3d-DP
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|8|701|route-owner(uid10122)|X(S10 route)|UNKNOWN(no-op-in-source)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:0/0|deny,batch3d-S10
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|8|701|route-owner(uid10122)|X(S10 route)|UNKNOWN(no-op-in-source)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:0/0|deny,batch3d-S10
+paper_role_configs_target,1,IN_PAPER,MIXED_target+control,v2|5|401|A|X|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C;R16-esp-regress
+paper_role_configs_target_candidates,1,IN_PAPER,op/rel UNKNOWN in package evidence,v2|5|401|A|X|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C;R16-esp-regress
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,MIXED_target+control,v2|5|401|A|X|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C;R16-esp-regress
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|5|401|B|X|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C-reversal
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|5|401|B|X|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C-reversal
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|5|401|A|D2|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C-wt-diag
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|5|401|A|D2|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R12-C-wt-diag
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|6|501|A|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R16-flags1
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|6|501|A|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R16-flags1
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|6|501|A|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-flags2
+paper_role_configs_target_candidates,1,IN_PAPER,op/rel UNKNOWN in package evidence,v2|6|501|A|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-flags2
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-flags2
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|6|501|B|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R16-reversal
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|6|501|B|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:/|deny,R16-reversal
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|6|501|B|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-reversal
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|6|501|B|X.mp4|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-reversal
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|6|501|A|D2|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-diag
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|6|501|A|D2|UNKNOWN(no-op-in-add-echo)|exact:254:96|none|fF:0x3/0x2|fM:0x0/0x0|rel:/|deny,R16-diag
+paper_role_configs_filler_family,1,IN_PAPER,synthetic-filler,v2|5|401|filler_T|filler-obj|openAssetFile|exact:254:96|path:X.bin|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|audit,R21-filler
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X0|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R24-lc0
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X0|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R24-lc0
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X1|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R24-lc1
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X1|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R24-lc1
+pending_only_role_configs_other_control,1,COMPLETED_PENDING,CDAC_other_control,v2|6|501|B|X|openTypedAssetFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,R25
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|6|501|B|X|openTypedAssetFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,R25
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openTypedAssetFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,R27-eq23
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openTypedAssetFile|exact:0:45|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,R27-eq23
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X(alias O)|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R30-obj
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|X(alias O)|openAssetFile|exact:254:96|none|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R30-obj
+pending_only_role_configs_target,1,COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|W(name)|openAssetFile|exact:254:96|path:W.bin|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R30-name-W
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|5|401|A|W(name)|openAssetFile|exact:254:96|path:W.bin|fF:0x3/0x1|fM:0x0/0x0|rel:0/0|deny,R30-name-W
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|6|501|deputy|X(proxy)|openTypedAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R38
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|deputy|X(proxy)|openTypedAssetFile|wildcard|none|fF:0x0/0x0|fM:0x0/0x0|rel:0/0|deny,R38
+paper_role_configs_target,1,IN_PAPER,CDAC_target_deny,v2|6|501|A|X|openFile|exact:0:46|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A15-r14a;A15c-r14a
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_target_deny,v2|6|501|A|X|openFile|exact:0:46|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A15-r14a;A15c-r14a
+paper_role_configs_other_control,1,IN_PAPER,CDAC_other_control,v2|6|501|B|X|openFile|exact:0:46|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A15-rev;A15c-rev
+paper_union_pending_deny,1,IN_PAPER∪COMPLETED_PENDING,CDAC_other_control,v2|6|501|B|X|openFile|exact:0:46|none|fF:0x3/0x0|fM:0x0/0x0|rel:0/0|deny,A15-rev;A15c-rev

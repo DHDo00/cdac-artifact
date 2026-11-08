@@ -1,0 +1,10 @@
+Pair4 enabled first attempt (dir esp_perf_20261024_enabled_p4, boot ~18:13-18:18 CST) FAILED SETUP:
+- SAF grant automation produced empty grants for both timing app and A app.
+- X.bin absent (/data/media/0/espafd_tree/X.bin stat ENOENT).
+- Sampling still executed and produced 200 rows per state, ALL result=OPEN_FAIL
+  exception=java.lang.SecurityException (native no-grant denial), for S1/S3/S2.
+- Per frozen protocol this boot is INVALID for performance and is NOT silently
+  dropped: it is recorded here. The retry boot (dir ..._p4r2, same order S1,S3,S2)
+  produced the valid Pair4-enabled samples saved under e_p4_b4_*.
+- Root cause of automation failure not fully diagnosed (DocumentsUI state/tap
+  variance); retry used stepwise UI verification and succeeded.

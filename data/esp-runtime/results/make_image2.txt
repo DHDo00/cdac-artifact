@@ -1,0 +1,2 @@
+--------- beginning of main
+10-28 16:13:56.610  2945  2945 I CDAC27_PATH: MAKE_IMAGE ok name=image2 uri=content://media/external_primary/images/media/17 marker=CDAC25GPSMARK_BBBB bytes=911 id=17 owner=com.demo.espafdtest data=/storage/emulated/0/Pictures/image2.jpg size=0 is_pending=0

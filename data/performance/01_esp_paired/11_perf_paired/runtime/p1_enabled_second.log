@@ -1,0 +1,6 @@
+attempt_start=2026-10-24T17:33:00+08:00
+runtime=cdac_runs/esp_perf_20261024_enabled_diag
+launch_pid=1189157
+side=enabled first_boot=0 data_policy=use_existing
+attempt_end=2026-10-24T17:35:32+08:00 RESULT=ADB_OK attempts=30
+launcher_rc=0 holder_started=2026-10-24T17:35:32+08:00

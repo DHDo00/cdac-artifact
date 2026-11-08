@@ -1,0 +1,676 @@
+diff --git a/src/com/android/providers/contacts/CallLogProvider.java b/src/com/android/providers/contacts/CallLogProvider.java
+index be8ae19c..f03a574d 100644
+--- a/src/com/android/providers/contacts/CallLogProvider.java
++++ b/src/com/android/providers/contacts/CallLogProvider.java
+@@ -75,15 +75,20 @@ import com.android.providers.contacts.util.UserUtils;
+ import java.io.FileDescriptor;
+ import java.io.FileInputStream;
+ import java.io.FileNotFoundException;
++import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.io.OutputStream;
+ import java.io.PrintWriter;
+ import java.io.StringWriter;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
+ import java.nio.file.DirectoryStream;
+ import java.nio.file.Files;
+ import java.nio.file.Path;
+ import java.nio.file.StandardOpenOption;
+ import java.nio.file.attribute.FileTime;
++import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.HashSet;
+@@ -92,6 +97,7 @@ import java.util.Locale;
+ import java.util.Set;
+ import java.util.UUID;
+ import java.util.concurrent.CountDownLatch;
++import java.util.concurrent.atomic.AtomicLong;
+ import java.util.stream.Collectors;
+ 
+ /**
+@@ -107,6 +113,146 @@ public class CallLogProvider extends ContentProvider {
+     private static final int BACKGROUND_TASK_ADJUST_PHONE_ACCOUNT = 1;
+     private static final int BACKGROUND_TASK_MIGRATE_PHONE_ACCOUNT_HANDLES = 2;
+ 
++    /*
++     * CDAC provider-side caller publication for CallLogProvider.openFile().
++     *
++     * Call-composer pictures are opened synchronously by ParcelFileDescriptor.open()
++     * on the provider Binder thread. This hook publishes only caller and route
++     * context for the same-thread VFS join, then pops it in a finally block. It
++     * does not inspect URI/path/object fields and does not make an allow/deny
++     * decision.
++     */
++    private static final String CDAC_IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int CDAC_IGUARD_MAGIC = 0x49475544;
++    private static final int CDAC_IGUARD_VERSION = 1;
++    private static final int CDAC_IGUARD_MSG_PUSH = 5;
++    private static final int CDAC_IGUARD_MSG_POP = 6;
++    private static final int CDAC_IGUARD_MSG_LEN = 136;
++    private static final int CDAC_IGUARD_FIELD_LEN = 32;
++    private static final int CDAC_SERVICE_CALLLOG_PROVIDER = 10;
++    private static final int CDAC_OP_CALLLOG_OPEN_FILE = 901;
++    private static final String CDAC_SERVICE_NAME = "calllog_provider";
++    private static final String CDAC_OP_OPEN_FILE = "openFile";
++    private static final long CDAC_CALLLOG_ENDPOINT_ID = 0x5120_0000_0000_0001L;
++    private static final int CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH = 2;
++    private static final AtomicLong sCdacCallLogSequence = new AtomicLong(1);
++    private static final ThreadLocal<ArrayDeque<CdacCallLogFrame>> sCdacCallLogFrames =
++            ThreadLocal.withInitial(ArrayDeque::new);
++
++    private static void putCdacFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean cdacWriteProviderContext(int msgType, CdacCallLogFrame frame) {
++        final ByteBuffer buf = ByteBuffer.allocate(CDAC_IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++        buf.putInt(CDAC_IGUARD_MAGIC);
++        buf.putInt(CDAC_IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(CDAC_IGUARD_MSG_LEN);
++        buf.putInt(frame.callingUid);
++        buf.putInt(frame.callingPid);
++        buf.putInt(CDAC_SERVICE_CALLLOG_PROVIDER);
++        buf.putInt(CDAC_OP_CALLLOG_OPEN_FILE);
++        buf.putInt(frame.serverTid);
++        buf.putInt(0); // transactionCode: provider-local route, not Binder metadata.
++        buf.putInt(0); // transactionFlags
++        buf.putInt(frame.nestingDepth);
++        buf.putLong(frame.sequenceId);
++        buf.putLong(CDAC_CALLLOG_ENDPOINT_ID);
++        buf.putLong(0L); // descriptor hash unavailable for provider-local hook.
++        putCdacFixedString(buf, CDAC_SERVICE_NAME, CDAC_IGUARD_FIELD_LEN);
++        putCdacFixedString(buf, frame.operationName, CDAC_IGUARD_FIELD_LEN);
++
++        try (FileOutputStream out = new FileOutputStream(CDAC_IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++            Log.i(TAG, "CdacCallLogProvider write ok"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service_id=" + CDAC_SERVICE_CALLLOG_PROVIDER
++                    + " op_id=" + CDAC_OP_CALLLOG_OPEN_FILE
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName
++                    + " requestedMode=" + frame.requestedMode);
++            return true;
++        } catch (Throwable t) {
++            Log.w(TAG, "CdacCallLogProvider write failed"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName
++                    + " requestedMode=" + frame.requestedMode, t);
++            return false;
++        }
++    }
++
++    private static CdacCallLogFrame cdacReportCaller(String operationName, String requestedMode) {
++        final ArrayDeque<CdacCallLogFrame> stack = sCdacCallLogFrames.get();
++        final CdacCallLogFrame frame = new CdacCallLogFrame(
++                sCdacCallLogSequence.getAndIncrement(), Binder.getCallingUid(),
++                Binder.getCallingPid(), android.os.Process.myTid(),
++                CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH + stack.size(), operationName,
++                requestedMode);
++        if (!cdacWriteProviderContext(CDAC_IGUARD_MSG_PUSH, frame)) {
++            return null;
++        }
++        stack.push(frame);
++        return frame;
++    }
++
++    private static void cdacInvalidateCaller(CdacCallLogFrame frame) {
++        if (frame == null) {
++            return;
++        }
++        final ArrayDeque<CdacCallLogFrame> stack = sCdacCallLogFrames.get();
++        final CdacCallLogFrame top = stack.peek();
++        if (top != frame) {
++            Log.w(TAG, "CdacCallLogProvider stack mismatch"
++                    + " seq=" + frame.sequenceId
++                    + " topSeq=" + (top != null ? top.sequenceId : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++        cdacWriteProviderContext(CDAC_IGUARD_MSG_POP, frame);
++    }
++
++    private static final class CdacCallLogFrame {
++        final long sequenceId;
++        final int callingUid;
++        final int callingPid;
++        final int serverTid;
++        final int nestingDepth;
++        final String operationName;
++        final String requestedMode;
++
++        CdacCallLogFrame(long sequenceId, int callingUid, int callingPid, int serverTid,
++                int nestingDepth, String operationName, String requestedMode) {
++            this.sequenceId = sequenceId;
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.serverTid = serverTid;
++            this.nestingDepth = nestingDepth;
++            this.operationName = operationName;
++            this.requestedMode = requestedMode;
++        }
++    }
++
+     /** Selection clause for selecting all calls that were made after a certain time */
+     private static final String MORE_RECENT_THAN_SELECTION = Calls.DATE + "> ?";
+     /** Selection clause to use to exclude voicemail records.  */
+@@ -833,36 +979,41 @@ public class CallLogProvider extends ContentProvider {
+     @Override
+     public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode)
+             throws FileNotFoundException {
+-        int match = sURIMatcher.match(uri);
+-        if (match != CALL_COMPOSER_PICTURE) {
+-            throw new UnsupportedOperationException("The call log provider only supports opening"
+-                    + " call composer pictures.");
+-        }
+-        int modeInt;
+-        switch (mode) {
+-            case "r":
+-                modeInt = ParcelFileDescriptor.MODE_READ_ONLY;
+-                break;
+-            case "w":
+-                modeInt = ParcelFileDescriptor.MODE_WRITE_ONLY;
+-                break;
+-            default:
+-                throw new UnsupportedOperationException("The call log does not support opening"
+-                        + " a call composer picture with mode " + mode);
+-        }
+-
++        final CdacCallLogFrame cdacFrame = cdacReportCaller(CDAC_OP_OPEN_FILE, mode);
+         try {
+-            Path callComposerDir = getCallComposerPictureDirectory(getContext(), uri);
+-            Path pictureFile = callComposerDir.resolve(uri.getLastPathSegment());
+-            if (Files.notExists(pictureFile)) {
+-                throw new FileNotFoundException(uri.toString()
+-                        + " does not correspond to a valid file.");
++            int match = sURIMatcher.match(uri);
++            if (match != CALL_COMPOSER_PICTURE) {
++                throw new UnsupportedOperationException("The call log provider only supports opening"
++                        + " call composer pictures.");
+             }
+-            enforceValidCallLogPath(callComposerDir, pictureFile,"openFile");
+-            return ParcelFileDescriptor.open(pictureFile.toFile(), modeInt);
+-        } catch (IOException e) {
+-            Log.e(TAG, "IOException while opening call composer file: " + e);
+-            throw new RuntimeException(e);
++            int modeInt;
++            switch (mode) {
++                case "r":
++                    modeInt = ParcelFileDescriptor.MODE_READ_ONLY;
++                    break;
++                case "w":
++                    modeInt = ParcelFileDescriptor.MODE_WRITE_ONLY;
++                    break;
++                default:
++                    throw new UnsupportedOperationException("The call log does not support opening"
++                            + " a call composer picture with mode " + mode);
++            }
++
++            try {
++                Path callComposerDir = getCallComposerPictureDirectory(getContext(), uri);
++                Path pictureFile = callComposerDir.resolve(uri.getLastPathSegment());
++                if (Files.notExists(pictureFile)) {
++                    throw new FileNotFoundException(uri.toString()
++                            + " does not correspond to a valid file.");
++                }
++                enforceValidCallLogPath(callComposerDir, pictureFile,"openFile");
++                return ParcelFileDescriptor.open(pictureFile.toFile(), modeInt);
++            } catch (IOException e) {
++                Log.e(TAG, "IOException while opening call composer file: " + e);
++                throw new RuntimeException(e);
++            }
++        } finally {
++            cdacInvalidateCaller(cdacFrame);
+         }
+     }
+ 
+diff --git a/src/com/android/providers/contacts/ContactsProvider2.java b/src/com/android/providers/contacts/ContactsProvider2.java
+index c69092d7..3ee6c130 100644
+--- a/src/com/android/providers/contacts/ContactsProvider2.java
++++ b/src/com/android/providers/contacts/ContactsProvider2.java
+@@ -223,8 +223,12 @@ import java.io.OutputStream;
+ import java.io.OutputStreamWriter;
+ import java.io.PrintWriter;
+ import java.io.Writer;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
+ import java.security.SecureRandom;
+ import java.text.SimpleDateFormat;
++import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collections;
+@@ -235,6 +239,7 @@ import java.util.Locale;
+ import java.util.Map;
+ import java.util.Set;
+ import java.util.concurrent.CountDownLatch;
++import java.util.concurrent.atomic.AtomicLong;
+ import java.util.function.Supplier;
+ 
+ /**
+@@ -251,6 +256,187 @@ public class ContactsProvider2 extends AbstractContactsProvider
+     private static final String SET_DEFAULT_ACCOUNT_PERMISSION =
+             "android.permission.SET_DEFAULT_ACCOUNT_FOR_CONTACTS";
+ 
++    /*
++     * CDAC provider-side caller publication for final-provider display-photo reads.
++     *
++     * This is intentionally below the cross-profile redirect entry. Only the local
++     * display-photo branch pushes service/op 12/1101, so the clone-origin provider
++     * hop cannot be mistaken for the parent final-provider VFS join.
++     */
++    private static final String CDAC_TAG = "CdacContactsProvider";
++    private static final String CDAC_IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int CDAC_IGUARD_MAGIC = 0x49475544;
++    private static final int CDAC_IGUARD_VERSION = 1;
++    private static final int CDAC_IGUARD_MSG_PUSH = 5;
++    private static final int CDAC_IGUARD_MSG_POP = 6;
++    private static final int CDAC_IGUARD_MSG_LEN = 136;
++    private static final int CDAC_IGUARD_FIELD_LEN = 32;
++    private static final int CDAC_SERVICE_CONTACTS_PROVIDER = 12;
++    private static final int CDAC_OP_CONTACTS_DISPLAY_PHOTO_READ = 1101;
++    private static final String CDAC_SERVICE_NAME = "contacts_provider";
++    private static final String CDAC_OP_DISPLAY_PHOTO_READ = "displayPhotoRead";
++    private static final long CDAC_CONTACTS_ENDPOINT_ID = 0x5140_0000_0000_0001L;
++    private static final int CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH = 2;
++    private static final AtomicLong sCdacContactsSequence = new AtomicLong(1);
++    private static final ThreadLocal<ArrayDeque<CdacContactsFrame>> sCdacContactsFrames =
++            ThreadLocal.withInitial(ArrayDeque::new);
++    private static final ThreadLocal<ArrayDeque<CdacContactsCaller>> sCdacContactsCallers =
++            ThreadLocal.withInitial(ArrayDeque::new);
++
++    private static void putCdacFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean cdacWriteContactsContext(int msgType, CdacContactsFrame frame) {
++        final ByteBuffer buf = ByteBuffer.allocate(CDAC_IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++        buf.putInt(CDAC_IGUARD_MAGIC);
++        buf.putInt(CDAC_IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(CDAC_IGUARD_MSG_LEN);
++        buf.putInt(frame.callingUid);
++        buf.putInt(frame.callingPid);
++        buf.putInt(CDAC_SERVICE_CONTACTS_PROVIDER);
++        buf.putInt(CDAC_OP_CONTACTS_DISPLAY_PHOTO_READ);
++        buf.putInt(frame.serverTid);
++        buf.putInt(0); // transactionCode: provider-local route, not Binder metadata.
++        buf.putInt(0); // transactionFlags
++        buf.putInt(frame.nestingDepth);
++        buf.putLong(frame.sequenceId);
++        buf.putLong(CDAC_CONTACTS_ENDPOINT_ID);
++        buf.putLong(0L); // descriptor hash unavailable for provider-local hook.
++        putCdacFixedString(buf, CDAC_SERVICE_NAME, CDAC_IGUARD_FIELD_LEN);
++        putCdacFixedString(buf, frame.operationName, CDAC_IGUARD_FIELD_LEN);
++
++        try (FileOutputStream out = new FileOutputStream(CDAC_IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++            Log.i(CDAC_TAG, "write ok"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service_id=" + CDAC_SERVICE_CONTACTS_PROVIDER
++                    + " op_id=" + CDAC_OP_CONTACTS_DISPLAY_PHOTO_READ
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName
++                    + " requestedMode=" + frame.requestedMode);
++            return true;
++        } catch (Throwable t) {
++            Log.w(CDAC_TAG, "write failed"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName
++                    + " requestedMode=" + frame.requestedMode, t);
++            return false;
++        }
++    }
++
++    private static CdacContactsCaller cdacPushFinalProviderCaller(String requestedMode) {
++        final CdacContactsCaller caller = new CdacContactsCaller(
++                Binder.getCallingUid(), Binder.getCallingPid(), requestedMode);
++        sCdacContactsCallers.get().push(caller);
++        return caller;
++    }
++
++    private static void cdacPopFinalProviderCaller(CdacContactsCaller caller) {
++        final ArrayDeque<CdacContactsCaller> stack = sCdacContactsCallers.get();
++        final CdacContactsCaller top = stack.peek();
++        if (top != caller) {
++            Log.w(CDAC_TAG, "caller stack mismatch"
++                    + " callerUid=" + caller.callingUid
++                    + " topUid=" + (top != null ? top.callingUid : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++    }
++
++    private static CdacContactsFrame cdacReportDisplayPhotoRead(String requestedMode) {
++        final CdacContactsCaller caller = sCdacContactsCallers.get().peek();
++        if (caller == null) {
++            Log.w(CDAC_TAG, "missing final-provider caller; skip publish"
++                    + " serverTid=" + android.os.Process.myTid()
++                    + " requestedMode=" + requestedMode);
++            return null;
++        }
++        final ArrayDeque<CdacContactsFrame> stack = sCdacContactsFrames.get();
++        final CdacContactsFrame frame = new CdacContactsFrame(
++                sCdacContactsSequence.getAndIncrement(), caller.callingUid,
++                caller.callingPid, android.os.Process.myTid(),
++                CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH + stack.size(),
++                CDAC_OP_DISPLAY_PHOTO_READ, caller.requestedMode);
++        if (!cdacWriteContactsContext(CDAC_IGUARD_MSG_PUSH, frame)) {
++            return null;
++        }
++        stack.push(frame);
++        return frame;
++    }
++
++    private static void cdacInvalidateDisplayPhotoRead(CdacContactsFrame frame) {
++        if (frame == null) {
++            return;
++        }
++        final ArrayDeque<CdacContactsFrame> stack = sCdacContactsFrames.get();
++        final CdacContactsFrame top = stack.peek();
++        if (top != frame) {
++            Log.w(CDAC_TAG, "stack mismatch"
++                    + " seq=" + frame.sequenceId
++                    + " topSeq=" + (top != null ? top.sequenceId : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++        cdacWriteContactsContext(CDAC_IGUARD_MSG_POP, frame);
++    }
++
++    private static final class CdacContactsFrame {
++        final long sequenceId;
++        final int callingUid;
++        final int callingPid;
++        final int serverTid;
++        final int nestingDepth;
++        final String operationName;
++        final String requestedMode;
++
++        CdacContactsFrame(long sequenceId, int callingUid, int callingPid, int serverTid,
++                int nestingDepth, String operationName, String requestedMode) {
++            this.sequenceId = sequenceId;
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.serverTid = serverTid;
++            this.nestingDepth = nestingDepth;
++            this.operationName = operationName;
++            this.requestedMode = requestedMode;
++        }
++    }
++
++    private static final class CdacContactsCaller {
++        final int callingUid;
++        final int callingPid;
++        final String requestedMode;
++
++        CdacContactsCaller(int callingUid, int callingPid, String requestedMode) {
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.requestedMode = requestedMode;
++        }
++    }
++
+ 
+     /* package */ static final String PHONEBOOK_COLLATOR_NAME = "PHONEBOOK";
+ 
+@@ -9629,11 +9815,13 @@ public class ContactsProvider2 extends AbstractContactsProvider
+         // the queries we will do to populate it.  Also this makes sure that when
+         // we go through any app ops checks for those queries that the calling uid
+         // and package names match at that point.
++        final CdacContactsCaller cdacCaller = cdacPushFinalProviderCaller(mode);
+         final long ident = Binder.clearCallingIdentity();
+         try {
+             return openAssetFileInner(uri, mode);
+         } finally {
+             Binder.restoreCallingIdentity(ident);
++            cdacPopFinalProviderCaller(cdacCaller);
+         }
+     }
+ 
+@@ -10011,6 +10199,7 @@ public class ContactsProvider2 extends AbstractContactsProvider
+ 
+         PhotoStore.Entry entry = mPhotoStore.get().get(photoFileId);
+         if (entry != null) {
++            final CdacContactsFrame cdacFrame = cdacReportDisplayPhotoRead("r");
+             try {
+                 return makeAssetFileDescriptor(
+                         ParcelFileDescriptor.open(
+@@ -10019,6 +10208,8 @@ public class ContactsProvider2 extends AbstractContactsProvider
+             } catch (FileNotFoundException fnfe) {
+                 scheduleBackgroundTask(BACKGROUND_TASK_CLEANUP_PHOTOS);
+                 throw fnfe;
++            } finally {
++                cdacInvalidateDisplayPhotoRead(cdacFrame);
+             }
+         } else {
+             scheduleBackgroundTask(BACKGROUND_TASK_CLEANUP_PHOTOS);
+diff --git a/src/com/android/providers/contacts/VoicemailContentProvider.java b/src/com/android/providers/contacts/VoicemailContentProvider.java
+index ef7a3758..a642feb3 100644
+--- a/src/com/android/providers/contacts/VoicemailContentProvider.java
++++ b/src/com/android/providers/contacts/VoicemailContentProvider.java
+@@ -51,8 +51,14 @@ import com.android.providers.contacts.util.UserUtils;
+ import com.google.common.annotations.VisibleForTesting;
+ 
+ import java.io.FileNotFoundException;
++import java.io.FileOutputStream;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayDeque;
+ import java.util.Arrays;
+ import java.util.List;
++import java.util.concurrent.atomic.AtomicLong;
+ 
+ /**
+  * An implementation of the Voicemail content provider. This class in the entry point for both
+@@ -74,6 +80,146 @@ public class VoicemailContentProvider extends ContentProvider
+     private VoicemailTable.Delegate mVoicemailContentTable;
+     private VoicemailTable.Delegate mVoicemailStatusTable;
+ 
++    /*
++     * CDAC provider-side caller publication for VoicemailContentProvider.openFile().
++     *
++     * Voicemail audio is opened synchronously through ContentProvider.openFileHelper()
++     * on the provider Binder thread. This hook publishes only caller and route
++     * context for the same-thread VFS join, then pops it in a finally block. It
++     * does not inspect URI, row, source package, path, or object fields, and it
++     * does not make an allow/deny decision.
++     */
++    private static final String CDAC_IGUARD_CTL_PATH = "/dev/iguard_ctl";
++    private static final int CDAC_IGUARD_MAGIC = 0x49475544;
++    private static final int CDAC_IGUARD_VERSION = 1;
++    private static final int CDAC_IGUARD_MSG_PUSH = 5;
++    private static final int CDAC_IGUARD_MSG_POP = 6;
++    private static final int CDAC_IGUARD_MSG_LEN = 136;
++    private static final int CDAC_IGUARD_FIELD_LEN = 32;
++    private static final int CDAC_SERVICE_VOICEMAIL_PROVIDER = 11;
++    private static final int CDAC_OP_VOICEMAIL_OPEN_FILE = 1001;
++    private static final String CDAC_SERVICE_NAME = "voicemail_provider";
++    private static final String CDAC_OP_OPEN_FILE = "openFile";
++    private static final long CDAC_VOICEMAIL_ENDPOINT_ID = 0x5130_0000_0000_0001L;
++    private static final int CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH = 2;
++    private static final AtomicLong sCdacVoicemailSequence = new AtomicLong(1);
++    private static final ThreadLocal<ArrayDeque<CdacVoicemailFrame>> sCdacVoicemailFrames =
++            ThreadLocal.withInitial(ArrayDeque::new);
++
++    private static void putCdacFixedString(ByteBuffer buf, String value, int len) {
++        final byte[] raw = value.getBytes(StandardCharsets.UTF_8);
++        final int n = Math.min(raw.length, len - 1);
++        buf.put(raw, 0, n);
++        for (int i = n; i < len; i++) {
++            buf.put((byte) 0);
++        }
++    }
++
++    private static boolean cdacWriteProviderContext(int msgType, CdacVoicemailFrame frame) {
++        final ByteBuffer buf = ByteBuffer.allocate(CDAC_IGUARD_MSG_LEN);
++        buf.order(ByteOrder.nativeOrder());
++        buf.putInt(CDAC_IGUARD_MAGIC);
++        buf.putInt(CDAC_IGUARD_VERSION);
++        buf.putInt(msgType);
++        buf.putInt(CDAC_IGUARD_MSG_LEN);
++        buf.putInt(frame.callingUid);
++        buf.putInt(frame.callingPid);
++        buf.putInt(CDAC_SERVICE_VOICEMAIL_PROVIDER);
++        buf.putInt(CDAC_OP_VOICEMAIL_OPEN_FILE);
++        buf.putInt(frame.serverTid);
++        buf.putInt(0); // transactionCode: provider-local route, not Binder metadata.
++        buf.putInt(0); // transactionFlags
++        buf.putInt(frame.nestingDepth);
++        buf.putLong(frame.sequenceId);
++        buf.putLong(CDAC_VOICEMAIL_ENDPOINT_ID);
++        buf.putLong(0L); // descriptor hash unavailable for provider-local hook.
++        putCdacFixedString(buf, CDAC_SERVICE_NAME, CDAC_IGUARD_FIELD_LEN);
++        putCdacFixedString(buf, frame.operationName, CDAC_IGUARD_FIELD_LEN);
++
++        try (FileOutputStream out = new FileOutputStream(CDAC_IGUARD_CTL_PATH)) {
++            out.write(buf.array());
++            out.flush();
++            Log.i(TAG, "CdacVoicemailProvider write ok"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service_id=" + CDAC_SERVICE_VOICEMAIL_PROVIDER
++                    + " op_id=" + CDAC_OP_VOICEMAIL_OPEN_FILE
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName
++                    + " requestedMode=" + frame.requestedMode);
++            return true;
++        } catch (Throwable t) {
++            Log.w(TAG, "CdacVoicemailProvider write failed"
++                    + " type=" + msgType
++                    + " seq=" + frame.sequenceId
++                    + " callerUid=" + frame.callingUid
++                    + " callerPid=" + frame.callingPid
++                    + " serverTid=" + frame.serverTid
++                    + " nestingDepth=" + frame.nestingDepth
++                    + " service=" + CDAC_SERVICE_NAME
++                    + " operation=" + frame.operationName
++                    + " requestedMode=" + frame.requestedMode, t);
++            return false;
++        }
++    }
++
++    private static CdacVoicemailFrame cdacReportCaller(String operationName, String requestedMode) {
++        final ArrayDeque<CdacVoicemailFrame> stack = sCdacVoicemailFrames.get();
++        final CdacVoicemailFrame frame = new CdacVoicemailFrame(
++                sCdacVoicemailSequence.getAndIncrement(), Binder.getCallingUid(),
++                Binder.getCallingPid(), android.os.Process.myTid(),
++                CDAC_PROVIDER_LOCAL_BASE_NESTING_DEPTH + stack.size(), operationName,
++                requestedMode);
++        if (!cdacWriteProviderContext(CDAC_IGUARD_MSG_PUSH, frame)) {
++            return null;
++        }
++        stack.push(frame);
++        return frame;
++    }
++
++    private static void cdacInvalidateCaller(CdacVoicemailFrame frame) {
++        if (frame == null) {
++            return;
++        }
++        final ArrayDeque<CdacVoicemailFrame> stack = sCdacVoicemailFrames.get();
++        final CdacVoicemailFrame top = stack.peek();
++        if (top != frame) {
++            Log.w(TAG, "CdacVoicemailProvider stack mismatch"
++                    + " seq=" + frame.sequenceId
++                    + " topSeq=" + (top != null ? top.sequenceId : -1)
++                    + " serverTid=" + android.os.Process.myTid());
++            stack.clear();
++        } else {
++            stack.pop();
++        }
++        cdacWriteProviderContext(CDAC_IGUARD_MSG_POP, frame);
++    }
++
++    private static final class CdacVoicemailFrame {
++        final long sequenceId;
++        final int callingUid;
++        final int callingPid;
++        final int serverTid;
++        final int nestingDepth;
++        final String operationName;
++        final String requestedMode;
++
++        CdacVoicemailFrame(long sequenceId, int callingUid, int callingPid, int serverTid,
++                int nestingDepth, String operationName, String requestedMode) {
++            this.sequenceId = sequenceId;
++            this.callingUid = callingUid;
++            this.callingPid = callingPid;
++            this.serverTid = serverTid;
++            this.nestingDepth = nestingDepth;
++            this.operationName = operationName;
++            this.requestedMode = requestedMode;
++        }
++    }
++
+     @Override
+     public boolean onCreate() {
+         if (VERBOSE_LOGGING) {
+@@ -243,6 +389,7 @@ public class VoicemailContentProvider extends ContentProvider
+ 
+     @Override
+     public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
++        final CdacVoicemailFrame cdacFrame = cdacReportCaller(CDAC_OP_OPEN_FILE, mode);
+         boolean success = false;
+         try {
+             UriData uriData = null;
+@@ -262,6 +409,7 @@ public class VoicemailContentProvider extends ContentProvider
+                         " CUID=" + Binder.getCallingUid() +
+                         " User=" + UserUtils.getCurrentUserHandle(getContext()));
+             }
++            cdacInvalidateCaller(cdacFrame);
+         }
+     }
+ 

@@ -1,0 +1,5 @@
+attempt_start=2026-10-23T17:21:16+08:00
+runtime=cdac_runs/esp_controls_20261023_r20
+launch_pid=1145699
+attempt_end=2026-10-23T17:23:58+08:00 RESULT=ADB_OK attempts=32
+launcher_rc=0 holder_started=2026-10-23T17:23:58+08:00

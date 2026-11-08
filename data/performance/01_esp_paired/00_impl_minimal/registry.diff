@@ -1,0 +1,61 @@
+--- cdac_esp_endpoint_validation_20261022/00_impl/framework/CdacEndpointRegistry.java.before	2026-10-22 14:04:35.723675484 +0800
++++ aosp16/frameworks/base/core/java/android/os/CdacEndpointRegistry.java	2026-10-22 14:04:35.743454656 +0800
+@@ -27,9 +27,13 @@
+     private static final int OP_CONTENT_PROVIDER_FILE_OPEN = 301;
+     private static final int SERVICE_SETTINGS_PROVIDER_FILE_OPEN = 8;
+     private static final int OP_SETTINGS_PROVIDER_FILE_OPEN = 701;
++    private static final int SERVICE_EXTERNAL_STORAGE_PROVIDER_FILE_OPEN = 5;
++    private static final int OP_EXTERNAL_STORAGE_PROVIDER_OPEN_DOCUMENT = 401;
+     private static final String SETTINGS_PROVIDER_CLASS =
+             "com.android.providers.settings.SettingsProvider";
+     private static final String SETTINGS_PROVIDER_AUTHORITY = "settings";
++    private static final String ESP_PROVIDER_CLASS =
++            "com.android.externalstorage.ExternalStorageProvider";
+ 
+     private static final Object sLock = new Object();
+     private static final IdentityHashMap<IBinder, Endpoint> sEndpoints = new IdentityHashMap<>();
+@@ -124,16 +128,29 @@
+                 + descriptor + "|"
+                 + identity);
+         final boolean settingsProvider = isSettingsProvider(providerClassName, providerAuthority);
++        final boolean espProvider = ESP_PROVIDER_CLASS.equals(nullToEmpty(providerClassName));
+         final int serviceId = settingsProvider
+-                ? SERVICE_SETTINGS_PROVIDER_FILE_OPEN : SERVICE_CONTENT_PROVIDER_FILE_OPEN;
++                ? SERVICE_SETTINGS_PROVIDER_FILE_OPEN
++                : espProvider
++                        ? SERVICE_EXTERNAL_STORAGE_PROVIDER_FILE_OPEN
++                        : SERVICE_CONTENT_PROVIDER_FILE_OPEN;
+         final int opId = settingsProvider
+-                ? OP_SETTINGS_PROVIDER_FILE_OPEN : OP_CONTENT_PROVIDER_FILE_OPEN;
+-        final String endpointType = settingsProvider ? "settings_provider" : "content_provider";
++                ? OP_SETTINGS_PROVIDER_FILE_OPEN
++                : espProvider
++                        ? OP_EXTERNAL_STORAGE_PROVIDER_OPEN_DOCUMENT
++                        : OP_CONTENT_PROVIDER_FILE_OPEN;
++        final String endpointType = settingsProvider ? "settings_provider"
++                : espProvider ? "external_storage_provider" : "content_provider";
+         final String symbolicName = settingsProvider
+-                ? "settings_provider_open_file" : "content_provider_file_open";
++                ? "settings_provider_open_file"
++                : espProvider
++                        ? "external_storage_provider_open_document"
++                        : "content_provider_file_open";
+         final long endpointId = settingsProvider
+                 ? stableHash("provider|settings|" + descriptor + "|" + identity)
+-                : stableHash("provider|" + descriptor + "|" + identity);
++                : espProvider
++                        ? stableHash("provider|esp|" + descriptor + "|" + identity)
++                        : stableHash("provider|" + descriptor + "|" + identity);
+         final Endpoint endpoint = new Endpoint(
+                 endpointId,
+                 serviceId,
+@@ -258,7 +275,8 @@
+ 
+     private static boolean isSupportedProviderFileOpenService(int serviceId) {
+         return serviceId == SERVICE_CONTENT_PROVIDER_FILE_OPEN
+-                || serviceId == SERVICE_SETTINGS_PROVIDER_FILE_OPEN;
++                || serviceId == SERVICE_SETTINGS_PROVIDER_FILE_OPEN
++                || serviceId == SERVICE_EXTERNAL_STORAGE_PROVIDER_FILE_OPEN;
+     }
+ 
+     private static void auditRegister(IBinder binder, @Nullable String descriptor,

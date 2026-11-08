@@ -1,0 +1,2 @@
+session_id,boot_id,block_id,block_position,mode,sample_index,latency_ns,terminal_result_code,pfd_returned,functional_valid
+EQUIV_cdac_dp_h4_app_visible_performance_20260628_024030,06a3ab92-c347-4a51-bb9e-e54efc7d2150,4,4,E2,0,10363045,2,false,true

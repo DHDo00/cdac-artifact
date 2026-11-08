@@ -1,0 +1,5 @@
+attempt_start=2026-10-26T18:09:30+08:00
+runtime=21_rule_count_scaling_20261026/04_runtime/boot2
+launch_pid=3948877
+side=enabled_esp_5_401 first_boot=1 data_policy=always_create instance=21
+attempt_end=2026-10-26T18:13:17+08:00 RESULT=ADB_OK attempts=45

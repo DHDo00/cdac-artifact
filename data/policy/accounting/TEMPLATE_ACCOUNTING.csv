@@ -1,0 +1,7 @@
+template_kind,count,items,counts_as_authored_target_template,note
+canonical-route-description,7,canonical-rule_dp_runtime_refreshed;canonical-rule_s1_runtime_refreshed;canonical-rule_s10_runtime_refreshed;canonical-rule_s11_runtime_refreshed;canonical-rule_s12_runtime_refreshed;canonical-rule_s13_runtime_refreshed;canonical-rule_s14_runtime_refreshed,no,
+target-generator-function,1,r21-target_cmd,no,
+synthetic-filler-generator-function,1,r21-filler_cmd,no,
+post-hoc-structure-signature,9,posthoc-exact:0:45 none F0x3/0x0;posthoc-exact:254:96 none F0x0/0;posthoc-exact:254:96 none F0x3/0;posthoc-exact:254:96 none F0x3/0;posthoc-exact:254:96 none F0x3/0;posthoc-exact:254:96 none F0x3/0;posthoc-exact:254:96 path:W.bin ;posthoc-exact:254:96 path:X.bin ;posthoc-wildcard none F0x0/0x0 r,no,
+historical-executable-template,1,historical-executable-template,UNKNOWN,"NOT_RECORDED is a status, not a count of 1"
+provider-local-mechanism-patch,1,L-provider-local,no,

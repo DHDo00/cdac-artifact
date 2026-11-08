@@ -1,0 +1,46 @@
+R35 START 2026-10-29T00:13:47+08:00 loadavg=5.64 4.81 3.83
+[2026-10-29T00:13:47+08:00] boot fingerprint check
+[2026-10-29T00:13:48+08:00] install apks
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+[2026-10-29T00:13:52+08:00] uidA=10121 uidB=10122
+make_image1 URI=content://media/external_primary/images/media/16 DATA=/storage/emulated/0/Pictures/image1.jpg
+make_image2 URI=content://media/external_primary/images/media/17 DATA=/storage/emulated/0/Pictures/image2.jpg
+BACK_X=/data/media/0/Pictures/image1.jpg INO_X=2931 BACK_Y=/data/media/0/Pictures/image2.jpg INO_Y=2951
+[2026-10-29T00:14:01+08:00] B0 native premise start
+[2026-10-29T00:14:01+08:00] B0_AX_1 loadavg=5.62 4.85 3.86
+[2026-10-29T00:14:04+08:00] B0_AX_2 loadavg=5.62 4.85 3.86
+[2026-10-29T00:14:07+08:00] B0_AX_3 loadavg=5.25 4.78 3.85
+[2026-10-29T00:14:10+08:00] B0_BX_1
+[2026-10-29T00:14:14+08:00] B0_BX_2
+[2026-10-29T00:14:17+08:00] B0_BX_3
+[2026-10-29T00:14:21+08:00] B1 install R14A (caller=A)
+[2026-10-29T00:14:23+08:00] B1_AX_1
+[2026-10-29T00:14:26+08:00] B1_AX_2
+[2026-10-29T00:14:29+08:00] B1_AX_3
+[2026-10-29T00:14:33+08:00] B1_BX_1
+[2026-10-29T00:14:37+08:00] B1_BX_2
+[2026-10-29T00:14:40+08:00] B1_BX_3
+[2026-10-29T00:14:43+08:00] B1_AY_1
+[2026-10-29T00:14:46+08:00] B1_AY_2
+[2026-10-29T00:14:50+08:00] B1_AY_3
+[2026-10-29T00:14:55+08:00] B2 install R_rev (caller=B)
+[2026-10-29T00:14:57+08:00] B2_BX_1
+[2026-10-29T00:15:00+08:00] B2_BX_2
+[2026-10-29T00:15:03+08:00] B2_BX_3
+[2026-10-29T00:15:06+08:00] B2_AX_1
+[2026-10-29T00:15:09+08:00] B2_AX_2
+[2026-10-29T00:15:13+08:00] B2_AX_3
+[2026-10-29T00:15:16+08:00] B2_BY_1
+[2026-10-29T00:15:19+08:00] B2_BY_2
+[2026-10-29T00:15:22+08:00] B2_BY_3
+[2026-10-29T00:15:28+08:00] B3 revoke start (policy clear readback above)
+[2026-10-29T00:15:28+08:00] B3_AX_1
+[2026-10-29T00:15:31+08:00] B3_AX_2
+[2026-10-29T00:15:34+08:00] B3_AX_3
+[2026-10-29T00:15:37+08:00] B3_BX_1
+[2026-10-29T00:15:40+08:00] B3_BX_2
+[2026-10-29T00:15:44+08:00] B3_BX_3
+R35 RUN END 2026-10-29T00:15:49+08:00

@@ -1,0 +1,3 @@
+block=d1_off cfg=off readback=verbose_audit=N logging_mode=quiet
+kernel_logcat_lines=209 kernel_logcat_bytes=49262 fw_logcat_lines=102
+host_kernel_log_bytes_delta=43963

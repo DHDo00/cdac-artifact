@@ -1,0 +1,45 @@
+# CDAC round-21 rule-count scaling — analysis
+
+## boot1 per-scale (valid WRITE_OK rows, open_ns, type-7)
+| N | n | median_ms | P95_ms | min_ms | max_ms |
+|---|---|---|---|---|---|
+| 0 | 100 | 16.6431 | 75.5052 | 3.4902 | 96.0584 |
+| 1 | 100 | 16.4253 | 60.9275 | 3.8835 | 96.6570 |
+| 8 | 100 | 16.9275 | 82.3317 | 3.6569 | 99.7223 |
+| 32 | 100 | 15.5994 | 45.6363 | 3.7673 | 85.2071 |
+| 128 | 100 | 16.2061 | 78.6988 | 3.6234 | 96.1121 |
+
+### boot1 paired per-block T(N)-T(0) (block median diff, ns->ms)
+| N | n_blocks | median_ms | P95_ms | min_ms | max_ms | bootstrap_mean_CI_ms |
+|---|---|---|---|---|---|---|
+| 1 | 20 | 0.0979 | 12.2696 | -19.2995 | 13.2615 | -4.7160..2.8782 |
+| 8 | 20 | 0.0585 | 11.8690 | -27.2383 | 17.8860 | -5.2043..2.4307 |
+| 32 | 20 | -0.4921 | 13.2441 | -19.1376 | 24.3028 | -4.2171..3.5212 |
+| 128 | 20 | 0.2274 | 14.4731 | -18.7515 | 15.7589 | -3.0709..3.6801 |
+
+excluded (boot1): disturbed_blocks=[] invalid_configs=[]
+
+## boot2 per-scale (valid WRITE_OK rows, open_ns, type-7)
+| N | n | median_ms | P95_ms | min_ms | max_ms |
+|---|---|---|---|---|---|
+| 0 | 100 | 16.6438 | 45.8539 | 4.3621 | 100.3539 |
+| 1 | 100 | 16.5495 | 82.2420 | 4.4793 | 98.0958 |
+| 8 | 100 | 17.3275 | 83.0564 | 4.1874 | 161.4044 |
+| 32 | 100 | 15.4598 | 47.1299 | 3.6407 | 134.7397 |
+| 128 | 100 | 17.1023 | 78.1278 | 4.3215 | 117.0159 |
+
+### boot2 paired per-block T(N)-T(0) (block median diff, ns->ms)
+| N | n_blocks | median_ms | P95_ms | min_ms | max_ms | bootstrap_mean_CI_ms |
+|---|---|---|---|---|---|---|
+| 1 | 20 | -0.2640 | 18.7944 | -16.7480 | 24.8213 | -3.0327..6.4349 |
+| 8 | 20 | 0.5326 | 12.3183 | -14.2593 | 13.4185 | -1.9579..4.0759 |
+| 32 | 20 | -3.3441 | 9.7445 | -16.3333 | 10.6370 | -5.6119..0.8047 |
+| 128 | 20 | 2.2460 | 14.2118 | -15.2380 | 16.6775 | -2.2705..5.2273 |
+
+excluded (boot2): disturbed_blocks=[] invalid_configs=[]
+
+## interpretation (frozen framing)
+- N=0 = empty-rule reference on the SAME CDAC artifact; not a no-CDAC baseline.
+- end-to-end T(N)-T(0) is not pure kernel lookup cost.
+- no splicing with round-12 old-artifact deltas.
+- noise-dominated differences are reported as 'current measurement did not resolve', never as zero cost.

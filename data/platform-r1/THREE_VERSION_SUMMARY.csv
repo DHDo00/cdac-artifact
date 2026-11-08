@@ -1,0 +1,4 @@
+platform,artifact,comparison_boot_indices,batches_included,total_planned,total_attempted,total_valid,total_deny_pass,total_allow_pass,total_failures,total_invalid,total_retries,note
+A15,fixed A15 system.img=70c2ab35… super=36ae6e22… + kernel_openkeychain_dist,"1,2,3","A15CLEAN-R1,A15R1-B2,A15R1-B3",90,90,90,18,72,0,0,0,
+A16,C19_media system.img=009b68dc… super=55f51a09… + kernel_openkeychain_dist,"1,2,3","R35 cvd-35 boot1,R35-B2,R35-B3",90,90,90,18,72,0,0,0,R35 frozen artifact: original batch (boot1) + new replications (boot2/3)
+A17,A17 system.img=ce6dc748… super=24d98b2a… + kernel_openkeychain_dist,"1,2,3","A17R1 cvd-73 boot1,A17R1-B2 cvd-74 boot2,A17R1-B3",90,90,90,18,72,0,0,0,

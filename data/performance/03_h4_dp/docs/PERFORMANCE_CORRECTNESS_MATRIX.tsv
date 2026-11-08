@@ -1,0 +1,10 @@
+scope	mode	measured_samples	valid	open_success	usable_pfd	expected_deny	rule_match	frdac_deny	target_receiver_install_delta	denied_app_fd_install_delta	denied_internal_acquire	denied_internal_release	denied_internal_outstanding
+A	P0	2000	2000	2000	2000	0	0	0	0	0	0	0	0
+A	P1	2000	2000	2000	2000	0	0	0	0	0	0	0	0
+A	P2	2000	2000	0	0	2000	2000	2000	0	0	2000	2000	0
+B	P0	2000	2000	2000	2000	0	0	0	0	0	0	0	0
+B	P1	2000	2000	2000	2000	0	0	0	0	0	0	0	0
+B	P2	2000	2000	0	0	2000	2000	2000	0	0	2000	2000	0
+pooled	P0	4000	4000	4000	4000	0	0	0	0	0	0	0	0
+pooled	P1	4000	4000	4000	4000	0	0	0	0	0	0	0	0
+pooled	P2	4000	4000	0	0	4000	4000	4000	0	0	4000	4000	0

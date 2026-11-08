@@ -1,0 +1,3 @@
+block=d2_on cfg=on readback=verbose_audit=Y logging_mode=audit
+kernel_logcat_lines=6402 kernel_logcat_bytes=1703140 fw_logcat_lines=102
+host_kernel_log_bytes_delta=1403052

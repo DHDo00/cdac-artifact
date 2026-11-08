@@ -1,0 +1,19 @@
+policy_clear ok
+policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=2 path_tail=- reason=mech_C_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3186 s_dev=266338400 i_mode=00 schema=v2
+rep=1 policy_readback=1
+policy_clear ok
+policy_clear ok
+policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=2 path_tail=- reason=mech_C_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3186 s_dev=266338400 i_mode=00 schema=v2
+rep=2 policy_readback=1
+policy_clear ok
+policy_clear ok
+policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=2 path_tail=- reason=mech_C_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3186 s_dev=266338400 i_mode=00 schema=v2
+rep=3 policy_readback=1
+policy_clear ok
+policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=2 path_tail=- reason=mech_C_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3186 s_dev=266338400 i_mode=00 schema=v2
+policy_clear ok
+policy_add ok: service_id=5 op_id=401 caller_uid=10122 decision=2 path_tail=- reason=mech_C_X f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3186 s_dev=266338400 i_mode=00 schema=v2
+policy_clear ok
+policy_clear ok
+policy_add ok: service_id=5 op_id=401 caller_uid=10121 decision=2 path_tail=- reason=mech_C_D2 f_flags_mask=0x3 f_flags_value=0x1 f_mode_mask=0x0 f_mode_value=0x0 ino=3271 s_dev=266338400 i_mode=00 schema=v2
+policy_clear ok

@@ -1,0 +1,5 @@
+scenario	attempts	app_success	usable_pfd	rule_match	frdac_deny	functional_valid	extra
+E0	5	5/5	5/5	0/5	0/5	5/5	target_install=0;denied_app_fd_install=0;denied_internal_acquire=0;denied_internal_release=0;pass=True
+E1	5	5/5	5/5	0/5	0/5	5/5	target_install=20;denied_app_fd_install=0;denied_internal_acquire=0;denied_internal_release=0;pass=True
+E2	5	0/5	0/5	5/5	5/5	5/5	target_install=0;denied_app_fd_install=0;denied_internal_acquire=5;denied_internal_release=5;pass=True
+E3	5	5/5	5/5	0/5	0/5	5/5	target_install=0;denied_app_fd_install=0;denied_internal_acquire=0;denied_internal_release=0;pass=True

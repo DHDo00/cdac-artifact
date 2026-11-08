@@ -1,0 +1,1321 @@
+diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+index d587afe874bf..661b7aa0be03 100644
+--- a/drivers/android/binder.c
++++ b/drivers/android/binder.c
+@@ -61,6 +61,7 @@
+ #include <linux/uaccess.h>
+ #include <linux/pid_namespace.h>
+ #include <linux/security.h>
++#include <linux/iguard_ctx.h>
+ #include <linux/spinlock.h>
+ #include <linux/ratelimit.h>
+ #include <linux/syscalls.h>
+@@ -2535,6 +2536,11 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+ 	int ret = 0;
+ 	bool target_allows_fd;
+ 
++	if (iguard_ctx_verbose_audit_enabled())
++		pr_info("CDAC_BINDER_FD_AUDIT event=translate_begin sender_pid=%d sender_tid=%d receiver_pid=%d source_fd=%u fd_offset=%llu in_reply_to=%d txn_debug_id=%d\n",
++			proc->pid, thread->pid, target_proc ? target_proc->pid : -1,
++			fd, (unsigned long long)fd_offset, !!in_reply_to,
++			t->debug_id);
+ 	if (in_reply_to)
+ 		target_allows_fd = !!(in_reply_to->flags & TF_ACCEPT_FDS);
+ 	else
+@@ -2552,15 +2558,25 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+ 	if (!file) {
+ 		binder_user_error("%d:%d got transaction with invalid fd, %d\n",
+ 				  proc->pid, thread->pid, fd);
++		if (iguard_ctx_verbose_audit_enabled())
++			pr_info("CDAC_BINDER_FD_AUDIT event=translate_fget_fail sender_pid=%d sender_tid=%d receiver_pid=%d source_fd=%u ret=%d txn_debug_id=%d\n",
++				proc->pid, thread->pid,
++				target_proc ? target_proc->pid : -1, fd, -EBADF,
++				t->debug_id);
+ 		ret = -EBADF;
+ 		goto err_fget;
+ 	}
+ 	ret = security_binder_transfer_file(proc->cred, target_proc->cred, file);
+ 	if (ret < 0) {
++		if (iguard_ctx_verbose_audit_enabled())
++			pr_info("CDAC_BINDER_FD_AUDIT event=translate_security_fail sender_pid=%d sender_tid=%d receiver_pid=%d source_fd=%u file_cookie=%llu ret=%d txn_debug_id=%d\n",
++				proc->pid, thread->pid,
++				target_proc ? target_proc->pid : -1, fd,
++				(unsigned long long)iguard_file_cookie(file), ret,
++				t->debug_id);
+ 		ret = -EPERM;
+ 		goto err_security;
+ 	}
+-
+ 	/*
+ 	 * Add fixup record for this transaction. The allocation
+ 	 * of the fd in the target needs to be done from a
+@@ -2575,6 +2591,13 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+ 	fixup->offset = fd_offset;
+ 	fixup->target_fd = -1;
+ 	trace_binder_transaction_fd_send(t, fd, fixup->offset);
++	iguard_audit_binder_fd_send(proc->pid, thread->pid,
++				    target_proc->pid, fd, t->debug_id, file);
++	if (iguard_ctx_verbose_audit_enabled())
++		pr_info("CDAC_BINDER_FD_AUDIT event=translate_success sender_pid=%d sender_tid=%d receiver_pid=%d source_fd=%u fd_offset=%llu file_cookie=%llu txn_debug_id=%d\n",
++			proc->pid, thread->pid, target_proc ? target_proc->pid : -1,
++			fd, (unsigned long long)fixup->offset,
++			(unsigned long long)iguard_file_cookie(file), t->debug_id);
+ 	list_add_tail(&fixup->fixup_entry, &t->fd_fixups);
+ 
+ 	return ret;
+@@ -3783,6 +3806,13 @@ static void binder_transaction(struct binder_proc *proc,
+ 			int ret = binder_translate_fd(fp->fd, fd_offset, t,
+ 						      thread, in_reply_to);
+ 
++			if (iguard_ctx_verbose_audit_enabled())
++				pr_info("CDAC_BINDER_FD_AUDIT event=object_fd sender_pid=%d sender_tid=%d receiver_pid=%d source_fd=%u object_offset=%llu fd_offset=%llu ret=%d txn_debug_id=%d\n",
++					proc->pid, thread->pid,
++					target_proc ? target_proc->pid : -1,
++					fp->fd, (unsigned long long)object_offset,
++					(unsigned long long)fd_offset, ret,
++					t->debug_id);
+ 			fp->pad_binder = 0;
+ 			if (ret < 0 ||
+ 			    binder_alloc_copy_to_buffer(&target_proc->alloc,
+@@ -3812,6 +3842,15 @@ static void binder_transaction(struct binder_proc *proc,
+ 						    off_start_offset,
+ 						    &parent_offset,
+ 						    num_valid);
++			if (iguard_ctx_verbose_audit_enabled())
++				pr_info("CDAC_BINDER_FD_AUDIT event=object_fda sender_pid=%d sender_tid=%d receiver_pid=%d num_fds=%llu object_offset=%llu parent=%llu parent_offset=%llu txn_debug_id=%d\n",
++					proc->pid, thread->pid,
++					target_proc ? target_proc->pid : -1,
++					(unsigned long long)fda->num_fds,
++					(unsigned long long)object_offset,
++					(unsigned long long)fda->parent,
++					(unsigned long long)fda->parent_offset,
++					t->debug_id);
+ 			if (!parent) {
+ 				binder_user_error("%d:%d got transaction with invalid parent offset or type\n",
+ 						  proc->pid, thread->pid);
+@@ -4928,6 +4967,15 @@ static int binder_apply_fd_fixups(struct binder_proc *proc,
+ {
+ 	struct binder_txn_fd_fixup *fixup, *tmp;
+ 	int ret = 0;
++	unsigned int fixup_count = 0;
++
++	if (iguard_ctx_verbose_audit_enabled()) {
++		list_for_each_entry(fixup, &t->fd_fixups, fixup_entry)
++			fixup_count++;
++		pr_info("CDAC_BINDER_FD_AUDIT event=apply_fixups_begin receiver_pid=%d receiver_tid=%d txn_debug_id=%d fixup_count=%u\n",
++			task_tgid_nr(current), task_pid_nr(current), t->debug_id,
++			fixup_count);
++	}
+ 
+ 	list_for_each_entry(fixup, &t->fd_fixups, fixup_entry) {
+ 		int fd = get_unused_fd_flags(O_CLOEXEC);
+@@ -4952,6 +5000,16 @@ static int binder_apply_fd_fixups(struct binder_proc *proc,
+ 		}
+ 	}
+ 	list_for_each_entry_safe(fixup, tmp, &t->fd_fixups, fixup_entry) {
++		iguard_audit_binder_fd_recv(task_tgid_nr(current),
++					    task_pid_nr(current),
++					    fixup->target_fd, t->debug_id,
++					    fixup->file);
++		if (iguard_ctx_verbose_audit_enabled())
++			pr_info("CDAC_BINDER_FD_AUDIT event=apply_fixup_install receiver_pid=%d receiver_tid=%d receiver_fd=%d file_cookie=%llu txn_debug_id=%d\n",
++				task_tgid_nr(current), task_pid_nr(current),
++				fixup->target_fd,
++				(unsigned long long)iguard_file_cookie(fixup->file),
++				t->debug_id);
+ 		fd_install(fixup->target_fd, fixup->file);
+ 		list_del(&fixup->fixup_entry);
+ 		kfree(fixup);
+diff --git a/drivers/android/binder/allocation.rs b/drivers/android/binder/allocation.rs
+index 61b7723ec866..1f01a34a1d1e 100644
+--- a/drivers/android/binder/allocation.rs
++++ b/drivers/android/binder/allocation.rs
+@@ -23,6 +23,10 @@
+     DArc,
+ };
+ 
++#[used]
++static CDAC_RUST_BINDER_FD_TRANSFER_MODULE_MARKER: [u8; 28] =
++    *b"CDAC_RUST_BINDER_FD_TRANSFER";
++
+ #[derive(Default)]
+ pub(crate) struct AllocationInfo {
+     /// Range within the allocation where we can find the offsets to the object descriptors.
+@@ -175,12 +179,18 @@ pub(crate) fn info_add_fd(
+         file: ARef<File>,
+         buffer_offset: usize,
+         close_on_free: bool,
++        sender_pid: i32,
++        sender_tid: i32,
++        sender_fd: u32,
+     ) -> Result {
+         self.get_or_init_info().file_list.files_to_translate.push(
+             FileEntry {
+                 file,
+                 buffer_offset,
+                 close_on_free,
++                sender_pid,
++                sender_tid,
++                sender_fd,
+             },
+             GFP_KERNEL,
+         )?;
+@@ -209,11 +219,32 @@ pub(crate) fn translate_fds(&mut self) -> Result<TranslatedFds> {
+             let fd = res.reserved_fd();
+             self.write::<u32>(file_info.buffer_offset, &fd)?;
+             crate::trace::trace_transaction_fd_recv(self.debug_id, fd, file_info.buffer_offset);
++            // SAFETY: `file_info.file` owns a valid `struct file` reference and the helper only
++            // reads file identity/cookie metadata for audit.
++            unsafe {
++                bindings::iguard_audit_rust_binder_fd_transfer(
++                    0,
++                    file_info.sender_pid,
++                    file_info.sender_tid,
++                    file_info.sender_fd,
++                    self.process.pid_in_current_ns(),
++                    kernel::current!().pid(),
++                    fd,
++                    self.debug_id as i32,
++                    file_info.file.as_ptr(),
++                    0,
++                )
++            };
+ 
+             reservations.push(
+                 Reservation {
+                     res,
+                     file: file_info.file,
++                    sender_pid: file_info.sender_pid,
++                    sender_tid: file_info.sender_tid,
++                    sender_fd: file_info.sender_fd,
++                    receiver_pid: self.process.pid_in_current_ns(),
++                    binder_transaction_id: self.debug_id as i32,
+                 },
+                 GFP_KERNEL,
+             )?;
+@@ -577,6 +608,10 @@ struct FileEntry {
+     buffer_offset: usize,
+     /// Whether this fd should be closed when the allocation is freed.
+     close_on_free: bool,
++    /// Sender task identity and source fd captured when the sender object is translated.
++    sender_pid: i32,
++    sender_tid: i32,
++    sender_fd: u32,
+ }
+ 
+ pub(crate) struct TranslatedFds {
+@@ -589,6 +624,11 @@ pub(crate) struct TranslatedFds {
+ struct Reservation {
+     res: FileDescriptorReservation,
+     file: ARef<File>,
++    sender_pid: i32,
++    sender_tid: i32,
++    sender_fd: u32,
++    receiver_pid: i32,
++    binder_transaction_id: i32,
+ }
+ 
+ impl TranslatedFds {
+@@ -601,6 +641,23 @@ pub(crate) fn new() -> Self {
+ 
+     pub(crate) fn commit(self) -> FdsCloseOnFree {
+         for entry in self.reservations {
++            let receiver_fd = entry.res.reserved_fd();
++            // SAFETY: `entry.file` owns a valid `struct file` reference and the helper only reads
++            // metadata before `fd_install` consumes the reference.
++            unsafe {
++                bindings::iguard_audit_rust_binder_fd_transfer(
++                    1,
++                    entry.sender_pid,
++                    entry.sender_tid,
++                    entry.sender_fd,
++                    entry.receiver_pid,
++                    kernel::current!().pid(),
++                    receiver_fd,
++                    entry.binder_transaction_id,
++                    entry.file.as_ptr(),
++                    0,
++                )
++            };
+             entry.res.fd_install(entry.file);
+         }
+ 
+diff --git a/drivers/android/binder/thread.rs b/drivers/android/binder/thread.rs
+index 01ce32f647d5..e70d7adf33fe 100644
+--- a/drivers/android/binder/thread.rs
++++ b/drivers/android/binder/thread.rs
+@@ -840,7 +840,14 @@ fn translate_object(
+                 let field_offset = offset + FD_FIELD_OFFSET;
+                 crate::trace::trace_transaction_fd_send(view.alloc.debug_id, fd, field_offset);
+ 
+-                view.alloc.info_add_fd(file, field_offset, false)?;
++                view.alloc.info_add_fd(
++                    file,
++                    field_offset,
++                    false,
++                    self.process.pid_in_current_ns(),
++                    kernel::current!().pid(),
++                    fd,
++                )?;
+             }
+             BinderObjectRef::Ptr(obj) => {
+                 let obj_length = obj.length.try_into().map_err(|_| EINVAL)?;
+@@ -995,7 +1002,14 @@ fn translate_object(
+ 
+                     // The `validate_parent_fixup` call ensuers that this addition will not
+                     // overflow.
+-                    view.alloc.info_add_fd(file, info.target_offset + i, true)?;
++                    view.alloc.info_add_fd(
++                        file,
++                        info.target_offset + i,
++                        true,
++                        self.process.pid_in_current_ns(),
++                        kernel::current!().pid(),
++                        fd,
++                    )?;
+                 }
+                 drop(fda_bytes);
+ 
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 5018db96c802..64a67ac6b5f3 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -626,7 +626,13 @@ config PKVM_SMC_FILTER
+ 	  driver, this is intended to be a template and not shipped as is.
+ 
+ 	  Say N here unless you know what you are doing.
+-
++#DH
++config IGUARD_CTL
++    tristate "I-Guard minimal control channel"
++    help
++      Create /dev/iguard_ctl as a minimal write-only control channel
++      for I-Guard bring-up and debugging.
++#DH
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index a43fcbe55e42..0e38b7ec6e3e 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -74,3 +74,4 @@ obj-$(CONFIG_MARVELL_CN10K_DPI)	+= mrvl_cn10k_dpi.o
+ obj-y				+= keba/
+ obj-$(CONFIG_UID_SYS_STATS)	+= uid_sys_stats.o
+ obj-$(CONFIG_PKVM_SMC_FILTER)  += pkvm-smc/
++obj-$(CONFIG_IGUARD_CTL)       += iguard_ctl.o
+diff --git a/fs/file.c b/fs/file.c
+index 1967ef670605..7b7c2d079c39 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -23,6 +23,7 @@
+ #include <net/sock.h>
+ #include <linux/init_task.h>
+ #include <linux/dma-buf.h>
++#include <linux/iguard_ctx.h>
+ 
+ #include "internal.h"
+ 
+@@ -603,6 +604,8 @@ void fd_install(unsigned int fd, struct file *file)
+ 	struct files_struct *files = current->files;
+ 	struct fdtable *fdt;
+ 
++	iguard_audit_fd_install(fd, file);
++
+ 	if (WARN_ON_ONCE(unlikely(file->f_mode & FMODE_BACKING)))
+ 		return;
+ 
+@@ -1331,21 +1334,29 @@ int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)
+ 	int error;
+ 
+ 	error = security_file_receive(file);
+-	if (error)
++	if (error) {
++		iguard_audit_receive_fd_result(0, file, o_flags, error);
+ 		return error;
++	}
+ 
+ 	new_fd = get_unused_fd_flags(o_flags);
+-	if (new_fd < 0)
++	if (new_fd < 0) {
++		iguard_audit_receive_fd_result(0, file, o_flags, new_fd);
+ 		return new_fd;
++	}
+ 
+ 	if (ufd) {
+ 		error = put_user(new_fd, ufd);
+ 		if (error) {
+ 			put_unused_fd(new_fd);
++			iguard_audit_receive_fd_result(new_fd, file, o_flags,
++						       error);
+ 			return error;
+ 		}
+ 	}
+ 
++	iguard_audit_receive_fd_result(new_fd, file, o_flags, 0);
++
+ 	fd_install(new_fd, get_file(file));
+ 	__receive_sock(file);
+ 	return new_fd;
+diff --git a/fs/file_table.c b/fs/file_table.c
+index cf3422edf737..42daf3613d79 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -28,6 +28,7 @@
+ #include <linux/task_work.h>
+ #include <linux/swap.h>
+ #include <linux/kmemleak.h>
++#include <linux/iguard_ctx.h>
+ 
+ #include <linux/atomic.h>
+ 
+@@ -62,6 +63,7 @@ EXPORT_SYMBOL_GPL(backing_file_user_path);
+ 
+ static inline void file_free(struct file *f)
+ {
++	iguard_file_cookie_release(f);
+ 	security_file_free(f);
+ 	if (likely(!(f->f_mode & FMODE_NOACCOUNT)))
+ 		percpu_counter_dec(&nr_files);
+diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+index c3e0db114321..7da59aee61c1 100644
+--- a/fs/fuse/backing.c
++++ b/fs/fuse/backing.c
+@@ -12,6 +12,7 @@
+ #include <linux/fs_stack.h>
+ #include <linux/splice.h>
+ #include <linux/namei.h>
++#include <linux/iguard_ctx.h>
+ 
+ #include "../internal.h"
+ 
+@@ -28,6 +29,201 @@ static struct kmem_cache *fuse_bpf_aio_request_cachep;
+ static void fuse_stat_to_attr(struct fuse_conn *fc, struct inode *inode,
+ 		struct kstat *stat, struct fuse_attr *attr);
+ 
++static void cdac_fuse_file_identity(const struct file *file,
++				    unsigned long *ino,
++				    dev_t *s_dev,
++				    int *f_flags,
++				    fmode_t *f_mode)
++{
++	struct inode *inode;
++
++	*ino = 0;
++	*s_dev = 0;
++	*f_flags = 0;
++	*f_mode = 0;
++
++	if (!file)
++		return;
++
++	inode = file_inode((struct file *)file);
++	if (!inode)
++		return;
++
++	*ino = (unsigned long)inode->i_ino;
++	if (inode->i_sb)
++		*s_dev = inode->i_sb->s_dev;
++	*f_flags = file->f_flags;
++	*f_mode = file->f_mode;
++}
++
++static u64 cdac_fuse_bpf_relation_id(const struct fuse_conn *fc, u64 nodeid,
++				     int backing_id, u64 mapping_generation)
++{
++	u64 h = ((u64)MAJOR(fc->dev) << 48) |
++		((u64)MINOR(fc->dev) << 32) |
++		(u32)backing_id;
++
++	h ^= nodeid + 0x9e3779b97f4a7c15ULL + (h << 6) + (h >> 2);
++	h ^= mapping_generation + 0xbf58476d1ce4e5b9ULL + (h << 6) + (h >> 2);
++	h ^= h >> 33;
++	h *= 0xff51afd7ed558ccdULL;
++	h ^= h >> 33;
++	return h ?: 1;
++}
++
++static void cdac_audit_bpf_direct_relation(struct fuse_conn *fc, u64 nodeid,
++					   struct file *proxy_file,
++					   struct file *backing_file,
++					   struct fuse_file *ff,
++					   const char *source)
++{
++	unsigned long lower_ino, proxy_ino;
++	dev_t lower_s_dev, proxy_s_dev;
++	int lower_flags, proxy_flags;
++	fmode_t lower_f_mode, proxy_f_mode;
++	u64 lower_cookie, proxy_cookie;
++
++	proxy_cookie = iguard_file_cookie(proxy_file);
++	ff->cdac_proxy_file_cookie = proxy_cookie;
++
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	cdac_fuse_file_identity(backing_file, &lower_ino, &lower_s_dev,
++				&lower_flags, &lower_f_mode);
++	cdac_fuse_file_identity(proxy_file, &proxy_ino, &proxy_s_dev,
++				&proxy_flags, &proxy_f_mode);
++	lower_cookie = iguard_file_cookie(backing_file);
++
++	pr_info("CDAC_FUSE_BACKING_REGISTER ts_ns=%llu audit_seq=%llu relation_type=DIRECT_BACKING_FILE_REFERENCE relation_stage=OPEN_TIME source=%s connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu backing_fd=-1 lower_file_cookie=%llu lower_inode=%lu lower_s_dev=%u:%u lower_f_flags=0x%x lower_f_mode=0x%x creator_pid=%d creator_tid=%d result=%s\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		source, MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, ff->cdac_backing_id,
++		(unsigned long long)ff->cdac_mapping_generation,
++		(unsigned long long)ff->cdac_relation_id, lower_cookie,
++		lower_ino, MAJOR(lower_s_dev), MINOR(lower_s_dev),
++		lower_flags, (unsigned int)lower_f_mode,
++		task_tgid_nr(current), task_pid_nr(current),
++		backing_file ? "success" : "missing_file");
++	pr_info("CDAC_FUSE_BACKING_LOOKUP ts_ns=%llu audit_seq=%llu relation_type=DIRECT_BACKING_FILE_REFERENCE relation_stage=OPEN_TIME source=%s connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu lower_file_cookie=%llu lookup_pid=%d lookup_tid=%d result=%s\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		source, MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, ff->cdac_backing_id,
++		(unsigned long long)ff->cdac_mapping_generation,
++		(unsigned long long)ff->cdac_relation_id, lower_cookie,
++		task_tgid_nr(current), task_pid_nr(current),
++		backing_file ? "success" : "missing_file");
++	pr_info("CDAC_FUSE_PROXY_ASSOCIATE ts_ns=%llu audit_seq=%llu relation_type=DIRECT_BACKING_FILE_REFERENCE relation_stage=OPEN_TIME source=%s connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu lower_file_cookie=%llu proxy_file_cookie=%llu lower_inode=%lu lower_s_dev=%u:%u lower_f_flags=0x%x lower_f_mode=0x%x proxy_inode=%lu proxy_s_dev=%u:%u proxy_f_flags=0x%x proxy_f_mode=0x%x association_pid=%d association_tid=%d result=%s\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		source, MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, ff->cdac_backing_id,
++		(unsigned long long)ff->cdac_mapping_generation,
++		(unsigned long long)ff->cdac_relation_id, lower_cookie,
++		proxy_cookie, lower_ino, MAJOR(lower_s_dev), MINOR(lower_s_dev),
++		lower_flags, (unsigned int)lower_f_mode,
++		proxy_ino, MAJOR(proxy_s_dev), MINOR(proxy_s_dev),
++		proxy_flags, (unsigned int)proxy_f_mode,
++		task_tgid_nr(current), task_pid_nr(current),
++			(proxy_file && backing_file) ? "success" : "missing_file");
++	}
++
++static int cdac_apply_bpf_direct_relation_decision(struct fuse_conn *fc,
++						   u64 nodeid,
++						   struct file *proxy_file,
++						   struct file *backing_file,
++						   struct fuse_file *ff,
++						   const char *source)
++{
++	struct iguard_relation_decision_input input;
++	unsigned long lower_ino, proxy_ino;
++	dev_t lower_s_dev, proxy_s_dev;
++	int lower_flags, proxy_flags;
++	fmode_t lower_f_mode, proxy_f_mode;
++
++	memset(&input, 0, sizeof(input));
++	cdac_fuse_file_identity(backing_file, &lower_ino, &lower_s_dev,
++				&lower_flags, &lower_f_mode);
++	cdac_fuse_file_identity(proxy_file, &proxy_ino, &proxy_s_dev,
++				&proxy_flags, &proxy_f_mode);
++
++	input.relation_type = IGUARD_RELATION_TYPE_DIRECT_BACKING_FILE_REFERENCE;
++	input.relation_stage = IGUARD_RELATION_STAGE_OPEN_TIME;
++	input.connection_major = MAJOR(fc->dev);
++	input.connection_minor = MINOR(fc->dev);
++	input.nodeid = nodeid;
++	input.mapping_generation = ff ? ff->cdac_mapping_generation : 0;
++	input.relation_id_for_logging = ff ? ff->cdac_relation_id : 0;
++	input.lower_file_cookie = iguard_file_cookie(backing_file);
++	input.proxy_file_cookie = iguard_file_cookie(proxy_file);
++	input.lower_inode = lower_ino;
++	input.lower_s_dev = (u64)lower_s_dev;
++	input.lower_f_flags = lower_flags;
++	input.lower_f_mode = (u32)lower_f_mode;
++	input.proxy_inode = proxy_ino;
++	input.proxy_s_dev = (u64)proxy_s_dev;
++	input.proxy_f_flags = proxy_flags;
++	input.proxy_f_mode = (u32)proxy_f_mode;
++	input.relation_complete = proxy_file && backing_file && ff &&
++		input.mapping_generation != 0 &&
++		input.lower_file_cookie != 0 &&
++		input.proxy_file_cookie != 0;
++	input.relation_ambiguous = false;
++	input.relation_stale = false;
++	input.native_allowed = true;
++	input.source = source;
++
++	return iguard_ctx_apply_relation_decision(&input);
++}
++
++static void cdac_audit_bpf_direct_remove(struct fuse_conn *fc, u64 nodeid,
++					 struct fuse_file *ff)
++{
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	pr_info("CDAC_FUSE_BACKING_REMOVE ts_ns=%llu audit_seq=%llu relation_type=DIRECT_BACKING_FILE_REFERENCE connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu lower_file_cookie=%llu proxy_file_cookie_if_known=%llu remover_pid=%d remover_tid=%d result=success\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, ff->cdac_backing_id,
++		(unsigned long long)ff->cdac_mapping_generation,
++		(unsigned long long)ff->cdac_relation_id,
++		(unsigned long long)iguard_file_cookie(ff->backing_file),
++		(unsigned long long)ff->cdac_proxy_file_cookie,
++		task_tgid_nr(current), task_pid_nr(current));
++}
++
++static void cdac_audit_bpf_backing_replace(struct fuse_conn *fc, u64 nodeid,
++					   int action, unsigned long old_ino,
++					   struct file *new_file, int result)
++{
++	unsigned long new_ino = 0;
++	dev_t new_s_dev = 0;
++	int new_flags = 0;
++	fmode_t new_f_mode = 0;
++	const char *reason = action == FUSE_ACTION_REPLACE ?
++		"FUSE_ACTION_REPLACE" : "FUSE_ACTION_REMOVE";
++
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	cdac_fuse_file_identity(new_file, &new_ino, &new_s_dev, &new_flags,
++				&new_f_mode);
++
++	pr_info("CDAC_FUSE_BACKING_REPLACE ts_ns=%llu audit_seq=%llu connection_identity=%u:%u nodeid=%llu old_relation_id=0 new_relation_id=0 old_generation=0 new_generation=0 old_lower_cookie=0 new_lower_cookie=%llu old_lower_inode=%lu new_lower_inode=%lu new_lower_s_dev=%u:%u new_lower_f_flags=0x%x new_lower_f_mode=0x%x proxy_cookie=0 reason=%s replace_pid=%d replace_tid=%d result=%d\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid,
++		(unsigned long long)iguard_file_cookie(new_file),
++		old_ino, new_ino, MAJOR(new_s_dev), MINOR(new_s_dev), new_flags,
++		(unsigned int)new_f_mode, reason, task_tgid_nr(current),
++		task_pid_nr(current), result);
++}
++
+ static void fuse_copyattr(struct file *dst_file, struct file *src_file)
+ {
+ 	struct inode *dst = file_inode(dst_file);
+@@ -140,6 +336,27 @@ int fuse_open_backing(struct fuse_bpf_args *fa,
+ 		return PTR_ERR(backing_file);
+ 	}
+ 	ff->backing_file = backing_file;
++	ff->cdac_backing_id = 0;
++	ff->cdac_mapping_generation =
++		atomic64_inc_return(&fm->fc->cdac_mapping_generation);
++	ff->cdac_relation_id = cdac_fuse_bpf_relation_id(fm->fc,
++			get_fuse_inode(inode)->nodeid, ff->cdac_backing_id,
++			ff->cdac_mapping_generation);
++	cdac_audit_bpf_direct_relation(fm->fc, get_fuse_inode(inode)->nodeid,
++				       file, backing_file, ff,
++				       "fuse_open_backing");
++	retval = cdac_apply_bpf_direct_relation_decision(fm->fc,
++			get_fuse_inode(inode)->nodeid, file, backing_file, ff,
++			"fuse_open_backing");
++	if (retval) {
++		cdac_audit_bpf_direct_remove(fm->fc,
++					     get_fuse_inode(inode)->nodeid, ff);
++		fput(backing_file);
++		ff->backing_file = NULL;
++		fuse_file_free(ff);
++		file->private_data = NULL;
++		return retval;
++	}
+ 
+ 	return 0;
+ }
+@@ -217,6 +434,30 @@ static int fuse_open_file_backing(struct inode *inode, struct file *file)
+ 		return PTR_ERR(backing_file);
+ 	}
+ 	fuse_file->backing_file = backing_file;
++	fuse_file->cdac_backing_id = 0;
++	fuse_file->cdac_mapping_generation =
++		atomic64_inc_return(&fm->fc->cdac_mapping_generation);
++	fuse_file->cdac_relation_id = cdac_fuse_bpf_relation_id(fm->fc,
++			get_fuse_inode(inode)->nodeid,
++			fuse_file->cdac_backing_id,
++			fuse_file->cdac_mapping_generation);
++	cdac_audit_bpf_direct_relation(fm->fc, get_fuse_inode(inode)->nodeid,
++				       file, backing_file, fuse_file,
++				       "fuse_open_file_backing");
++	{
++		int retval = cdac_apply_bpf_direct_relation_decision(fm->fc,
++				get_fuse_inode(inode)->nodeid, file, backing_file,
++				fuse_file, "fuse_open_file_backing");
++		if (retval) {
++			cdac_audit_bpf_direct_remove(fm->fc,
++					get_fuse_inode(inode)->nodeid, fuse_file);
++			fput(backing_file);
++			fuse_file->backing_file = NULL;
++			fuse_file_free(fuse_file);
++			file->private_data = NULL;
++			return retval;
++		}
++	}
+ 
+ 	return 0;
+ }
+@@ -320,7 +561,10 @@ int fuse_release_initialize(struct fuse_bpf_args *fa, struct fuse_release_in *fr
+ {
+ 	/* Always put backing file whatever bpf/userspace says */
+ 	if (ff->backing_file) {
+-	    fput(ff->backing_file);
++		cdac_audit_bpf_direct_remove(get_fuse_conn(inode),
++					     get_fuse_inode(inode)->nodeid, ff);
++		fput(ff->backing_file);
++		ff->backing_file = NULL;
+ 	}
+ 
+ 	*fri = (struct fuse_release_in) {
+@@ -1326,6 +1570,11 @@ struct dentry *fuse_lookup_finalize(struct fuse_bpf_args *fa, struct inode *dir,
+ 	}
+ 
+ 	if (inode) {
++		struct inode *old_backing_inode =
++			get_fuse_inode(inode)->backing_inode;
++		unsigned long old_backing_ino = old_backing_inode ?
++			old_backing_inode->i_ino : 0;
++
+ 		error = fuse_handle_backing(feb,
+ 					&get_fuse_inode(inode)->backing_inode,
+ 					&fuse_entry->backing_path);
+@@ -1333,6 +1582,11 @@ struct dentry *fuse_lookup_finalize(struct fuse_bpf_args *fa, struct inode *dir,
+ 			ret = ERR_PTR(error);
+ 			goto out;
+ 		}
++		if (febo->backing_action == FUSE_ACTION_REPLACE ||
++		    febo->backing_action == FUSE_ACTION_REMOVE)
++			cdac_audit_bpf_backing_replace(get_fuse_conn(dir),
++				feo->nodeid, febo->backing_action,
++				old_backing_ino, feb->backing_file, error);
+ 
+ 		get_fuse_inode(inode)->nodeid = feo->nodeid;
+ 		ret = d_splice_alias(inode, entry);
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 4f087c585118..3c070c80f5c8 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -22,6 +22,7 @@
+ #include <linux/swap.h>
+ #include <linux/splice.h>
+ #include <linux/sched.h>
++#include <linux/iguard_ctx.h>
+ #include <trace/hooks/fuse.h>
+ 
+ #define CREATE_TRACE_POINTS
+@@ -586,6 +587,8 @@ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
+ 	if (!args->noreply)
+ 		__set_bit(FR_ISREPLY, &req->flags);
+ 	__fuse_request_send(req);
++	if (args->request_unique_out)
++		*args->request_unique_out = req->in.h.unique;
+ 	ret = req->out.h.error;
+ 	if (!ret && args->out_argvar) {
+ 		BUG_ON(args->out_numargs == 0);
+@@ -2471,6 +2474,43 @@ static long fuse_dev_ioctl_backing_close(struct file *file, __u32 __user *argp)
+ 	return fuse_backing_close(fud->fc, backing_id);
+ }
+ 
++static long fuse_dev_ioctl_fd_cookie(struct file *file,
++				     struct fuse_fd_cookie_query __user *argp)
++{
++	struct fuse_dev *fud = fuse_get_dev(file);
++	struct fuse_fd_cookie_query query;
++	struct fd lower;
++	struct file *lower_file;
++	struct inode *inode;
++
++	if (!fud)
++		return -EPERM;
++
++	if (copy_from_user(&query, argp, sizeof(query)))
++		return -EFAULT;
++
++	lower = fdget(query.fd);
++	lower_file = fd_file(lower);
++	if (!lower_file)
++		return -EBADF;
++
++	inode = file_inode(lower_file);
++	query.file_cookie = iguard_file_cookie(lower_file);
++	query.ino = inode ? inode->i_ino : 0;
++	query.s_dev_major = inode && inode->i_sb ? MAJOR(inode->i_sb->s_dev) : 0;
++	query.s_dev_minor = inode && inode->i_sb ? MINOR(inode->i_sb->s_dev) : 0;
++	query.i_mode = inode ? inode->i_mode : 0;
++	query.f_flags = lower_file->f_flags;
++	query.f_mode = lower_file->f_mode;
++
++	fdput(lower);
++
++	if (copy_to_user(argp, &query, sizeof(query)))
++		return -EFAULT;
++
++	return 0;
++}
++
+ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
+ 			   unsigned long arg)
+ {
+@@ -2486,6 +2526,9 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
+ 	case FUSE_DEV_IOC_BACKING_CLOSE:
+ 		return fuse_dev_ioctl_backing_close(file, argp);
+ 
++	case FUSE_DEV_IOC_FD_COOKIE:
++		return fuse_dev_ioctl_fd_cookie(file, argp);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 0f3bfcf15a53..3de0749a1938 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -23,10 +23,35 @@
+ #include <linux/filelock.h>
+ #include <linux/splice.h>
+ #include <linux/task_io_accounting_ops.h>
++#include <linux/iguard_ctx.h>
++#include <linux/ktime.h>
++
++static u64 cdac_fuse_mix64(u64 v)
++{
++	v ^= v >> 33;
++	v *= 0xff51afd7ed558ccdULL;
++	v ^= v >> 33;
++	v *= 0xc4ceb9fe1a85ec53ULL;
++	v ^= v >> 33;
++	return v;
++}
++
++static u64 cdac_fuse_relation_id(dev_t fuse_dev, u64 unique, u64 nodeid, u64 fh)
++{
++	u64 id = 0x4344414346555345ULL;
++
++	id ^= cdac_fuse_mix64(((u64)MAJOR(fuse_dev) << 32) | MINOR(fuse_dev));
++	id ^= cdac_fuse_mix64(unique + 0x9e3779b97f4a7c15ULL);
++	id ^= cdac_fuse_mix64(nodeid + 0xbf58476d1ce4e5b9ULL);
++	id ^= cdac_fuse_mix64(fh + 0x94d049bb133111ebULL);
++
++	return cdac_fuse_mix64(id);
++}
+ 
+ static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
+ 			  unsigned int open_flags, int opcode,
+-			  struct fuse_open_out *outargp)
++			  struct fuse_open_out *outargp,
++			  u64 *request_unique_out)
+ {
+ 	struct fuse_open_in inarg;
+ 	FUSE_ARGS(args);
+@@ -49,6 +74,7 @@ static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
+ 	args.out_numargs = 1;
+ 	args.out_args[0].size = sizeof(*outargp);
+ 	args.out_args[0].value = outargp;
++	args.request_unique_out = request_unique_out;
+ 
+ 	return fuse_simple_request(fm, &args);
+ }
+@@ -169,9 +195,21 @@ struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
+ 	if (open) {
+ 		/* Store outarg for fuse_finish_open() */
+ 		struct fuse_open_out *outargp = &ff->args->open_outarg;
++		u64 request_unique = 0;
+ 		int err;
+ 
+-		err = fuse_send_open(fm, nodeid, open_flags, opcode, outargp);
++		err = fuse_send_open(fm, nodeid, open_flags, opcode, outargp,
++				     &request_unique);
++		ff->cdac_open_unique = request_unique;
++		if (iguard_ctx_verbose_audit_enabled()) {
++			pr_info("CDAC_FUSE_OPEN_REPLY_KERNEL ts_ns=%llu fuse_connection_id=%u:%u request_unique=%llu nodeid=%llu fh=%llu opcode=%d result=%d\n",
++				(unsigned long long)ktime_get_boottime_ns(),
++				MAJOR(fm->fc->dev), MINOR(fm->fc->dev),
++				(unsigned long long)request_unique,
++				(unsigned long long)nodeid,
++				err ? 0ULL : (unsigned long long)outargp->fh,
++				opcode, err);
++		}
+ 		if (!err) {
+ 			ff->fh = outargp->fh;
+ 			ff->open_flags = outargp->open_flags;
+@@ -310,8 +348,27 @@ static int fuse_open(struct inode *inode, struct file *file)
+ 		err = fuse_finish_open(inode, file);
+ 		if (err)
+ 			fuse_sync_release(fi, ff, file->f_flags);
+-		else if (is_truncate)
+-			fuse_truncate_update_attr(inode, file);
++		else {
++			if (iguard_ctx_verbose_audit_enabled()) {
++				u64 relation_id = cdac_fuse_relation_id(0, ff->cdac_open_unique,
++									get_node_id(inode),
++									ff->fh);
++
++				pr_info("CDAC_FUSE_PROXY_FILE ts_ns=%llu relation_id=%llu fuse_connection_id=%u:%u request_unique=%llu nodeid=%llu fh=%llu proxy_file_cookie=%llu proxy_inode=%lu proxy_s_dev=%u:%u creator_pid=%d creator_tid=%d result=success\n",
++					(unsigned long long)ktime_get_boottime_ns(),
++					(unsigned long long)relation_id,
++					MAJOR(fm->fc->dev), MINOR(fm->fc->dev),
++					(unsigned long long)ff->cdac_open_unique,
++					(unsigned long long)get_node_id(inode),
++					(unsigned long long)ff->fh,
++					(unsigned long long)iguard_file_cookie(file),
++					inode->i_ino,
++					MAJOR(inode->i_sb->s_dev), MINOR(inode->i_sb->s_dev),
++					task_tgid_nr(current), task_pid_nr(current));
++			}
++			if (is_truncate)
++				fuse_truncate_update_attr(inode, file);
++		}
+ 	}
+ 
+ 	if (is_wb_truncate || dax_truncate)
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 939553b34291..6d09845559c1 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -87,6 +87,8 @@ struct fuse_submount_lookup {
+ struct fuse_backing {
+ 	struct file *file;
+ 	struct cred *cred;
++	u64 cdac_mapping_generation;
++	int cdac_backing_id;
+ 
+ 	/** refcount */
+ 	refcount_t count;
+@@ -288,6 +290,13 @@ struct fuse_file {
+ 	/** Kernel file handle guaranteed to be unique */
+ 	u64 kh;
+ 
++	/** Audit-only FUSE_OPEN request id copied from fuse_req->in.h.unique */
++	u64 cdac_open_unique;
++	u64 cdac_mapping_generation;
++	u64 cdac_relation_id;
++	u64 cdac_proxy_file_cookie;
++	int cdac_backing_id;
++
+ 	/** File handle used by userspace */
+ 	u64 fh;
+ 
+@@ -363,6 +372,7 @@ struct fuse_page_desc {
+ 
+ struct fuse_args {
+ 	uint64_t nodeid;
++	uint64_t *request_unique_out;
+ 	uint32_t opcode;
+ 	uint32_t error_in;
+ 	uint8_t in_numargs;
+@@ -972,6 +982,7 @@ struct fuse_conn {
+ 
+ 	/** Version counter for attribute changes */
+ 	atomic64_t attr_version;
++	atomic64_t cdac_mapping_generation;
+ 
+ 	/** Called on final put */
+ 	void (*release)(struct fuse_conn *);
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 41ddbb3b5a54..56fc379f97d2 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1086,6 +1086,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 	fc->initialized = 0;
+ 	fc->connected = 1;
+ 	atomic64_set(&fc->attr_version, 1);
++	atomic64_set(&fc->cdac_mapping_generation, 0);
+ 	get_random_bytes(&fc->scramble_key, sizeof(fc->scramble_key));
+ 	fc->pid_ns = get_pid_ns(task_active_pid_ns(current));
+ 	fc->user_ns = get_user_ns(user_ns);
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index 059e579695ec..11d47265dfb3 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -11,6 +11,186 @@
+ #include <linux/backing-file.h>
+ #include <linux/splice.h>
+ #include <linux/pagemap.h>
++#include <linux/iguard_ctx.h>
++
++static void cdac_fuse_file_identity(const struct file *file,
++				    unsigned long *ino,
++				    dev_t *s_dev,
++				    int *f_flags,
++				    fmode_t *f_mode)
++{
++	struct inode *inode;
++
++	*ino = 0;
++	*s_dev = 0;
++	*f_flags = 0;
++	*f_mode = 0;
++
++	if (!file)
++		return;
++
++	inode = file_inode((struct file *)file);
++	if (!inode)
++		return;
++
++	*ino = (unsigned long)inode->i_ino;
++	if (inode->i_sb)
++		*s_dev = inode->i_sb->s_dev;
++	*f_flags = file->f_flags;
++	*f_mode = file->f_mode;
++}
++
++static u64 cdac_fuse_relation_id(const struct fuse_conn *fc, u64 nodeid,
++				 int backing_id, u64 mapping_generation)
++{
++	u64 h = ((u64)MAJOR(fc->dev) << 48) |
++		((u64)MINOR(fc->dev) << 32) |
++		(u32)backing_id;
++
++	h ^= nodeid + 0x9e3779b97f4a7c15ULL + (h << 6) + (h >> 2);
++	h ^= mapping_generation + 0xbf58476d1ce4e5b9ULL + (h << 6) + (h >> 2);
++	h ^= h >> 33;
++	h *= 0xff51afd7ed558ccdULL;
++	h ^= h >> 33;
++	return h ?: 1;
++}
++
++static void cdac_audit_fuse_backing_register(struct fuse_conn *fc,
++					     int backing_id,
++					     u64 nodeid,
++					     u64 mapping_generation,
++					     struct file *registered_file)
++{
++	unsigned long ino;
++	dev_t s_dev;
++	int f_flags;
++	fmode_t f_mode;
++	u64 ts_ns;
++	u64 audit_seq;
++	u64 relation_id;
++
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	ts_ns = ktime_get_ns();
++	audit_seq = iguard_audit_next_seq();
++	relation_id = cdac_fuse_relation_id(fc, nodeid, backing_id,
++					    mapping_generation);
++	cdac_fuse_file_identity(registered_file, &ino, &s_dev, &f_flags,
++				&f_mode);
++
++	pr_info("CDAC_FUSE_BACKING_REGISTER ts_ns=%llu audit_seq=%llu connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu backing_fd=unknown lower_file_cookie=%llu lower_inode=%lu lower_s_dev=%u:%u lower_f_flags=0x%x lower_f_mode=0x%x creator_pid=%d creator_tid=%d result=%s\n",
++		(unsigned long long)ts_ns,
++		(unsigned long long)audit_seq,
++		MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, backing_id,
++		(unsigned long long)mapping_generation,
++		(unsigned long long)relation_id,
++		(unsigned long long)iguard_file_cookie(registered_file),
++		ino, MAJOR(s_dev), MINOR(s_dev), f_flags,
++		(unsigned int)f_mode, task_tgid_nr(current),
++		task_pid_nr(current), registered_file ? "success" : "missing_file");
++}
++
++static void cdac_audit_fuse_backing_lookup(struct fuse_conn *fc,
++					   int backing_id, u64 nodeid,
++					   struct fuse_backing *fb,
++					   const char *result)
++{
++	u64 generation;
++	u64 relation_id;
++
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	generation = fb ? fb->cdac_mapping_generation : 0;
++	relation_id = cdac_fuse_relation_id(fc, nodeid, backing_id,
++					    generation);
++
++	pr_info("CDAC_FUSE_BACKING_LOOKUP ts_ns=%llu audit_seq=%llu connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu lower_file_cookie=%llu lookup_pid=%d lookup_tid=%d result=%s\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, backing_id,
++		(unsigned long long)generation,
++		(unsigned long long)relation_id,
++		(unsigned long long)(fb ? iguard_file_cookie(fb->file) : 0),
++		task_tgid_nr(current), task_pid_nr(current), result);
++}
++
++static void cdac_audit_fuse_backing_open(struct fuse_conn *fc,
++					 int backing_id,
++					 u64 nodeid,
++					 u64 mapping_generation,
++					 struct file *proxy_file,
++					 struct file *registered_file,
++					 struct file *passthrough_file)
++{
++	unsigned long lower_ino;
++	dev_t lower_s_dev;
++	int lower_flags;
++	fmode_t lower_f_mode;
++	unsigned long proxy_ino;
++	dev_t proxy_s_dev;
++	int proxy_flags;
++	fmode_t proxy_f_mode;
++	u64 relation_id;
++
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	relation_id = cdac_fuse_relation_id(fc, nodeid, backing_id,
++					    mapping_generation);
++	cdac_fuse_file_identity(passthrough_file, &lower_ino, &lower_s_dev,
++				&lower_flags, &lower_f_mode);
++	cdac_fuse_file_identity(proxy_file, &proxy_ino, &proxy_s_dev,
++				&proxy_flags, &proxy_f_mode);
++
++	pr_info("CDAC_FUSE_PROXY_ASSOCIATE ts_ns=%llu audit_seq=%llu relation_type=BACKING_ID_MAPPING relation_stage=OPEN_TIME connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu lower_file_cookie=%llu backing_registered_file_cookie=%llu proxy_file_cookie=%llu lower_inode=%lu lower_s_dev=%u:%u lower_f_flags=0x%x lower_f_mode=0x%x proxy_inode=%lu proxy_s_dev=%u:%u proxy_f_flags=0x%x proxy_f_mode=0x%x association_pid=%d association_tid=%d result=%s\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, backing_id,
++		(unsigned long long)mapping_generation,
++		(unsigned long long)relation_id,
++		(unsigned long long)iguard_file_cookie(passthrough_file),
++		(unsigned long long)iguard_file_cookie(registered_file),
++		(unsigned long long)iguard_file_cookie(proxy_file),
++		lower_ino, MAJOR(lower_s_dev), MINOR(lower_s_dev),
++		lower_flags, (unsigned int)lower_f_mode,
++		proxy_ino, MAJOR(proxy_s_dev), MINOR(proxy_s_dev),
++		proxy_flags, (unsigned int)proxy_f_mode,
++		task_tgid_nr(current), task_pid_nr(current),
++		(proxy_file && passthrough_file && registered_file) ?
++			"success" : "missing_file");
++}
++
++static void cdac_audit_fuse_backing_remove(struct fuse_conn *fc, int backing_id,
++					   struct fuse_backing *fb,
++					   const char *result)
++{
++	u64 generation;
++	u64 nodeid;
++	u64 relation_id;
++
++	if (!iguard_ctx_verbose_audit_enabled())
++		return;
++
++	generation = fb ? fb->cdac_mapping_generation : 0;
++	nodeid = 0;
++	relation_id = cdac_fuse_relation_id(fc, nodeid, backing_id,
++					    generation);
++
++	pr_info("CDAC_FUSE_BACKING_REMOVE ts_ns=%llu audit_seq=%llu connection_identity=%u:%u nodeid=%llu backing_id=%d mapping_generation=%llu relation_id=%llu lower_file_cookie=%llu proxy_file_cookie_if_known=0 remover_pid=%d remover_tid=%d result=%s\n",
++		(unsigned long long)ktime_get_ns(),
++		(unsigned long long)iguard_audit_next_seq(),
++		MAJOR(fc->dev), MINOR(fc->dev),
++		(unsigned long long)nodeid, backing_id,
++		(unsigned long long)generation,
++		(unsigned long long)relation_id,
++		(unsigned long long)(fb ? iguard_file_cookie(fb->file) : 0),
++		task_tgid_nr(current), task_pid_nr(current), result);
++}
+ 
+ static void fuse_file_accessed(struct file *file)
+ {
+@@ -196,6 +376,11 @@ static int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing *fb)
+ 	spin_lock(&fc->lock);
+ 	/* FIXME: xarray might be space inefficient */
+ 	id = idr_alloc_cyclic(&fc->backing_files_map, fb, 1, 0, GFP_ATOMIC);
++	if (id > 0) {
++		fb->cdac_backing_id = id;
++		fb->cdac_mapping_generation =
++			atomic64_inc_return(&fc->cdac_mapping_generation);
++	}
+ 	spin_unlock(&fc->lock);
+ 	idr_preload_end();
+ 
+@@ -280,6 +465,10 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+ 	if (res < 0) {
+ 		fuse_backing_free(fb);
+ 		fb = NULL;
++	} else {
++		cdac_audit_fuse_backing_register(fc, res, 0,
++						 fb->cdac_mapping_generation,
++						 file);
+ 	}
+ 
+ out:
+@@ -314,9 +503,13 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+ 
+ 	err = -ENOENT;
+ 	fb = fuse_backing_id_remove(fc, backing_id);
+-	if (!fb)
++	if (!fb) {
++		cdac_audit_fuse_backing_remove(fc, backing_id, NULL,
++					       "not_found");
+ 		goto out;
++	}
+ 
++	cdac_audit_fuse_backing_remove(fc, backing_id, fb, "success");
+ 	fuse_backing_put(fb);
+ 	err = 0;
+ out:
+@@ -338,6 +531,7 @@ struct fuse_backing *fuse_passthrough_open(struct file *file,
+ 	struct fuse_conn *fc = ff->fm->fc;
+ 	struct fuse_backing *fb = NULL;
+ 	struct file *backing_file;
++	u64 nodeid = get_node_id(inode);
+ 	int err;
+ 
+ 	err = -EINVAL;
+@@ -348,6 +542,8 @@ struct fuse_backing *fuse_passthrough_open(struct file *file,
+ 	fb = idr_find(&fc->backing_files_map, backing_id);
+ 	fb = fuse_backing_get(fb);
+ 	rcu_read_unlock();
++	cdac_audit_fuse_backing_lookup(fc, backing_id, nodeid, fb,
++				       fb ? "success" : "not_found");
+ 
+ 	err = -ENOENT;
+ 	if (!fb)
+@@ -365,6 +561,14 @@ struct fuse_backing *fuse_passthrough_open(struct file *file,
+ 	err = 0;
+ 	ff->passthrough = backing_file;
+ 	ff->cred = get_cred(fb->cred);
++	ff->cdac_backing_id = backing_id;
++	ff->cdac_mapping_generation = fb->cdac_mapping_generation;
++	ff->cdac_relation_id = cdac_fuse_relation_id(fc, nodeid, backing_id,
++						     ff->cdac_mapping_generation);
++	ff->cdac_proxy_file_cookie = iguard_file_cookie(file);
++	cdac_audit_fuse_backing_open(fc, backing_id, nodeid,
++				     ff->cdac_mapping_generation, file,
++				     fb->file, backing_file);
+ out:
+ 	pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p, err=%i\n", __func__,
+ 		 backing_id, fb, ff->passthrough, err);
+diff --git a/fs/open.c b/fs/open.c
+index 99fc54ecdc8a..de9593ece062 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -33,6 +33,7 @@
+ #include <linux/compat.h>
+ #include <linux/mnt_idmapping.h>
+ #include <linux/filelock.h>
++#include <linux/iguard_ctx.h>
+ 
+ #include "internal.h"
+ #include <trace/hooks/syscall_check.h>
+@@ -961,6 +962,14 @@ static int do_dentry_open(struct file *f,
+ 		if (error)
+ 			goto cleanup_all;
+ 	}
++
++	error = iguard_ctx_audit_file_open(f);
++	if (error)
++		goto cleanup_all;
++
++	f->f_mode |= FMODE_OPENED;
++
++
+ 	f->f_mode |= FMODE_OPENED;
+ 	if ((f->f_mode & FMODE_READ) &&
+ 	     likely(f->f_op->read || f->f_op->read_iter))
+@@ -1008,20 +1017,51 @@ static int do_dentry_open(struct file *f,
+ 		}
+ 	}
+ 
++
+ 	return 0;
+ 
+ cleanup_all:
+ 	if (WARN_ON_ONCE(error > 0))
+ 		error = -EINVAL;
+-	fops_put(f->f_op);
+-	put_file_access(f);
++        fops_put(f->f_op);
++        put_file_access(f);
+ cleanup_file:
+-	path_put(&f->f_path);
+-	f->f_path.mnt = NULL;
+-	f->f_path.dentry = NULL;
+-	f->f_inode = NULL;
+-	return error;
++        path_put(&f->f_path);
++        f->f_path.mnt = NULL;
++        f->f_path.dentry = NULL;
++        f->f_inode = NULL;
++        return error;
+ }
++		// if (filemap_nr_thps(inode->i_mapping)) {
++		//	struct address_space *mapping = inode->i_mapping;
++
++		//	filemap_invalidate_lock(inode->i_mapping);
++			/*
++			 * unmap_mapping_range just need to be called once
++			 * here, because the private pages is not need to be
++			 * unmapped mapping (e.g. data segment of dynamic
++			 * shared libraries here).
++			 */
++		//	unmap_mapping_range(mapping, 0, 0, 0);
++		//	truncate_inode_pages(mapping, 0);
++		//	filemap_invalidate_unlock(inode->i_mapping);
++//		}
++//	}
++
++//	return 0;
++
++//cleanup_all:
++//	if (WARN_ON_ONCE(error > 0))
++//		error = -EINVAL;
++//	fops_put(f->f_op);
++//	put_file_access(f);
++//cleanup_file:
++//	path_put(&f->f_path);
++//	f->f_path.mnt = NULL;
++//	f->f_path.dentry = NULL;
++//	f->f_inode = NULL;
++//	return error;
++//}
+ 
+ /**
+  * finish_open - finish opening a file
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index 24138c5f483a..b2c5744217cc 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -1111,12 +1111,26 @@ struct fuse_backing_map {
+ 	uint64_t	padding;
+ };
+ 
++struct fuse_fd_cookie_query {
++	uint32_t	fd;
++	uint32_t	padding;
++	uint64_t	file_cookie;
++	uint64_t	ino;
++	uint32_t	s_dev_major;
++	uint32_t	s_dev_minor;
++	uint32_t	i_mode;
++	uint32_t	f_flags;
++	uint64_t	f_mode;
++};
++
+ /* Device ioctls: */
+ #define FUSE_DEV_IOC_MAGIC		229
+ #define FUSE_DEV_IOC_CLONE		_IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
+ #define FUSE_DEV_IOC_BACKING_OPEN	_IOW(FUSE_DEV_IOC_MAGIC, 1, \
+ 					     struct fuse_backing_map)
+ #define FUSE_DEV_IOC_BACKING_CLOSE	_IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_t)
++#define FUSE_DEV_IOC_FD_COOKIE		_IOWR(FUSE_DEV_IOC_MAGIC, 3, \
++					      struct fuse_fd_cookie_query)
+ 
+ struct fuse_lseek_in {
+ 	uint64_t	fh;
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 648007afc31c..1cc85ce94690 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -18,6 +18,7 @@
+ #include <linux/file.h>
+ #include <linux/firmware.h>
+ #include <linux/fs.h>
++#include <linux/iguard_ctx.h>
+ #include <linux/jiffies.h>
+ #include <linux/jump_label.h>
+ #include <linux/list_lru.h>
+diff --git a/security/Makefile b/security/Makefile
+index cc0982214b84..49368adaeb3e 100644
+--- a/security/Makefile
++++ b/security/Makefile
+@@ -29,3 +29,6 @@ obj-$(CONFIG_SECURITY_IPE)		+= ipe/
+ 
+ # Object integrity file lists
+ obj-$(CONFIG_INTEGRITY)			+= integrity/
++
++# DH
++obj-y += iguard_ctx.o

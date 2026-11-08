@@ -1,0 +1,10 @@
+scope,contrast,estimate,estimate_ns,ci_low_ns,ci_high_ns,ci_method,complete_blocks,bootstrap_replicates
+pooled,Delta_BA,median_of_paired_block_differences,1924708.5,1396098.0,2707998.0,95% percentile stratified block bootstrap,100,10000
+pooled,Delta_CB,median_of_paired_block_differences,-200872.0,-730023.4249999997,361999.0,95% percentile stratified block bootstrap,100,10000
+pooled,Delta_CA,median_of_paired_block_differences,1726082.0,1081608.5,2437742.0,95% percentile stratified block bootstrap,100,10000
+boot_1,Delta_BA,median_of_paired_block_differences,1885436.5,nan,nan,not_registered_for_boot_specific_summary,50,0
+boot_1,Delta_CB,median_of_paired_block_differences,-748303.5,nan,nan,not_registered_for_boot_specific_summary,50,0
+boot_1,Delta_CA,median_of_paired_block_differences,1020854.5,nan,nan,not_registered_for_boot_specific_summary,50,0
+boot_2,Delta_BA,median_of_paired_block_differences,2149506.0,nan,nan,not_registered_for_boot_specific_summary,50,0
+boot_2,Delta_CB,median_of_paired_block_differences,193187.5,nan,nan,not_registered_for_boot_specific_summary,50,0
+boot_2,Delta_CA,median_of_paired_block_differences,2988840.0,nan,nan,not_registered_for_boot_specific_summary,50,0

@@ -1,0 +1,9 @@
+condition,boot1_planned,boot1_attempted,boot1_usable,boot1_denied,boot1_other,boot1_unresolved,boot2_planned,boot2_attempted,boot2_usable,boot2_denied,boot2_other,boot2_unresolved,boot3_planned,boot3_attempted,boot3_usable,boot3_denied,boot3_other,boot3_unresolved
+no_rule_r,20,20,20,0,0,0,20,20,20,0,0,0,20,20,20,0,0,0
+no_rule_w,20,20,20,0,0,0,20,20,20,0,0,0,20,20,20,0,0,0
+lw_r,20,20,20,0,0,0,20,20,20,0,0,0,20,20,20,0,0,0
+lw_w,20,20,0,20,0,0,20,20,0,20,0,0,20,20,0,20,0,0
+lr_r,20,20,0,20,0,0,20,20,0,20,0,0,20,20,0,20,0,0
+lr_w,20,20,20,0,0,0,20,20,20,0,0,0,20,20,20,0,0,0
+revoke_r,20,20,20,0,0,0,20,20,20,0,0,0,20,20,20,0,0,0
+revoke_w,20,20,20,0,0,0,20,20,20,0,0,0,20,20,20,0,0,0

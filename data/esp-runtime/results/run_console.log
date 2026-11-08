@@ -1,0 +1,109 @@
+R35 START 2026-10-29T00:13:47+08:00 loadavg=5.64 4.81 3.83
+[2026-10-29T00:13:47+08:00] boot fingerprint check
+[2026-10-29T00:13:48+08:00] install apks
+Y
+[2026-10-29T00:13:52+08:00] uidA=10121 uidB=10122
+com.demo.espafdtest pid=2945
+com.demo.espafdtestb pid=
+com.android.providers.media.module pid=1947
+[2026-10-29T00:14:01+08:00] B0 native premise start
+[2026-10-29T00:14:01+08:00] B0_AX_1 loadavg=5.62 4.85 3.86
+10-28 16:14:01.699  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:14:04+08:00] B0_AX_2 loadavg=5.62 4.85 3.86
+10-28 16:14:04.851  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:14:07+08:00] B0_AX_3 loadavg=5.25 4.78 3.85
+10-28 16:14:07.880  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:14:10+08:00] B0_BX_1
+10-28 16:14:11.415  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:14:14+08:00] B0_BX_2
+10-28 16:14:14.867  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:14:17+08:00] B0_BX_3
+10-28 16:14:18.196  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:14:21+08:00] B1 install R14A (caller=A)
+[2026-10-29T00:14:23+08:00] B1_AX_1
+10-28 16:14:24.037  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+[2026-10-29T00:14:26+08:00] B1_AX_2
+10-28 16:14:27.131  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+[2026-10-29T00:14:29+08:00] B1_AX_3
+10-28 16:14:30.516  2945  2945 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+[2026-10-29T00:14:33+08:00] B1_BX_1
+10-28 16:14:33.887  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:14:37+08:00] B1_BX_2
+10-28 16:14:37.797  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:14:40+08:00] B1_BX_3
+10-28 16:14:40.898  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:14:43+08:00] B1_AY_1
+10-28 16:14:44.307  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+[2026-10-29T00:14:46+08:00] B1_AY_2
+10-28 16:14:47.474  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+[2026-10-29T00:14:50+08:00] B1_AY_3
+10-28 16:14:50.835  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+[2026-10-29T00:14:55+08:00] B2 install R_rev (caller=B)
+[2026-10-29T00:14:57+08:00] B2_BX_1
+10-28 16:14:57.858  3229  3229 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+[2026-10-29T00:15:00+08:00] B2_BX_2
+10-28 16:15:00.993  3229  3229 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+[2026-10-29T00:15:03+08:00] B2_BX_3
+10-28 16:15:04.272  3229  3229 I CDAC27_PATH: RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+[2026-10-29T00:15:06+08:00] B2_AX_1
+10-28 16:15:07.315  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:15:09+08:00] B2_AX_2
+10-28 16:15:10.609  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:15:13+08:00] B2_AX_3
+10-28 16:15:13.712  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:15:16+08:00] B2_BY_1
+10-28 16:15:16.836  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=false sha256=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993
+[2026-10-29T00:15:19+08:00] B2_BY_2
+10-28 16:15:20.123  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=false sha256=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993
+[2026-10-29T00:15:22+08:00] B2_BY_3
+10-28 16:15:23.408  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=false sha256=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993
+[2026-10-29T00:15:28+08:00] B3 revoke start (policy clear readback above)
+[2026-10-29T00:15:28+08:00] B3_AX_1
+10-28 16:15:28.661  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:15:31+08:00] B3_AX_2
+10-28 16:15:31.784  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:15:34+08:00] B3_AX_3
+10-28 16:15:35.022  2945  2945 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+[2026-10-29T00:15:37+08:00] B3_BX_1
+10-28 16:15:38.241  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:15:40+08:00] B3_BX_2
+10-28 16:15:41.389  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+[2026-10-29T00:15:44+08:00] B3_BX_3
+10-28 16:15:44.482  3229  3229 I CDAC27_PATH: READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+R35 RUN END 2026-10-29T00:15:49+08:00
+--- app results summary ---
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=false sha256=96f60e2770ef563d0c27182baeffd9eaaa660cd924e1e35808adebd04c5a4983
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/16 bytes=911 dev=0:45 ino=2931 marker=CDAC25GPSMARK_AAAA marker_present=true sha256=e22785cddb56824a19cd77dd45239c403c8d134250f01620f5d825ebc024c375
+READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=false sha256=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993
+READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=false sha256=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993
+READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=false sha256=3116065dfdd82767907c3b5af4d687d4b3e51bfbe4a9360ec70cd817a9250993
+READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+READ_CPC ok uri=content://media/external_primary/images/media/17 bytes=911 dev=0:45 ino=2951 marker=CDAC25GPSMARK_BBBB marker_present=true sha256=f3d29cc26f285cfe7eebdd3177a84b7bafcb93ed6ef7bad65e088e1c7c9fc5f2
+RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+RESULT fail cmd=read_cpc err=FileNotFoundException:open failed: EACCES (Permission denied)
+--- final counters ---
+context_push_ok=35
+context_pop_ok=35
+file_open_deny=6
+context_nested_mismatch_total=0

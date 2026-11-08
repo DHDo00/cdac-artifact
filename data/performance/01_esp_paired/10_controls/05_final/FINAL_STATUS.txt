@@ -1,0 +1,19 @@
+ESP_SUPPLEMENT_20261023=COMPLETE
+CONTROLS=PASS
+MATCHED_BUILDS=READY
+APP_TIMING=PASS
+C1_UNRULE_RECOVER=PASS (deny-now -> clear -> WRITE_OK, X restored)
+C2_CALLER_INVERT=PASS (B+X deny-now; A+X allow while rule present; distinct from C1)
+C3_NATIVE_DENY_PRESERVED=PASS (SecurityException both CDAC-on-norule and ablation states)
+S1_SWITCH_SCOPE=ablate_disable_runtime+ctx only (static rules+hooks remain; NOT full off)
+S0=stripped_CDAC_free boot-audited (no /dev/iguard_ctl, no module, no debugfs iguard, framework 54032abb)
+S1_S3_S2_ORDER=seed20261023 shuffle -> S1,S3,S2 (same-boot switchable)
+S0_BOOT=r21 stripped (separate boot, run order recorded)
+TIMING_PER_STATE=warmup5+recorded20, all WRITE_OK, 0 failures
+TIMING_METRIC=app monotonic open_ns (call->PFD return/exception), aux close_ns/fstat/written
+TIMING_MEDIAN_NS=S0 6330685, S1 25134611, S2 28603177, S3 28630308 (connectivity only)
+TIMING_CONFOUND=enabled verbose_audit=Y functional-audit flood + cross-boot; NOT formal perf
+FORMAL_PERF_MISSING=matched multi-boot design, frozen perf-log config, N/P95 protocol
+DECISION_NS_POLICY_COST=kept separately (perf lines); not app-access overhead
+REUSED_BUILDS=v1 E/S fresh pair (Aug18) + ESP enabled (Oct22); 0 platform builds this round
+ESP_TIMING_APK_SHA=see SHA256SUMS

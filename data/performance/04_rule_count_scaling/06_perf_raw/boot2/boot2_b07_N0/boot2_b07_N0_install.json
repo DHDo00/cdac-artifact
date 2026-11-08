@@ -1,0 +1,15 @@
+{
+ "label": "boot2_b07_N0",
+ "N_requested": 0,
+ "clear": {
+  "stdout": "policy_clear ok\n",
+  "rc": 0,
+  "count_after": 0,
+  "dump": "runtime_policy_count=0\n"
+ },
+ "adds": [],
+ "count_actual": 0,
+ "n_slots_actual": 0,
+ "slots": [],
+ "verified": true
+}

@@ -1,0 +1,10 @@
+--- cdac_esp_endpoint_validation_20261022/00_impl/kernel/iguard_ctx.c.before	2026-10-22 14:05:05.311022613 +0800
++++ cdac_matched_stripped_baseline_v1_20260818_kernel_pair/source_enabled_kernel/common/security/iguard_ctx.c	2026-10-22 14:05:05.335198086 +0800
+@@ -1076,6 +1076,7 @@
+ 	 */
+ 	return (service_id == 8 && op_id == 701) ||
+ 	       (service_id == 7 && op_id == 601) ||
++	       (service_id == 5 && op_id == 401) ||
+ 	       (service_id == 9 && op_id == 801) ||
+ 	       (service_id == 10 && op_id == 901) ||
+ 	       (service_id == 11 && op_id == 1001) ||

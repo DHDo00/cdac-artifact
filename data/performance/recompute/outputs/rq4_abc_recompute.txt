@@ -1,0 +1,38 @@
+=== 1) replay of frozen 04_analysis/ANALYSIS_SCRIPT.py (unmodified) ===
+frozen script returncode=0
+PRIMARY_ESTIMATES_SUMMARY.csv: regenerated_bytes_equal_frozen=True
+ARM_DESCRIPTIVE_STATISTICS.csv: regenerated_bytes_equal_frozen=True
+BOOT_SPECIFIC_ESTIMATES.csv: regenerated_bytes_equal_frozen=True
+DENIAL_LATENCY_STATISTICS.csv: regenerated_bytes_equal_frozen=True
+EXCLUSIONS_AND_FAILURES.csv: regenerated_bytes_equal_frozen=True
+PRIMARY_BLOCK_ESTIMATES.csv: regenerated_bytes_equal_frozen=True
+
+=== 2) independent re-derivation from SCIENTIFIC_ROWS.csv ===
+02_boot_1: rows=1000 arms={'C': 250, 'A': 250, 'B': 250, 'D': 250} primary_eligible={'yes': 1000} exclusions={'NONE': 1000}
+03_boot_2: rows=1000 arms={'A': 250, 'C': 250, 'B': 250, 'D': 250} primary_eligible={'yes': 1000} exclusions={'NONE': 1000}
+arm A: n=500 median=13.857924 ms IQR=4.058978 ms (q25=11.343, q75=15.402)
+arm B: n=500 median=16.117391 ms IQR=5.770717 ms (q25=12.344, q75=18.114)
+arm C: n=500 median=15.872181 ms IQR=5.310286 ms (q25=12.590, q75=17.900)
+complete paired A/B/C blocks: boot_1=50 boot_2=50 total=100
+pooled Delta_BA: median_of_paired_block_differences=1924708.5 ns (1.924708 ms)
+  02_boot_1: n_blocks=50 median=1885436.5 ns
+  03_boot_2: n_blocks=50 median=2149506.0 ns
+pooled Delta_CB: median_of_paired_block_differences=-200872.0 ns (-0.200872 ms)
+  02_boot_1: n_blocks=50 median=-748303.5 ns
+  03_boot_2: n_blocks=50 median=193187.5 ns
+pooled Delta_CA: median_of_paired_block_differences=1726082.0 ns (1.726082 ms)
+  02_boot_1: n_blocks=50 median=1020854.5 ns
+  03_boot_2: n_blocks=50 median=2988840.0 ns
+arm D (absolute denial latency): n=500 mean=13.743391 ms P50=14.165937 ms P95=18.446476 ms P99=21.078018 ms
+02_boot_1 warmup rows=60 arms={'C': 20, 'A': 20, 'B': 20}
+03_boot_2 warmup rows=60 arms={'C': 20, 'B': 20, 'A': 20}
+
+=== frozen-vs-independent numeric comparison ===
+arm A: frozen_median_ns=13857924.0 independent=13857924.0 match=True
+arm B: frozen_median_ns=16117391.0 independent=16117391.0 match=True
+arm C: frozen_median_ns=15872181.5 independent=15872181.5 match=True
+Delta_BA: frozen_estimate_ns=1924708.5 ci=[1396098.0,2707998.0] method=95% percentile stratified block bootstrap complete_blocks=100 reps=10000
+Delta_CB: frozen_estimate_ns=-200872.0 ci=[-730023.4,361999.0] method=95% percentile stratified block bootstrap complete_blocks=100 reps=10000
+Delta_CA: frozen_estimate_ns=1726082.0 ci=[1081608.5,2437742.0] method=95% percentile stratified block bootstrap complete_blocks=100 reps=10000
+D denial: frozen mean/P50/P95 = 13.743/14.166/18.446 ms; independent match mean=True p50=True p95=True
+IQR note: frozen archive has no IQR column; independent type-7 IQR computed above (anchor A/B/C 4.059/5.771/5.310 ms are rounded approximations).

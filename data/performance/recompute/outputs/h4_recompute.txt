@@ -1,0 +1,23 @@
+RAW_SAMPLES.csv rows=12000
+mode counts={'P0': 4000, 'P1': 4000, 'P2': 4000}
+session counts={'A': 6000, 'B': 6000}
+P0: n=4000 median=28618375.5 ns (28.618375 ms)
+P1: n=4000 median=28693837.5 ns (28.693838 ms)
+P2: n=4000 median=2437371.0 ns (2.437371 ms)
+paired P1-P0 blocks=40 (20/session x 2 sessions)
+median of 40 block-median deltas = 252025.25 ns (0.25202525 ms)
+median of 40 P0 block medians = 28601529.00 ns; relative = 0.881160%
+mean of 40 block-median deltas = 351683.51 ns
+mean of 40 block-mean deltas = -27629.103 ns (frozen headline -27629.103; match=True)
+95% percentile bootstrap (10000 reps, seed 20260628): median_delta CI = [-183755.50, 947051.00] ns = [-0.184, 0.947] ms
+frozen P0_P1_BOOTSTRAP_CI.md contains MEDIAN_BLOCK_PAIRED_DELTA_NS: True
+frozen P0_P1_BOOTSTRAP_CI.md contains MEAN_BLOCK_PAIRED_DELTA_NS: True
+frozen P0_P1_BOOTSTRAP_CI.md contains RELATIVE_PERCENT_OF_P0_MEDIAN: True
+frozen P0_P1_BOOTSTRAP_CI.md contains BOOTSTRAP_95CI_MEDIAN_DELTA_NS: True
+independent delta median match frozen 252025.250: True
+NOTE (bootstrap CI): the original H4 bootstrap script is not preserved in the archive. With the frozen seed 20260628 and 10,000 whole-block pooled resamples of the 40 deltas, every RNG variant tried (python random.choices, numpy default_rng.integers/choice, legacy RandomState) reproduces the lower bound -183755.500 ns exactly but gives an upper bound of 947051.0 ns instead of the frozen 925107.750 ns (difference 21,943.25 ns = 0.022 ms). The frozen interval [-183755.500, 925107.750] ns is retained as the authoritative historical output; the interval includes zero either way and the conclusion is unchanged.
+independent relative% vs frozen 0.881160: True
+POOLED_SUMMARY.tsv present=True
+frozen pooled median P0 (28618375.500) present: True; independent=28618375.5 match=True
+frozen pooled median P1 (28693837.500) present: True; independent=28693837.5 match=True
+frozen pooled median P2 (2437371.000) present: True; independent=2437371.0 match=True

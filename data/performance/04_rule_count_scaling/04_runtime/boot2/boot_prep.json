@@ -1,0 +1,8 @@
+{
+ "boot_completed": "1",
+ "uptime_s": 180,
+ "verbose_audit": "N",
+ "logging_mode": "quiet",
+ "ablate_disable_runtime": "N",
+ "ablate_disable_ctx": "N"
+}

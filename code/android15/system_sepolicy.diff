@@ -1,0 +1,10 @@
+diff --git a/private/file_contexts b/private/file_contexts
+index d6f7113f3..84ea0a894 100644
+--- a/private/file_contexts
++++ b/private/file_contexts
+@@ -951,3 +951,5 @@
+ #############################
+ # For early boot VM
+ /mnt/vm u:object_r:vm_data_file:s0
++
++/dev/iguard_ctl    u:object_r:iguard_ctl_device:s0

@@ -1,0 +1,194 @@
+{
+ "deny_A_X_1_1": {
+  "payload": "DX0101PPPPPPPPPP",
+  "sha256": "76149c4b4d048b36b5ea094d95994600d3a81d189188611cdd8becd44f149115"
+ },
+ "allow_A_Y_1_1": {
+  "payload": "AY0101PPPPPPPPPP",
+  "sha256": "f438a954c6b751e46765aaa0048733f348945a570db99315d88fbfab5380009f"
+ },
+ "allow_B_X_1_1": {
+  "payload": "BX0101PPPPPPPPPP",
+  "sha256": "e9f1c6d60db7ecacf32c508339eb98ad2122f4555b921ca436d2b3908198490d"
+ },
+ "restore_A_X_1_1": {
+  "payload": "RX0101PPPPPPPPPP",
+  "sha256": "8caeda1803ed776d6b30f574ecc6694feb829882a639487b4f0eecc1a5fd75b6"
+ },
+ "deny_A_X_1_2": {
+  "payload": "DX0102PPPPPPPPPP",
+  "sha256": "e0f92fab52a784aad9f02d960163032f1be837f37053f4a48847803bfa338d15"
+ },
+ "allow_A_Y_1_2": {
+  "payload": "AY0102PPPPPPPPPP",
+  "sha256": "53779c317dcd4e3c8a5a9b645696143c6d8a86dfbbdc5846d85cd8a367f36b60"
+ },
+ "allow_B_X_1_2": {
+  "payload": "BX0102PPPPPPPPPP",
+  "sha256": "098779659ff02697f1265d0dc44920508ff7cbcd6a8985084d4f992eaea36525"
+ },
+ "restore_A_X_1_2": {
+  "payload": "RX0102PPPPPPPPPP",
+  "sha256": "b0e824e606606950a126a706096ebfd29aee6d49f8d3eb72841a31d55a967816"
+ },
+ "deny_A_X_1_3": {
+  "payload": "DX0103PPPPPPPPPP",
+  "sha256": "1dda70102418e1d0679d0adbb661e099a3e95821ff6efee9cc62f0bb91d79ebd"
+ },
+ "allow_A_Y_1_3": {
+  "payload": "AY0103PPPPPPPPPP",
+  "sha256": "f58275c04a124fee245bc756ae5b6cdcfb6590930c083d31947496bad5ad02e8"
+ },
+ "allow_B_X_1_3": {
+  "payload": "BX0103PPPPPPPPPP",
+  "sha256": "7c5379b8fc58f5d81bd16a89f919c093da3f76672c3109745698d702176a060f"
+ },
+ "restore_A_X_1_3": {
+  "payload": "RX0103PPPPPPPPPP",
+  "sha256": "36fb232f2f6f410e10cc7194e49f9dafaa09df6211d79be18e88d178c638e6a5"
+ },
+ "deny_A_X_8_1": {
+  "payload": "DX0801PPPPPPPPPP",
+  "sha256": "20d3fe29f230e4a33c084fcc9146bdaed206905a3d0238e892e06ab7fda92c75"
+ },
+ "allow_A_Y_8_1": {
+  "payload": "AY0801PPPPPPPPPP",
+  "sha256": "65242c819ec01a0e40761da29d44a27b8c287c1c64b5e2ea0d41c4b7e8ed214e"
+ },
+ "allow_B_X_8_1": {
+  "payload": "BX0801PPPPPPPPPP",
+  "sha256": "4ecbf13bef9da49496253f42d79aa26f23e9b84f596059efd21cf38329bdad8c"
+ },
+ "restore_A_X_8_1": {
+  "payload": "RX0801PPPPPPPPPP",
+  "sha256": "3c9b7d70c3c8d91d057b6037e0a269ab177f56f90d1adb03b5531462e5825f4f"
+ },
+ "deny_A_X_8_2": {
+  "payload": "DX0802PPPPPPPPPP",
+  "sha256": "e13a5825280ec58fe6ab75970ac57c4d0732a724111aa8b832f1e966ec8b48ed"
+ },
+ "allow_A_Y_8_2": {
+  "payload": "AY0802PPPPPPPPPP",
+  "sha256": "0b2a67d05687ecdf1cfce3fd93da081d90daa5a1277803a71328ad678a44e316"
+ },
+ "allow_B_X_8_2": {
+  "payload": "BX0802PPPPPPPPPP",
+  "sha256": "0b5a92b1d994618661e545f2f21fb62b55411c44ce39446ea586ce83c87a1076"
+ },
+ "restore_A_X_8_2": {
+  "payload": "RX0802PPPPPPPPPP",
+  "sha256": "048999561c399d4ceea65a3cf5819868f21b95de1ad500e293ef80d25114d603"
+ },
+ "deny_A_X_8_3": {
+  "payload": "DX0803PPPPPPPPPP",
+  "sha256": "4319bbfd1e04f2ddd10b012de5a262d5b765556190754cd5dcd7e82b7e0e539e"
+ },
+ "allow_A_Y_8_3": {
+  "payload": "AY0803PPPPPPPPPP",
+  "sha256": "e9e1347bcb4593b60ea7779064ea5a3114ff1b4b6ec3644cda5b7dfe880338d0"
+ },
+ "allow_B_X_8_3": {
+  "payload": "BX0803PPPPPPPPPP",
+  "sha256": "05068ef87ea659c162bf77262d6ff1891b3a6a0dcbf3c1a3ff9be4f6613ab2f4"
+ },
+ "restore_A_X_8_3": {
+  "payload": "RX0803PPPPPPPPPP",
+  "sha256": "5ca8a75ee8657d5d2b0d1ff2a0edf6e37d385bb6d3967b32d406472ebd7812c3"
+ },
+ "deny_A_X_32_1": {
+  "payload": "DX3201PPPPPPPPPP",
+  "sha256": "f4bf94176339915497dfb6b8a3ddea6549a9ab8a96dad83ce7c4a2ea4f21db0c"
+ },
+ "allow_A_Y_32_1": {
+  "payload": "AY3201PPPPPPPPPP",
+  "sha256": "45b3db189d618e201584893d164a3c6477eaf6a347fe92bca6832877e527acdc"
+ },
+ "allow_B_X_32_1": {
+  "payload": "BX3201PPPPPPPPPP",
+  "sha256": "0c216fe58e58bf89cb6df254051fb28437cbafac382153552ddedbcf4e7d4968"
+ },
+ "restore_A_X_32_1": {
+  "payload": "RX3201PPPPPPPPPP",
+  "sha256": "79f8831367fdae952c1a595b11a6c2d276fb22e10dd6f06e52d334b5a40f08eb"
+ },
+ "deny_A_X_32_2": {
+  "payload": "DX3202PPPPPPPPPP",
+  "sha256": "8a76eba0a5b19fe07bd4922d1ae471a60503498c720435211de17d01dc295ba2"
+ },
+ "allow_A_Y_32_2": {
+  "payload": "AY3202PPPPPPPPPP",
+  "sha256": "a100fd5288676c67f0156a505b53906f5d4c0ae8c74d4ee8e0a9817702eb4a62"
+ },
+ "allow_B_X_32_2": {
+  "payload": "BX3202PPPPPPPPPP",
+  "sha256": "528c8d967c6b90f2f1cac519812fabfa256607024865561e86062628b5f5751d"
+ },
+ "restore_A_X_32_2": {
+  "payload": "RX3202PPPPPPPPPP",
+  "sha256": "3918168535fad14061a0b560faed6b62e9fa5c0a1564e825d86842219592c2cf"
+ },
+ "deny_A_X_32_3": {
+  "payload": "DX3203PPPPPPPPPP",
+  "sha256": "be257c487cc491025d35765bfd1310bc5942665a8f3ea7ba161c8d9688f90073"
+ },
+ "allow_A_Y_32_3": {
+  "payload": "AY3203PPPPPPPPPP",
+  "sha256": "8417168ae9f0e562f62f76332c67f057441523d827bf6c1b80075a77d617c72a"
+ },
+ "allow_B_X_32_3": {
+  "payload": "BX3203PPPPPPPPPP",
+  "sha256": "56abcaa48c22bbf23a264045dfb4f36f6c9cd8363e5bac813b99bba173963485"
+ },
+ "restore_A_X_32_3": {
+  "payload": "RX3203PPPPPPPPPP",
+  "sha256": "d561f4db0d56af48c21566a1e8d17066b8cd5112cf975a439df69d30bcd74316"
+ },
+ "deny_A_X_128_1": {
+  "payload": "DX12801PPPPPPPPP",
+  "sha256": "2a0296661b71e088abe57b5b5bbb7d1eb574c27420ba6e2c819ccdd428cc22df"
+ },
+ "allow_A_Y_128_1": {
+  "payload": "AY12801PPPPPPPPP",
+  "sha256": "f33859330f8a423d7037cc1d14e5f6788d8a8498d808fcde01624f669dc7138c"
+ },
+ "allow_B_X_128_1": {
+  "payload": "BX12801PPPPPPPPP",
+  "sha256": "22285d142b153d7f187367d85bed6ec99f1c4b979685c49ae5b8b41dbad79ae5"
+ },
+ "restore_A_X_128_1": {
+  "payload": "RX12801PPPPPPPPP",
+  "sha256": "b0d7ce78ef865f227192a215553bc45c2cd783303dd55f911900b6554bfde25b"
+ },
+ "deny_A_X_128_2": {
+  "payload": "DX12802PPPPPPPPP",
+  "sha256": "91facac9ff71e4efc75b2e5692c3472dee82cda028bce8344a540f844975d1a0"
+ },
+ "allow_A_Y_128_2": {
+  "payload": "AY12802PPPPPPPPP",
+  "sha256": "9bd8b6b4ece3a10c5897189110cecec6e99be7b5c4d2ddf11373bca7c62b186b"
+ },
+ "allow_B_X_128_2": {
+  "payload": "BX12802PPPPPPPPP",
+  "sha256": "637755eb9da66fb9607289be1cfa7331ea8a1df7bbe01aab857e5b5c9a9fbedd"
+ },
+ "restore_A_X_128_2": {
+  "payload": "RX12802PPPPPPPPP",
+  "sha256": "9b2307fe216d4baaf4e1ecfe16ae1a7494b98a880f34ed578b689600d183d4df"
+ },
+ "deny_A_X_128_3": {
+  "payload": "DX12803PPPPPPPPP",
+  "sha256": "0d6ee37cab6e46e5d0dd0c00a174bd9af995b556dd32be2ce6653555743499b4"
+ },
+ "allow_A_Y_128_3": {
+  "payload": "AY12803PPPPPPPPP",
+  "sha256": "b2d5409895e18d6a9c1a2404a7849cef113cb63637b6b771a376bb0715b5fd2f"
+ },
+ "allow_B_X_128_3": {
+  "payload": "BX12803PPPPPPPPP",
+  "sha256": "4be7c7fc11bb4110b5d08bfedaa6595ef9654776111a492a8663a568d00ce596"
+ },
+ "restore_A_X_128_3": {
+  "payload": "RX12803PPPPPPPPP",
+  "sha256": "53ccb107fe3e8e8916932add5d5821d50ae93911ea27299877977f335e67277a"
+ }
+}

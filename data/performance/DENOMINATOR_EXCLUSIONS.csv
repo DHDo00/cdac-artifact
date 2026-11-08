@@ -1,0 +1,13 @@
+group,denominator_row_type,boot,state_or_arm,warmup,recorded,valid,invalid,excluded_note,evidence
+ESP-paired,per-boot-per-state,4 guest boots per side (8 total),S0/S1/S2/S3,20,200,200,0,16 valid blocks; warmup executed but not serialized,04_samples/*.csv + run_sample.sh + PERF_PROTOCOL.md
+ESP-paired,per-state-total,4 pairs,S0/S1/S2/S3,80 (4x20),800,800,0,800 valid per state = 4 blocks x 200; pooled median is a separate descriptive quantity,05_stats/analysis.txt
+ESP-paired,excluded-boot,p4 enabled first attempt,S1/S3/S2,20,200,0,200,200 OPEN_FAIL SecurityException per state due to SAF-grant automation failure; boot INVALID; raw rows not preserved; retry boot used,04_samples/p4_failed_first_attempt/FAILURE_RECORD.txt
+ESP-paired,diagnostic,1 enabled diag boot (S2),S2 LOG_ON/OFF,20 per block,30 per block,30,0,4 blocks ON/OFF/OFF/ON balanced order; console bytes per block recorded,01_diag_sameboot/*
+SettingsProvider-A-B-C,formal-denominator,2 boots,A/B/C,60/boot (20 per arm),250 per arm per boot,500 per arm pooled,0,2 boots x 50 randomized blocks x 5 trials per arm; all primary_eligible=yes; exclusions empty,SCIENTIFIC_ROWS.csv + RANDOMIZED_SCHEDULE.csv
+SettingsProvider-A-B-C,independent-denial,2 boots,D,50/boot (10 blocks x 5),250 per boot,500 pooled,0,D has independent schedule/oracle/denominator; no D-vs-arm overhead computed,DENIAL_LATENCY_STATISTICS.csv + OUTCOME_ORACLE.md
+SettingsProvider-A-B-C,total,2 boots,A+B+C+D,120 total warmup,2000 formal executions,2000,0,2000 = A/B/C/D each 500; warmup rows separately recorded and excluded,WARMUP_ROWS.csv
+H4-DP,per-mode,2 sessions (A/B),P0/P1/P2,200 per mode per session,2000 per mode per session,4000 per mode pooled,0,12000 total measured; 0 invalid samples; blocks of 100; modes interleaved counterbalanced,RAW_SAMPLES.csv + BLOCK_SUMMARY.tsv + PERFORMANCE_PROTOCOL.md
+H4-DP,paired-estimator,2 sessions,40 paired P0/P1 blocks,0,0,40 blocks,0,within-session paired block-median deltas; bootstrap unit = whole block,P0_P1_BLOCK_PAIRED_DELTAS.tsv
+rule-count,per-scale,2 boots,N in {0,1,8,32,128},5 warmup + 5 recorded per block,5 recorded per block,100 valid per scale per boot,0,2 boots x 20 blocks x 5 recorded per N; target-ino filter; disturbed/invalid configs = 0,06_perf_raw CSVs + 07_analysis/analysis.json
+rule-count,correctness,2 boots,61 checks (17 deny + 44 allow/health/withdrawal),n/a,n/a,61,0,correctness is a separate denominator from performance,05_correctness_minimal/correctness_results.csv
+concurrent,attribution,2 boots,20 waves x 4 requests,0,0,160,0,160/160 unique attribution (40 DENY_PASS + 120 ALLOW_PASS); no app-visible latency column,05_results/*/formal/PER_REQUEST_LEDGER.csv

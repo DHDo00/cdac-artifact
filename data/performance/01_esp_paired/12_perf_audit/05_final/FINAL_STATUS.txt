@@ -1,0 +1,15 @@
+CDAC_PERF_AUDIT_MECH_COMPARE_20261025=COMPLETE
+STATS_RECOMPUTED=PASS (from raw CSVs; type-7)
+S2_MINUS_S0_DELTA_MEAN_NS=2724800 (range 2161134-3961812; pair-ratio mean 1.916)
+S3_MINUS_S0_DELTA_MEAN_NS=2262454 (range 1714802-3024278; pair-ratio mean 1.756)
+ERRATA=01_stats_recompute/ERRATA_20261025.md (chat misattribution fixed; no overwrite)
+DISK_EVENT=between sampling blocks (17:52:32 stop -> 17:53 ENOSPC), no overlap; NO full rerun needed
+MECH_N=no policy surface (native allows; recorded 3x)
+MECH_L=local provider patch built+booted (applied_L.diff; provider 7bd02b0b); A+X deny 3/3, controls OK
+MECH_C=CDAC enabled; A+X deny 3/3, controls OK
+MINIMAL_SEQ_L_C=withdraw/swap/native-denied all as expected
+TRUNC_WT=L deny before open (file unchanged, B=false); C deny after backing open (file truncated, B=true); N native truncate
+PAIR_MINIMAL_DELTA=N' vs L system trees differ ONLY in ExternalStorageProvider.apk + build.prop (verified)
+BUILD_L=full 1:27:51 (aosp_cf_x86_64_only_phone-trunk_staging-eng, Baklava, cdacmsb20260818); N'/L incremental rebuilds recorded
+C_FIRST_BOOT=Mode-A adb unreachable (recorded), retried C2 OK
+B3_NEXT_GAP=non-ESP direct-open of same backing under C rule vs L (untested)

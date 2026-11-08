@@ -1,0 +1,24 @@
+{
+ "tag": "L_t_ctl_S0",
+ "ts_ns": 1792906979981320022,
+ "recorder": "host adb stat+sha256sum",
+ "recording_action_side_effects": "see per-row recorder_note",
+ "rows": [
+  {
+   "tag": "L_t_ctl_S0",
+   "file": "D2.bin",
+   "exists": true,
+   "dev": "65120",
+   "ino": "3186",
+   "size": 16,
+   "mode": "660",
+   "uid": "10093",
+   "gid": "1023",
+   "atime": 1792906977,
+   "mtime": 1792906977,
+   "ctime": 1792906977,
+   "sha256": "2125b2c332b1113aae9bfc5e9f7e3b4c91d828cb942c2df1eeb02502eccae9e9",
+   "recorder_note": "sha256 read via FUSE may advance atime (relatime); mtime/ctime unchanged by read"
+  }
+ ]
+}

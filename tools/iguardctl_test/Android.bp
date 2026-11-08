@@ -1,0 +1,10 @@
+cc_binary {
+    name: "iguardctl_test",
+    srcs: ["iguardctl_test.c"],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+    compile_multilib: "64",
+}

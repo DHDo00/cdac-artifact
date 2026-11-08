@@ -1,0 +1,17 @@
+RULE_COUNT_SCALING_20261026=COMPLETE
+ROUTE=ESP_5_401_direct_write (R-ESP-P-ESP-004-004, round-6 verified)
+ARTIFACTS_REUSED=android_matchedimg_newsystem (system 54193b1f, super a90df407, boot 1d1a25f8) + kernel_esp_dist (bzImage 5e89e605, initramfs 95af695a)
+INSTANCE=cvd-21 @ 0.0.0.0:6540, SELinux=Enforcing, kernel 6.12.74-android16-6-maybe-dirty
+SCALES_TESTED=0,1,8,32,128 (4 nonzero + empty-rule reference; frozen pre-sampling)
+CAPACITY_LIMIT_IMPL=IGUARD_RUNTIME_POLICY_MAX=8192 (compile-time, kernel; not modified)
+RULES_VERIFIED=every config read back via policy_dump: runtime_policy_count==N and slot-lines==N (correctness 13/13, perf 200/200 verified)
+CORRECTNESS_PASS=61/61 (boot1: health 5/5, T1 deny 12/12, POS deny 3/3, T2/T3/T4 allow 36/36; boot2 health 5/5)
+DENY_REAL_ENFORCE=file_open_deny counters: boot1=16 (H2+T1*12+POS*3), boot2=3 (H2+diag*2); LOG_ON real-enforce errno=-13 verdict=deny-now captured at N=1 and N=128
+CONTEXT_BALANCED=push==pop, fail=0 (boot1 1187/1187, boot2 1140/1140)
+PERF_ROWS=1000 valid (2 boots x 20 blocks x 5 scales x 5 rows); 0 invalid, 0 disturbed, 0 config-invalid
+PERF_RESULT=rule-count latency growth NOT RESOLVED; paired per-block T(N)-T(0) medians within +/-3.4ms, bootstrap mean CI all straddle 0 (block-level spread +/-10..27ms)
+PERF_ABSOLUTE=per-scale medians 15.5..17.3ms this session (higher than round-11 S2/S3 5.3..6.7ms; session/host condition, documented)
+DIAG=decision_ns captured per scale (no monotonic growth; noisy, LOG_ON only, no new kernel probes)
+PLATFORM_CHANGES=none; third-party publish/SELinux/core algorithm untouched; paper untouched
+STOP_CONDITION=completed frozen design and stopped; no extra routes/scales
+CLEANUP=both boots stopped cleanly; adb disconnected; global cuttlefish config link restored

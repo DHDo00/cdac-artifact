@@ -1,0 +1,2 @@
+AUID=10122 BUID=10123 XINO=3164 DEVRAW=266338400
+verbose_audit=N logging_mode=quiet

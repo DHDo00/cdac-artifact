@@ -1,0 +1,4 @@
+attempt1_failed_at=2026-11-02T10:11:33+08:00 reason=launch_cvd_rejects_enable_tap_devices
+attempt2_failed_at=2026-11-02T10:16:53+08:00 reason=AF_UNIX_socket_path_118_chars_exceeds_108_limit
+attempt3_failed_at=2026-11-02T10:24:58+08:00 reason=userdata.img_path_mismatch_launch_cvd_expects_instance_dir/instances/cvd-N
+attempt4_failed_at=2026-11-02T10:32:55+08:00 reason=tap_creation_requires_cap_net_admin_use_precreated_taps_instances_1..10
